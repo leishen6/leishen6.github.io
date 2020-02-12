@@ -1,0 +1,520 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>面试手写HashMap，手撕HashMap | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="前言： 现在面试时，面试官经常会问到HashMap，简单点就会问下HashMap的一些关键知识点，困难些的可能会当场让你手写一个HashMap，考察下你对HashMap底层原理的了解深度；所以，今天特别手写了一个简单的HashMap，只实现了 put、get、containsKey、keySet 方法的 HashMap，来帮助我们理解HashMap的底层设计原理。本文参考：手写实现一个HashMa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试手写HashMap，手撕HashMap">
+<meta property="og:url" content="https://leishen6.github.io/2020/02/12/%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99HashMap%EF%BC%8C%E6%89%8B%E6%92%95HashMap/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="前言： 现在面试时，面试官经常会问到HashMap，简单点就会问下HashMap的一些关键知识点，困难些的可能会当场让你手写一个HashMap，考察下你对HashMap底层原理的了解深度；所以，今天特别手写了一个简单的HashMap，只实现了 put、get、containsKey、keySet 方法的 HashMap，来帮助我们理解HashMap的底层设计原理。本文参考：手写实现一个HashMa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-12T14:20:00.000Z">
+<meta property="article:modified_time" content="2020-02-12T14:19:25.944Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="容器类">
+<meta name="twitter:card" content="summary">
+
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				<h2 class="blog-motto">爱学习的渣渣！</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页 | Home</a></li>
+					
+						<li><a href="/archives">归档 | Archives</a></li>
+					
+						<li><a href="/about">关于 | About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:leishen6.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/02/12/面试手写HashMap，手撕HashMap/" title="面试手写HashMap，手撕HashMap" itemprop="url">面试手写HashMap，手撕HashMap</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+  <p class="article-time">
+    <time datetime="2020-02-12T14:20:00.000Z" itemprop="datePublished"> 发表于 2020-02-12 22:20:00</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手撕HashMap："><span class="toc-number">2.</span> <span class="toc-text">手撕HashMap：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-首先定义接口："><span class="toc-number">2.0.1.</span> <span class="toc-text">1. 首先定义接口：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-接口实现类："><span class="toc-number">2.0.2.</span> <span class="toc-text">2. 接口实现类：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-测试方法："><span class="toc-number">2.0.3.</span> <span class="toc-text">3. 测试方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">3.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>现在面试时，面试官经常会问到HashMap，简单点就会问下HashMap的一些关键知识点，困难些的可能会当场让你手写一个HashMap，考察下你对HashMap底层原理的了解深度；所以，今天特别手写了一个简单的HashMap，只实现了<span style="color:red;"> put、get、containsKey、keySet </span>方法的 HashMap，来帮助我们理解HashMap的底层设计原理。<br>本文参考：<a href="https://blog.csdn.net/huangshulang1234/article/details/79713303" target="_blank" rel="noopener">手写实现一个HashMap</a></p>
+</blockquote>
+<h2 id="手撕HashMap："><a href="#手撕HashMap：" class="headerlink" title="手撕HashMap："></a>手撕HashMap：</h2><h4 id="1-首先定义接口："><a href="#1-首先定义接口：" class="headerlink" title="1. 首先定义接口："></a>1. 首先定义接口：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@Title</span>: MyMap </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 自定义map接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2019年7月13日 下午3:56:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 插入键值对方法</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> v</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午3:59:16</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K k,V v)</span></span>;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>:根据key获取value</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午3:59:40</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(K k)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 判断key键是否存在</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k  key键</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月23日 下午4:07:22</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(K k)</span></span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 获取map集合中所有的key，并放入set集合中</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月23日 下午4:24:19</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Set&lt;K&gt;  <span class="title">keySet</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"> </span><br><span class="line">	</span><br><span class="line"><span class="comment">//------------------------------内部接口 Entry（存放key-value）---------------------</span></span><br><span class="line">		</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Title</span>: Enter </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 定义内部接口 Entry，存放键值对的Entery接口</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@date</span>: 2019年7月13日 下午4:00:33</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	 <span class="class"><span class="keyword">interface</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@Description</span>: 获取key方法</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">		 *<span class="doctag">@date</span>: 2019年7月13日 下午4:02:06</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> K <span class="title">getKey</span><span class="params">()</span></span>;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@Description</span>:获取value方法</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">		 *<span class="doctag">@date</span>: 2019年7月13日 下午4:02:10</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> V <span class="title">getValue</span><span class="params">()</span></span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-接口实现类："><a href="#2-接口实现类：" class="headerlink" title="2. 接口实现类："></a>2. 接口实现类：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *<span class="doctag">@Title</span>: MyHashMap </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:   MyMap接口的实现类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2019年7月13日 下午4:04:56</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SuppressWarnings</span>(value=&#123;<span class="string">"unchecked"</span>,<span class="string">"rawtypes"</span>,<span class="string">"hiding"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHashMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">MyMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Entry数组的默认初始化长度为16；通过位移运算向左移动四位，得到二进制码 "00010000",转换为十进制是16</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 负载因子默认为0.75f；负载因子是用来标志当使用容量占总容量的75%时，就需要扩充容量了，</span></span><br><span class="line"><span class="comment">	 * 扩充Entry数组的长度为原来的两倍，并且重新对所存储的key-value键值对进行散列。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 可设置的初始容量</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> defaultInitSize;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 可设置的负载因子</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">float</span> defaultLoadFactor;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 当前已存入的元素的数量</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> entryUseSize;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 存放key-value键值对对象的数组</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> Entry&lt;K, V&gt;[] table = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 无参构造，数组初始大小为16，负载因子大小为0.75f</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span>  <span class="title">MyHashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY,DEFAULT_LOAD_FACTOR);</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 有参构造，自己设置数组初始大小和负载因子大小</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> defaultInitialCapacity  数组初始大小</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> defaultLoadFactor2    负载因子</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyHashMap</span><span class="params">(<span class="keyword">int</span> defaultInitialCapacity, <span class="keyword">float</span> defaultLoadFactor2)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//判断初始容量参数是否合法</span></span><br><span class="line">		<span class="keyword">if</span> (defaultInitialCapacity &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="comment">//抛出非法参数异常</span></span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"输入的初始容量参数是非法的  ："</span>+defaultInitialCapacity);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//判断负载因子参数是否合法，Float.isNaN()方法是判断数据是否符合 0.0f/0.0f</span></span><br><span class="line">		<span class="keyword">if</span> (defaultLoadFactor2 &lt; <span class="number">0</span> || Float.isNaN(defaultLoadFactor2)) &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"输入的负载因子参数是非法的  ："</span>+defaultLoadFactor2);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">this</span>.defaultInitSize = defaultInitialCapacity;</span><br><span class="line">		<span class="keyword">this</span>.defaultLoadFactor = defaultLoadFactor2;</span><br><span class="line">		<span class="comment">//初始化数组</span></span><br><span class="line">		table = <span class="keyword">new</span> Entry[<span class="keyword">this</span>.defaultInitSize];</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 集合中的put方法</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> v</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 如是更新则返回key的旧value值，如是插入新的key-value则返回null</span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午6:29:47</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K k, V v)</span> </span>&#123;</span><br><span class="line">		V oldValue = <span class="keyword">null</span>;</span><br><span class="line">		<span class="comment">//是否需要扩容？</span></span><br><span class="line">		<span class="comment">//扩容完毕后一定会需要重新进行散列	</span></span><br><span class="line">		<span class="keyword">if</span> (entryUseSize &gt;= defaultInitSize * defaultLoadFactor) &#123;</span><br><span class="line">			<span class="comment">//扩容并重新散列,扩容为原来的两倍</span></span><br><span class="line">			resize(<span class="number">2</span> * defaultInitSize);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//根据key获取的HASH值、数组长度减1，两者做'与'运算，计算出数组中的位置</span></span><br><span class="line">		<span class="keyword">int</span> index = hash(k) &amp; (defaultInitSize -<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//如果数组中此下标位置没有元素的话，就直接放到此位置上</span></span><br><span class="line">		<span class="keyword">if</span> (table[index] == <span class="keyword">null</span>) &#123;</span><br><span class="line">			table[index] = <span class="keyword">new</span> Entry(k, v, <span class="keyword">null</span>);</span><br><span class="line">			<span class="comment">//总存入元素数量+1</span></span><br><span class="line">			++entryUseSize;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//遍历数组下边的链表</span></span><br><span class="line">			Entry&lt;K,V&gt; entry = table[index];</span><br><span class="line">			Entry&lt;K,V&gt; e = entry;</span><br><span class="line">			<span class="keyword">while</span>(e != <span class="keyword">null</span>)&#123;</span><br><span class="line">				<span class="keyword">if</span> (k == e.getKey() || k.equals(e.getKey())) &#123;</span><br><span class="line">					oldValue = e.getValue();</span><br><span class="line">					<span class="comment">//key已存在，直接更新value</span></span><br><span class="line">					e.value = v;</span><br><span class="line">					<span class="keyword">return</span> oldValue;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//获取数组此下标位置上链表的下个元素</span></span><br><span class="line">				e = e.next;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//JDK1.7中的链表头插法，直接占据数组下标位置</span></span><br><span class="line">		    table[index] = <span class="keyword">new</span> Entry&lt;K,V&gt;(k, v, entry);</span><br><span class="line">		    <span class="comment">//总存入元素数量+1</span></span><br><span class="line">		    ++entryUseSize;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> oldValue;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 根据key获取value值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午6:34:49</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(K k)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//通过hash函数和数组元素容量做  【与】运算得到数组下标</span></span><br><span class="line">		<span class="keyword">int</span> index = hash(k) &amp; (defaultInitSize -<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (table[index] == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//获取到数组下标位置元素</span></span><br><span class="line">			Entry&lt;K, V&gt; entry = table[index];</span><br><span class="line">			Entry&lt;K, V&gt; e = entry;</span><br><span class="line">			<span class="keyword">do</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (k.equals(e.getKey())) &#123;</span><br><span class="line">					<span class="keyword">return</span> e.getValue();</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//获取数组下标位置对应链表中的下一个元素</span></span><br><span class="line">				e = e.next;</span><br><span class="line">			&#125; <span class="keyword">while</span> (entry != <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>:扩容并重新将元素进行散列</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> i  扩容后的大小</span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午5:06:06</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">		Entry&lt;K,V&gt;[] newTable = <span class="keyword">new</span> Entry[size];</span><br><span class="line">		<span class="comment">//改变数组的初始大小</span></span><br><span class="line">		defaultInitSize = size ;</span><br><span class="line">		<span class="comment">//将已存放键值对数量置为0</span></span><br><span class="line">		entryUseSize = <span class="number">0</span> ;</span><br><span class="line">		<span class="comment">//将已存的元算根据最新的数组的大小进行散列</span></span><br><span class="line">		rehash(newTable);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 重新进行散列</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> newTable</span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午5:10:07</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rehash</span><span class="params">(Entry&lt;K, V&gt;[] newTable)</span></span>&#123;</span><br><span class="line">		List&lt;Entry&lt;K, V&gt;&gt; entryList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;K, V&gt; entry : table)&#123;</span><br><span class="line">			<span class="keyword">if</span> (entry != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">do</span> &#123;</span><br><span class="line">					<span class="comment">//将原来数组中的元素放到list集合中</span></span><br><span class="line">					entryList.add(entry);</span><br><span class="line">					<span class="comment">//如果此数组下标的位置存在链表的话，需要遍历下列表，将列表中的键值对数据取出来放到集合中</span></span><br><span class="line">					entry = entry.next;</span><br><span class="line">				&#125; <span class="keyword">while</span> (entry != <span class="keyword">null</span>);	</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//将旧的数组引用覆盖，让引用指向堆中新开辟的数组</span></span><br><span class="line">		<span class="keyword">if</span> (newTable.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			table = newTable;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//所谓重新的散列hash，就是将元素重新放入到扩容后的集合中</span></span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;K, V&gt; entry : entryList)&#123;</span><br><span class="line">			<span class="comment">//重新put</span></span><br><span class="line">			put(entry.getKey(), entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 根据key获取hashcod码值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月13日 下午5:52:22</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(K key)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> h;</span><br><span class="line">        <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 判断是否存在此key</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> k  key键</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月23日 下午4:52:22</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(K k)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> index = hash(k) &amp; (defaultInitSize -<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (table[index] == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> flag;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//获取到数组下标位置元素</span></span><br><span class="line">			Entry&lt;K, V&gt; entry = table[index];</span><br><span class="line">			Entry&lt;K, V&gt; e = entry;</span><br><span class="line">			<span class="keyword">do</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (k.equals(e.getKey())) &#123;</span><br><span class="line">					flag = <span class="keyword">true</span>;</span><br><span class="line">					<span class="keyword">return</span> flag;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//获取数组下标位置对应链表中的下一个元素</span></span><br><span class="line">				e = e.next;</span><br><span class="line">			&#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> flag; </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 获取map集合所有的key</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月23日 下午5:52:22</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (entryUseSize == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		Set&lt;K&gt; entrySet = <span class="keyword">new</span> HashSet&lt;K&gt;();</span><br><span class="line">		<span class="keyword">for</span>(Entry&lt;K, V&gt; entry : table)&#123;</span><br><span class="line">			<span class="keyword">if</span> (entry != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">do</span> &#123;</span><br><span class="line">					<span class="comment">//将原来数组中的元素的key放到set集合中</span></span><br><span class="line">					entrySet.add(entry.getKey());</span><br><span class="line">					<span class="comment">//如果此数组下标的位置存在链表的话，需要遍历下列表，将列表中元素的key取出来放到集合中</span></span><br><span class="line">					entry = entry.next;</span><br><span class="line">				&#125; <span class="keyword">while</span> (entry != <span class="keyword">null</span>);	</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	    <span class="keyword">return</span> entrySet;</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="comment">//----------------------------------------内部类 Entry（存放key-value）----------------</span></span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Title</span>: Entry </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 实现了key-value简直对接口的java类</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@date</span>: 2019年7月13日 下午6:12:16</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">MyMap</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 键值对对象的key</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">private</span> K key;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 键值对对象的value</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">volatile</span>  V value;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 键值对对象指向下一个键值对对象的指针</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">private</span> Entry&lt;K, V&gt; next;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 无参构造</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span>  <span class="title">Entry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	    </span><br><span class="line">	    <span class="comment">/**</span></span><br><span class="line"><span class="comment">	     * 有参构造</span></span><br><span class="line"><span class="comment">	     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">	     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">	     * <span class="doctag">@param</span> next</span></span><br><span class="line"><span class="comment">	     */</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="title">Entry</span><span class="params">(K key, V value, Entry&lt;K, V&gt; next)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">super</span>();</span><br><span class="line">			<span class="keyword">this</span>.key = key;</span><br><span class="line">			<span class="keyword">this</span>.value = value;</span><br><span class="line">			<span class="keyword">this</span>.next = next;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">	     * 获取key</span></span><br><span class="line"><span class="comment">	     */</span></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> K <span class="title">getKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> key;</span><br><span class="line">		&#125;</span><br><span class="line">	    </span><br><span class="line">		 <span class="comment">/**</span></span><br><span class="line"><span class="comment">	     * 获取value</span></span><br><span class="line"><span class="comment">	     */</span></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> value;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-测试方法："><a href="#3-测试方法：" class="headerlink" title="3. 测试方法："></a>3. 测试方法：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Title</span>: TestMyMap</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>: 2019年7月13日 下午6:49:25</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMyMap</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>:单元测试</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 *<span class="doctag">@date</span>: 2019年7月23日 下午7:07:22</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		MyMap&lt;String, String&gt; map = <span class="keyword">new</span> MyHashMap&lt;&gt;();</span><br><span class="line"> </span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">			<span class="comment">//插入键值对</span></span><br><span class="line">			map.put(<span class="string">"key"</span> + i, <span class="string">"value"</span> + i);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">			System.out.println(<span class="string">"key"</span> + i + <span class="string">",value is："</span> + map.get(<span class="string">"key"</span> + i));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//根据key获取value</span></span><br><span class="line">		System.out.println(<span class="string">"\n"</span>+<span class="string">"此key：key88 的value是   "</span>+map.get(<span class="string">"key88"</span>));</span><br><span class="line">		</span><br><span class="line">	    <span class="comment">//判断key是否存在</span></span><br><span class="line">	    System.out.println(map.containsKey(<span class="string">"key885"</span>)+<span class="string">"   此key：key885 不存在！"</span>);</span><br><span class="line">	    </span><br><span class="line">	    <span class="comment">//获取map集合中所有的key</span></span><br><span class="line">	    System.out.println(Arrays.toString(map.keySet().toArray()));</span><br><span class="line">	    </span><br><span class="line">	    </span><br><span class="line">	    MyMap&lt;String, String&gt; mapOther = <span class="keyword">new</span> MyHashMap&lt;&gt;();</span><br><span class="line">	    Set&lt;String&gt; keySet = mapOther.keySet();</span><br><span class="line">	    <span class="comment">//获取map集合中所有的key</span></span><br><span class="line">	    System.out.println((keySet == <span class="keyword">null</span>)?<span class="keyword">null</span>:Arrays.toString(mapOther.keySet().toArray()));</span><br><span class="line">	    </span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><blockquote>
+<p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/容器类/">容器类</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/02/12/Dubbo+Zookeeper vs Spring Cloud 之间的比较/"  title="Dubbo+Zookeeper vs Spring Cloud 之间的比较">
+ <strong>下一篇：</strong><br/> 
+ <span>Dubbo+Zookeeper vs Spring Cloud 之间的比较
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手撕HashMap："><span class="toc-number">2.</span> <span class="toc-text">手撕HashMap：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-首先定义接口："><span class="toc-number">2.0.1.</span> <span class="toc-text">1. 首先定义接口：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-接口实现类："><span class="toc-number">2.0.2.</span> <span class="toc-text">2. 接口实现类：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-测试方法："><span class="toc-number">2.0.3.</span> <span class="toc-text">3. 测试方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">3.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://blog.csdn.net/feichitianxia" target="_blank" title="My CSDN">My CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://github.com/leishen6" target="_blank" title="My GitHub">My GitHub</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://me.csdn.net/qq_35190492" target="_blank" title="帅丙的博客">帅丙的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:1802958142@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		|  
+		<span id="busuanzi_container_site_pv">
+			站长统计：本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+		</span> | 
+		<span id="busuanzi_container_site_uv">
+		    本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
+		</span>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

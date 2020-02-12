@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>使用shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客</title>
+    <title>shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
@@ -13,13 +13,13 @@
     
     <meta name="description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用shell脚本查询服务器的cpu、内存、磁盘的使用率">
+<meta property="og:title" content="shell脚本查询服务器的cpu、内存、磁盘的使用率">
 <meta property="og:url" content="https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/index.html">
 <meta property="og:site_name" content="木子雷的博客">
 <meta property="og:description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-07T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-09T10:27:35.524Z">
+<meta property="article:modified_time" content="2020-02-12T14:25:03.568Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="Shell">
 <meta name="twitter:card" content="summary">
@@ -41,6 +41,11 @@
 
   <body>
     <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
       
 <div>
 		
@@ -54,6 +59,7 @@
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
+			
 			<nav class="animated">
 				<ul>
 					<ul>
@@ -84,14 +90,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" title="使用shell脚本查询服务器的cpu、内存、磁盘的使用率" itemprop="url">使用shell脚本查询服务器的cpu、内存、磁盘的使用率</a>
+      <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" title="shell脚本查询服务器的cpu、内存、磁盘的使用率" itemprop="url">shell脚本查询服务器的cpu、内存、磁盘的使用率</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
 		
   <p class="article-time">
-    <time datetime="2020-02-07T13:00:00.000Z" itemprop="datePublished"> 发表于 2020-02-07</time>
+    <time datetime="2020-02-07T13:00:00.000Z" itemprop="datePublished"> 发表于 2020-02-07 21:00:00</time>
     
   </p>
 </header>
@@ -217,15 +223,11 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/test/" title="test">test<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 		  
 		
 		  
@@ -246,6 +248,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -258,11 +264,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -270,7 +276,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -339,17 +345,36 @@
 		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
 		
 		<a href="/about" target="_blank" title="木子雷">木子雷</a>
-		  
-        |  
+		 
+        <br>
+        
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		|  
 		<span id="busuanzi_container_site_pv">
-			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+			站长统计：本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
 		</span> | 
 		<span id="busuanzi_container_site_uv">
 		    本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
 		</span>
+		
 </div>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-</footer>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
     <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
@@ -499,5 +524,5 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search End -->
 
-  </body>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

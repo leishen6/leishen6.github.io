@@ -19,7 +19,7 @@
 <meta property="og:description" content="测试：Hello ，欢迎来到java的海洋。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-19T09:46:28.000Z">
-<meta property="article:modified_time" content="2020-02-05T08:07:45.499Z">
+<meta property="article:modified_time" content="2020-02-12T14:23:48.183Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="test">
 <meta name="twitter:card" content="summary">
@@ -41,6 +41,11 @@
 
   <body>
     <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
       
 <div>
 		
@@ -54,6 +59,7 @@
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
+			
 			<nav class="animated">
 				<ul>
 					<ul>
@@ -91,7 +97,7 @@
 		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
 		
   <p class="article-time">
-    <time datetime="2020-01-19T09:46:28.000Z" itemprop="datePublished"> 发表于 2020-01-19</time>
+    <time datetime="2020-01-19T09:46:28.000Z" itemprop="datePublished"> 发表于 2020-01-19 17:46:28</time>
     
   </p>
 </header>
@@ -109,11 +115,6 @@
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/test/">test</a>
-</div>
 
 
   <div class="article-tags">
@@ -163,10 +164,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" title="使用shell脚本查询服务器的cpu、内存、磁盘的使用率">
+ <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" title="shell脚本查询服务器的cpu、内存、磁盘的使用率">
   <strong>上一篇：</strong><br/>
   <span>
-  使用shell脚本查询服务器的cpu、内存、磁盘的使用率</span>
+  shell脚本查询服务器的cpu、内存、磁盘的使用率</span>
 </a>
 </div>
 
@@ -201,15 +202,11 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/test/" title="test">test<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 		  
 		
 		  
@@ -230,6 +227,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -242,11 +243,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -254,7 +255,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -323,17 +324,36 @@
 		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
 		
 		<a href="/about" target="_blank" title="木子雷">木子雷</a>
-		  
-        |  
+		 
+        <br>
+        
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+		|  
 		<span id="busuanzi_container_site_pv">
-			本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+			站长统计：本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
 		</span> | 
 		<span id="busuanzi_container_site_uv">
 		    本站访客数 <span id="busuanzi_value_site_uv"></span> 人次
 		</span>
+		
 </div>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-</footer>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
     <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
@@ -483,5 +503,5 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search End -->
 
-  </body>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
