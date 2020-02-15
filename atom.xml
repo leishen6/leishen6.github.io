@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>木子雷的博客</title>
+  <icon>https://leishen6.github.io/icon.png</icon>
+  <subtitle>爱学习的渣渣！</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://leishen6.github.io/"/>
+  <updated>2020-02-15T07:24:14.631Z</updated>
+  <id>https://leishen6.github.io/</id>
+  
+  <author>
+    <name>木子雷</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 amcharts.js 实现立体柱状图</title>
+    <link href="https://leishen6.github.io/2020/02/15/%E4%BD%BF%E7%94%A8%20amcharts.js%20%E5%AE%9E%E7%8E%B0%E7%AB%8B%E4%BD%93%E6%9F%B1%E7%8A%B6%E5%9B%BE/"/>
+    <id>https://leishen6.github.io/2020/02/15/%E4%BD%BF%E7%94%A8%20amcharts.js%20%E5%AE%9E%E7%8E%B0%E7%AB%8B%E4%BD%93%E6%9F%B1%E7%8A%B6%E5%9B%BE/</id>
+    <published>2020-02-15T07:19:31.308Z</published>
+    <updated>2020-02-15T07:24:14.631Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt; 本文章将使用&lt;span style=&quot;color:red;&quot;&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="前端" scheme="https://leishen6.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="JavaScript" scheme="https://leishen6.github.io/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试手写HashMap，手撕HashMap</title>
+    <link href="https://leishen6.github.io/2020/02/12/%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99HashMap%EF%BC%8C%E6%89%8B%E6%92%95HashMap/"/>
+    <id>https://leishen6.github.io/2020/02/12/%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99HashMap%EF%BC%8C%E6%89%8B%E6%92%95HashMap/</id>
+    <published>2020-02-12T14:20:00.000Z</published>
+    <updated>2020-02-12T14:19:25.944Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://leishen6.github.io/categories/Java/"/>
+    
+    
+      <category term="容器类" scheme="https://leishen6.github.io/tags/%E5%AE%B9%E5%99%A8%E7%B1%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo+Zookeeper vs Spring Cloud 之间的比较</title>
+    <link href="https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/"/>
+    <id>https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/</id>
+    <published>2020-02-12T06:00:00.000Z</published>
+    <updated>2020-02-12T06:26:37.704Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;目前学习了下Dubbo 和  Spring
+        
+      
+    
+    </summary>
+    
+    
+      <category term="集群分布式" scheme="https://leishen6.github.io/categories/%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+      <category term="Dubbo" scheme="https://leishen6.github.io/tags/Dubbo/"/>
+    
+      <category term="Zookeeper" scheme="https://leishen6.github.io/tags/Zookeeper/"/>
+    
+      <category term="Spring Cloud" scheme="https://leishen6.github.io/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java实现 “ 将数字金额转为大写中文金额 ”</title>
+    <link href="https://leishen6.github.io/2020/02/09/Java%E5%AE%9E%E7%8E%B0%20%E2%80%9C%20%E5%B0%86%E6%95%B0%E5%AD%97%E9%87%91%E9%A2%9D%E8%BD%AC%E4%B8%BA%E5%A4%A7%E5%86%99%E4%B8%AD%E6%96%87%E9%87%91%E9%A2%9D%20%E2%80%9D/"/>
+    <id>https://leishen6.github.io/2020/02/09/Java%E5%AE%9E%E7%8E%B0%20%E2%80%9C%20%E5%B0%86%E6%95%B0%E5%AD%97%E9%87%91%E9%A2%9D%E8%BD%AC%E4%B8%BA%E5%A4%A7%E5%86%99%E4%B8%AD%E6%96%87%E9%87%91%E9%A2%9D%20%E2%80%9D/</id>
+    <published>2020-02-09T10:00:00.000Z</published>
+    <updated>2020-02-12T14:17:28.480Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;输入数字金额参数，运行程序得到其对应的大写中文金额；例如：输入— 12.56，输出—
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://leishen6.github.io/categories/Java/"/>
+    
+    
+      <category term="工具类" scheme="https://leishen6.github.io/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>懒汉式单例模式为什么要进行二次判空</title>
+    <link href="https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/"/>
+    <id>https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/</id>
+    <published>2020-02-08T03:44:00.000Z</published>
+    <updated>2020-02-12T06:24:59.386Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 &lt;span
+        
+      
+    
+    </summary>
+    
+    
+      <category term="设计模式" scheme="https://leishen6.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="单例模式" scheme="https://leishen6.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本查询服务器的cpu、内存、磁盘的使用率</title>
+    <link href="https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/"/>
+    <id>https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/</id>
+    <published>2020-02-07T13:00:00.000Z</published>
+    <updated>2020-02-12T14:25:03.568Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://leishen6.github.io/categories/Linux/"/>
+    
+    
+      <category term="Shell" scheme="https://leishen6.github.io/tags/Shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo测试</title>
+    <link href="https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/"/>
+    <id>https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/</id>
+    <published>2020-01-19T09:46:28.000Z</published>
+    <updated>2020-02-12T14:23:48.183Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;测试：Hello
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="test" scheme="https://leishen6.github.io/tags/test/"/>
+    
+  </entry>
+  
+</feed>
