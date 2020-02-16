@@ -153,7 +153,7 @@ WIDGET = {FID: 'LUvBqmHDyX'}
     
   </p>
 </header>
-	<div class="article-content">
+	 <div class="article-content">
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
@@ -172,7 +172,27 @@ WIDGET = {FID: 'LUvBqmHDyX'}
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p> 从运行结果可以看出，如果不进行第二次判空的话，那么在<span style="color:red;">竟锁池(锁池)</span>中如果还有活跃的线程在等待获取的锁的话，在锁释放后就会再次竞争获取锁，获取的锁的线程进入”就绪状态”，当cpu分配其”时间片”后进行线程的调度，从而线程进入”运行中状态”，并会去执行同步的代码块，如果在没加如二次判空的话，就会导致系统中存在多个实例，而在进行判空后，即使你获取到了锁，但在执行同步代码块时也会直接跳过。</p>
 <pre><code>竟锁池(锁池)的概念：[“倒计时器：CountDownLatch”](https://blog.csdn.net/qq_22498277/article/details/82184419)</code></pre><h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
   
-	</div>
+	 </div>
+	     <!-- 文章版权说明 -->
+        
+           <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/02/08/懒汉式单例模式为什么要进行二次判空/" target="_blank" title="懒汉式单例模式为什么要进行二次判空">https://leishen6.github.io/2020/02/08/懒汉式单例模式为什么要进行二次判空/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+        
+		
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
@@ -203,6 +223,7 @@ WIDGET = {FID: 'LUvBqmHDyX'}
 
    	       
 	</article>
+	
 	<!-- 分页 -->
 	
 <nav class="article-nav clearfix">
@@ -233,9 +254,10 @@ WIDGET = {FID: 'LUvBqmHDyX'}
 
 
 
+
 <!-- 来必力评论 -->
 
-<!-- 来必力City版安装代码 -->
+  <!-- 来必力City版安装代码 -->
 <div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
 	<script type="text/javascript">
    (function(d, s) {
@@ -562,11 +584,11 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
