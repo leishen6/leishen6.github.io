@@ -515,18 +515,6 @@ function getBrowerInfo(){
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -539,15 +527,27 @@ function getBrowerInfo(){
 			
 		
 			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -560,27 +560,121 @@ function getBrowerInfo(){
 
   <div class="linkslist">
   <p class="asidetitle">友情链接</p>
-    <ul>
-        
-          <li>
-            
-            	<a href="https://www.itrhx.com/" target="_blank" title="TRHX&#39;S BLOG">TRHX&#39;S BLOG</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://me.csdn.net/qq_35190492" target="_blank" title="帅丙的博客">帅丙的博客</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://www.ezlippi.com/" target="_blank" title="EZLippi-浮生志">EZLippi-浮生志</a>
-            
-          </li>
-        
-    </ul>
+  
+        <div id="links">
+        <style>
+
+            #links{
+               margin-top: 1rem;
+            }
+
+            .links-content{
+                margin-top:1rem;
+            }
+
+            .link-navigation::after {
+                content: " ";
+                display: block;
+                clear: both;
+            }
+
+            .card {
+                width: 220px;
+				height: 60px;
+                font-size: 1rem;
+                padding: 2px 5px;
+                border-radius: 4px;
+                transition-duration: 0.15s;
+                margin-bottom: 1rem;
+                display:flex;
+            }
+            .card:nth-child(odd) {
+                float: left;
+            }
+            .card:nth-child(even) {
+                float: right;
+            }
+            .card:hover {
+                transform: scale(1.1);
+                box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+            }
+            .card a {
+                border:none;
+            }
+            .card .ava {
+                width: 3rem!important;
+                height: 2.5rem!important;
+                margin:0!important;
+                margin-right: 1em!important;
+                border-radius:3px;
+
+            }
+            .card .card-header {
+                font-style: italic;
+                overflow: hidden;
+                width: 236px;
+            }
+            .card .card-header a {
+                font-style: normal;
+				font-size:18px;
+                color: #2bbc8a;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            .card .card-header a:hover {
+                color: #d480aa;
+                text-decoration: none;
+            }
+            .card .card-header .info {
+                font-style:normal;
+                color:#a3a3a3;
+                font-size:10px;
+                min-width: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+				margin-top: 1rem;
+            }
+        </style>
+        <div class="links-content">
+            <div class="link-navigation">
+
+                <div class="card">
+                        <img class="ava" src="https://www.liaofuzhan.com/images/beichen.png"/>
+                        <div class="card-header">
+                           <div>
+                              <a href="https://www.liaofuzhan.com" target="_blank"> Leaf's Blog</a>
+                              <a href="https://www.liaofuzhan.com" target="_blank"><span class="focus-links">关注</span></a>
+                           </div>
+                           <div class="info">因心造境，风云由我！</div>
+                        </div>
+                 </div>
+				 
+				 <div class="card">
+                        <img class="ava" src="https://www.itrhx.com/images/trhx.png"/>
+                        <div class="card-header">
+                           <div>
+                              <a href="https://www.itrhx.com/" target="_blank">TRHX’S BLOG</a>
+                              <a href="https://www.itrhx.com/" target="_blank"><span class="focus-links">关注</span></a>
+                           </div>
+                           <div class="info">求知若饥，虚心若愚！</div>
+                        </div>
+                 </div>
+				 
+				 <div class="card">
+                        <img class="ava" src="/img/logo.png"/>
+                        <div class="card-header">
+                           <div>
+                              <a href="https://me.csdn.net/qq_35190492" target="_blank">帅 丙</a>
+                              <a href="https://me.csdn.net/qq_35190492" target="_blank"><span class="focus-links">&nbsp;&nbsp;&nbsp;关注</span></a>
+                           </div>
+                           <div class="info"></div>
+                        </div>
+                 </div>
+            </div>
+        </div>
+		
+    
 </div>
 
   
