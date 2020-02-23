@@ -62,6 +62,13 @@ WIDGET = {FID: 'LUvBqmHDyX'}
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				<style>
+				    .site-name:hover {
+						transform: scale(1.1);
+						box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+					}
+				</style>
+				
 				<h2 class="blog-motto" id="binft1"></h2>
 				<script>
 					var binft1 = function (r) {
@@ -178,6 +185,10 @@ WIDGET = {FID: 'LUvBqmHDyX'}
   </p>
 </header>
 	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
@@ -304,6 +315,17 @@ WIDGET = {FID: 'LUvBqmHDyX'}
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">通知</p>
+    <br>
+    <div id="links">
+        <img class="zhi" src="/img/tongzhi.png" title="通知"/> &nbsp;&nbsp; 本博客使用<a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a>主题
+	</div>	
+	<br>
+	<p></p>
+    
+</div>
 
   <div class="weiboshow">
   <p class="asidetitle">欢迎光临</p>
@@ -598,15 +620,15 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
 			
 		
 			
@@ -622,222 +644,16 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
 			
 		
 		</ul>
 </div>
 
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-  
-        <div id="links">
-        <style>
-
-            #links{
-               margin-top: 1rem;
-            }
-
-            .links-content{
-                margin-top:1rem;
-            }
-
-            .link-navigation::after {
-                content: " ";
-                display: block;
-                clear: both;
-            }
-
-            .card {
-                width: 220px;
-				height: 60px;
-                font-size: 1rem;
-                padding: 2px 5px;
-                border-radius: 4px;
-                transition-duration: 0.15s;
-                margin-bottom: 1rem;
-                display:flex;
-            }
-            .card:nth-child(odd) {
-                float: left;
-            }
-            .card:nth-child(even) {
-                float: right;
-            }
-            .card:hover {
-                transform: scale(1.1);
-                box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
-            }
-            .card a {
-                border:none;
-            }
-            .card .ava {
-                width: 3rem!important;
-                height: 2.5rem!important;
-                margin:0!important;
-                margin-right: 1em!important;
-                border-radius:3px;
-				-webkit-transition: -webkit-transform 2s ease-out;
-				-moz-transition: -moz-transform 2s ease-out;
-				-o-transition: -o-transform 2s ease-out;
-				-ms-transition: -ms-transform 2s ease-out;
-
-            }
-            .card .card-header {
-                font-style: italic;
-                overflow: hidden;
-                width: 236px;
-            }
-            .card .card-header a {
-                font-style: normal;
-				font-size:16px;
-                color: #2bbc8a;
-                font-weight: bold;
-                text-decoration: none;
-            }
-            .card .card-header a:hover {
-                color: #d480aa;
-                text-decoration: none;
-            }
-            .card .card-header .info {
-                font-style:normal;
-                color:#a3a3a3;
-                font-size:10px;
-                min-width: 0;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-				margin-top: 1rem;
-            }
-			
-			.card .ava:hover {
-                transform: rotate(180deg);
-				-webkit-transform: rotate(180deg);
-				-moz-transform: rotate(180deg);
-				-o-transform: rotate(180deg);
-				-ms-transform: rotate(180deg);
-            }
-			
-        </style>
-        <div class="links-content">
-            <div class="link-navigation">
-			
-			    <div class="card">
-                        <img class="ava" src="https://www.itrhx.com/images/trhx.png"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.itrhx.com/" target="_blank">TRHX’S BLOG</a>
-                              <a href="https://www.itrhx.com/" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">求知若饥，虚心若愚！</div>
-                        </div>
-                </div>
-
-                <div class="card">
-                        <img class="ava" src="https://www.liaofuzhan.com/images/beichen.png"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.liaofuzhan.com" target="_blank"> Leaf's Blog</a>
-                              <a href="https://www.liaofuzhan.com" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">因心造境，风云由我！</div>
-                        </div>
-                 </div>
-				 
-				 <div class="card">
-                        <img class="ava" src="/img/logo.png"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://me.csdn.net/qq_35190492" target="_blank">帅 丙</a>
-                              <a href="https://me.csdn.net/qq_35190492" target="_blank"><span class="focus-links">&nbsp;&nbsp;&nbsp;+关注</span></a>
-                           </div>
-                           <div class="info">是个大佬</div>
-                        </div>
-                 </div>
-				 
-				 <div class="card">
-                        <img class="ava" src="https://lruihao.cn/images/site-meta.jpg"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://lruihao.cn" target="_blank">菠菜眾長</a>
-                              <a href="https://lruihao.cn" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">从 ACM 到 Web，分享程序、技巧、干货，记录心情、学习、成长！</div>
-                        </div>
-                 </div>
-				 
-				 <div class="card">
-                        <img class="ava" src="https://cdn.jsdelivr.net/gh/yremp/resource@2.0/img/custom/head.jpg"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://yremp.live" target="_blank">Yremp</a>
-                              <a href="https://yremp.live" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">流年，谁给过的倾城</div>
-                        </div>
-                 </div>
-				 
-				 <div class="card">
-                        <img class="ava" src="https://cdn.jsdelivr.net/gh/SGYZ0910/CDN@1.1.7/images/lcx.jpg"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.sgyzyun.club/" target="_blank">洛尘曦</a>
-                              <a href="https://www.sgyzyun.club/" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">一个手无缚机（手机）之力的书生小站~</div>
-                        </div>
-                 </div>
-				 
-				 
-				 
-				 
-				 <div class="card">
-                        <img class="ava" src="https://www.xoxoyun.cn/favicon.ico"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.xoxoyun.cn/" target="_blank">架构师之路</a>
-                              <a href="https://www.xoxoyun.cn/" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">奔往架构师的路上</div>
-                        </div>
-                 </div>
-				 
-				 <div class="card">
-                        <img class="ava" src="https://img.antmoe.com/avatar.jpg"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.antmoe.com/" target="_blank">小康博客</a>
-                              <a href="https://www.antmoe.com/" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">一个收藏回忆与分享技术的地方！</div>
-                        </div>
-                 </div>
-				 
-				 
-				 <div class="card">
-                        <img class="ava" src="https://www.kunzige.cn/usr/uploads/2020/01/2646394203.jpg"/>
-                        <div class="card-header">
-                           <div>
-                              <a href="https://www.kunzige.cn" target="_blank">昆の小屋</a>
-                              <a href="https://www.kunzige.cn" target="_blank"><span class="focus-links">+关注</span></a>
-                           </div>
-                           <div class="info">机会总是留给有准备的人</div>
-                        </div>
-                 </div>
-				
-				 
-				 
-				 
-            </div>
-        </div>
-		
-    
-</div>
 
   
 <div class="github-card">
