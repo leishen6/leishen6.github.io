@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-02-21T12:45:26.346Z</updated>
+  <updated>2020-02-24T13:32:10.283Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据库分库分表策略，如何分库，如何分表？</title>
+    <link href="https://leishen6.github.io/2020/02/24/DB_Sharding_Strategy/"/>
+    <id>https://leishen6.github.io/2020/02/24/DB_Sharding_Strategy/</id>
+    <published>2020-02-24T13:24:45.936Z</published>
+    <updated>2020-02-24T13:32:10.283Z</updated>
+    
+    <summary type="html">
+    
+      学习数据库分库分表策略，以及如何分库分表的基本知识！努力学习中！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="分库分表" scheme="https://leishen6.github.io/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>全网最全redis学习脑图</title>
@@ -234,7 +255,7 @@
     <link href="https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/"/>
     <id>https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/</id>
     <published>2020-01-19T09:46:28.000Z</published>
-    <updated>2020-02-21T12:08:00.768Z</updated>
+    <updated>2020-02-24T13:12:00.537Z</updated>
     
     <summary type="html">
     
