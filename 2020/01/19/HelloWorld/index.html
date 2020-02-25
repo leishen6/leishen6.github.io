@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>懒汉式单例模式为什么要进行二次判空 | 木子雷的博客</title>
+    <title>Hexo测试 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="前言： 在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 CountDownLatch 倒计时器，不清楚CountDownLatch 使用的请参考此文“倒计时器：CountDownLatch” 。  代码展示：1、懒汉式单例模式类1234567891011121314151617181920212223242526272829public class Singleton">
+    <meta name="description" content="测试：Hello ，欢迎来到java的海洋。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="懒汉式单例模式为什么要进行二次判空">
-<meta property="og:url" content="https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/index.html">
+<meta property="og:title" content="Hexo测试">
+<meta property="og:url" content="https://leishen6.github.io/2020/01/19/HelloWorld/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="前言： 在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 CountDownLatch 倒计时器，不清楚CountDownLatch 使用的请参考此文“倒计时器：CountDownLatch” 。  代码展示：1、懒汉式单例模式类1234567891011121314151617181920212223242526272829public class Singleton">
+<meta property="og:description" content="测试：Hello ，欢迎来到java的海洋。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-08T03:44:00.000Z">
-<meta property="article:modified_time" content="2020-02-21T10:50:42.340Z">
+<meta property="article:published_time" content="2020-01-19T09:46:28.000Z">
+<meta property="article:modified_time" content="2020-02-24T13:12:00.537Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="单例模式">
+<meta property="article:tag" content="test">
 <meta name="twitter:card" content="summary">
 
     
@@ -140,7 +140,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/02/08/懒汉式单例模式为什么要进行二次判空/" title="懒汉式单例模式为什么要进行二次判空" itemprop="url">懒汉式单例模式为什么要进行二次判空</a>
+      <a href="/2020/01/19/HelloWorld/" title="Hexo测试" itemprop="url">Hexo测试</a>
   </h1>
   <p class="article-author">By
        
@@ -149,9 +149,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-08T03:44:00.000Z" itemprop="datePublished">
+		<time datetime="2020-01-19T09:46:28.000Z" itemprop="datePublished">
 
-			发表于 2020-02-08 11:44:00
+			发表于 2020-01-19 17:46:28
 		
 		</time>
 		
@@ -173,8 +173,6 @@
 			
 			
 			
-			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
-			
 		
 		
 		
@@ -190,19 +188,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码展示："><span class="toc-number">2.</span> <span class="toc-text">代码展示：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、懒汉式单例模式类"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">1、懒汉式单例模式类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、多线程并发调用单例模式的测试类"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">2、多线程并发调用单例模式的测试类</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行上面的mian方法，会得到以下的一种输出结果-存在多种输出结果"><span class="toc-number">3.</span> <span class="toc-text">运行上面的mian方法，会得到以下的一种输出结果(存在多种输出结果)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">4.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
-<p>在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 <span style="color:red;"><strong>CountDownLatch 倒计时器</strong></span>，不清楚CountDownLatch 使用的请参考此文<a href="https://www.jianshu.com/p/f17692e9114f" target="_blank" rel="noopener">“倒计时器：CountDownLatch”</a> 。</p>
-</blockquote>
-<h2 id="代码展示："><a href="#代码展示：" class="headerlink" title="代码展示："></a>代码展示：</h2><h5 id="1、懒汉式单例模式类"><a href="#1、懒汉式单例模式类" class="headerlink" title="1、懒汉式单例模式类"></a>1、懒汉式单例模式类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	    <span class="comment">// 使用volatile禁止指令重排序</span></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton sin = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">0</span>;<span class="comment">// 标识有几个线程获取到了锁</span></span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> j = <span class="number">0</span>;<span class="comment">// 标识系统中到底生成了几个实例</span></span><br><span class="line"> </span><br><span class="line">		<span class="comment">// 将构造器的修饰符设置为"private"，可以防止在外部进行new实例对象</span></span><br><span class="line">		<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		&#125;;</span><br><span class="line"> </span><br><span class="line">		<span class="comment">// 获取实例对象的方法，公共的方法。</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="comment">// 第一次判空。</span></span><br><span class="line">			<span class="keyword">if</span> (sin == <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="comment">// 加锁</span></span><br><span class="line">				<span class="keyword">synchronized</span> (Singleton<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">					i++;</span><br><span class="line">					<span class="comment">// 第二次判空。</span></span><br><span class="line">					<span class="keyword">if</span> (sin == <span class="keyword">null</span>) &#123;</span><br><span class="line">						sin = <span class="keyword">new</span> Singleton();</span><br><span class="line">						j++;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> sin;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="2、多线程并发调用单例模式的测试类"><a href="#2、多线程并发调用单例模式的测试类" class="headerlink" title="2、多线程并发调用单例模式的测试类"></a>2、多线程并发调用单例模式的测试类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest</span> <span class="keyword">implements</span> <span class="title">Runnable</span>  </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//实例化一个倒计树器,初始倒计数为10</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">10</span>);</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> ThreadTest demo = <span class="keyword">new</span> ThreadTest();</span><br><span class="line"> </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//实例对象生成</span></span><br><span class="line">			Singleton.getInstance();</span><br><span class="line">			<span class="comment">//输出当前线程的名称</span></span><br><span class="line">			System.out.println(Thread.currentThread().getName());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">//计数器进行减一</span></span><br><span class="line">			latch.countDown();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">//创建一个长度为10的定长线程池</span></span><br><span class="line">		ExecutorService exec = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">        	<span class="comment">//启动线程</span></span><br><span class="line">            exec.submit(demo);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//等待检查,阻塞main主线程,只有当CountDownLatch倒计数器为0时才会唤醒阻塞的main主线程</span></span><br><span class="line">        latch.await();  </span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 开启的10个线程中几个线程获取到了锁</span></span><br><span class="line">		System.out.println(<span class="string">"共有 ( "</span> + Singleton.i + <span class="string">" ) 个线程获取到对象锁"</span>);</span><br><span class="line">		<span class="comment">// 最终生成了几个Singleton实例</span></span><br><span class="line">		System.out.println(<span class="string">"最终生成了( "</span> + Singleton.j + <span class="string">" )个Singleton实例对象"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 关闭线程池</span></span><br><span class="line">        exec.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="运行上面的mian方法，会得到以下的一种输出结果-存在多种输出结果"><a href="#运行上面的mian方法，会得到以下的一种输出结果-存在多种输出结果" class="headerlink" title="运行上面的mian方法，会得到以下的一种输出结果(存在多种输出结果)"></a>运行上面的mian方法，会得到以下的一种输出结果(存在多种输出结果)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pool-<span class="number">1</span>-thread-<span class="number">1</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">7</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">5</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">3</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">6</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">2</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">4</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">9</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">8</span></span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">10</span></span><br><span class="line">共有 ( <span class="number">2</span> ) 个线程获取到对象锁</span><br><span class="line">最终生成了( <span class="number">1</span> )个Singleton实例对象</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p> 从运行结果可以看出，如果不进行第二次判空的话，那么在<span style="color:red;">竟锁池(锁池)</span>中如果还有活跃的线程在等待获取的锁的话，在锁释放后就会再次竞争获取锁，获取的锁的线程进入”就绪状态”，当cpu分配其”时间片”后进行线程的调度，从而线程进入”运行中状态”，并会去执行同步的代码块，如果在没加如二次判空的话，就会导致系统中存在多个实例，而在进行判空后，即使你获取到了锁，但在执行同步代码块时也会直接跳过。</p>
-<pre><code>竟锁池(锁池)的概念：[“倒计时器：CountDownLatch”](https://blog.csdn.net/qq_22498277/article/details/82184419)</code></pre><h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+		<p>测试：Hello ，欢迎来到java的海洋。</p>
   
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
@@ -219,7 +209,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/02/08/懒汉式单例模式为什么要进行二次判空/" target="_blank" title="懒汉式单例模式为什么要进行二次判空">https://leishen6.github.io/2020/02/08/懒汉式单例模式为什么要进行二次判空/</a>
+          <a href="/2020/01/19/HelloWorld/" target="_blank" title="Hexo测试">https://leishen6.github.io/2020/01/19/HelloWorld/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -240,15 +230,10 @@
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-</div>
-
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/单例模式/">单例模式</a>
+  <span></span> <a href="/tags/test/">test</a>
   </div>
 
 </div>
@@ -257,7 +242,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/" data-title="懒汉式单例模式为什么要进行二次判空 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/01/19/HelloWorld/" data-title="Hexo测试 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -273,21 +258,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/02/09/Java实现 “ 将数字金额转为大写中文金额 ”/" title="Java实现 “ 将数字金额转为大写中文金额 ”">
+ <a href="/2020/02/07/search_cpu_memery_disk_byShell/" title="shell脚本查询服务器的cpu、内存、磁盘的使用率">
   <strong>上一篇：</strong><br/>
   <span>
-  Java实现 “ 将数字金额转为大写中文金额 ”</span>
+  shell脚本查询服务器的cpu、内存、磁盘的使用率</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/"  title="shell脚本查询服务器的cpu、内存、磁盘的使用率">
- <strong>下一篇：</strong><br/> 
- <span>shell脚本查询服务器的cpu、内存、磁盘的使用率
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -327,7 +304,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码展示："><span class="toc-number">2.</span> <span class="toc-text">代码展示：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1、懒汉式单例模式类"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">1、懒汉式单例模式类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、多线程并发调用单例模式的测试类"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">2、多线程并发调用单例模式的测试类</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行上面的mian方法，会得到以下的一种输出结果-存在多种输出结果"><span class="toc-number">3.</span> <span class="toc-text">运行上面的mian方法，会得到以下的一种输出结果(存在多种输出结果)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">4.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
  
   </div>
 
@@ -598,7 +575,7 @@ function getBrowerInfo(){
 		  
 		
 		  
-			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>2</sup></a></li>
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>3</sup></a></li>
 		  
 		
 		  
@@ -607,6 +584,10 @@ function getBrowerInfo(){
 		
 		  
 			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>1</sup></a></li>
 		  
 		
 		  
@@ -635,7 +616,11 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
@@ -651,15 +636,23 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
 			
 		
 			
@@ -668,14 +661,6 @@ function getBrowerInfo(){
 		
 			
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			

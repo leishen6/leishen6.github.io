@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>木子雷的博客</title>
+    <title>shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="hello,every body!~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="木子雷的博客">
-<meta property="og:url" content="https://leishen6.github.io/index.html">
+    <meta name="description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本查询服务器的cpu、内存、磁盘的使用率">
+<meta property="og:url" content="https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="hello,every body!~">
+<meta property="og:description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-07T13:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-21T10:51:05.390Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="分享">
-<meta property="article:tag" content="技术">
-<meta property="article:tag" content="生活">
+<meta property="article:tag" content="Shell">
 <meta name="twitter:card" content="summary">
 
     
@@ -43,11 +43,11 @@
 
   <body>
     <header>
-	  <!-- 爆炸红心效果 -->
+	   <!-- 爆炸红心效果 -->
 		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
 		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
 		<script type="text/javascript" src="/js/firework.js"></script>
-	
+
       
 <div>
 
@@ -134,518 +134,200 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/21/redis_learn_mind_map/" title="全网最全redis学习脑图" itemprop="url">
-  
-    <h1 itemprop="name">全网最全redis学习脑图</h1>
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
     
-     
-      <p itemprop="description" >分享一个全网最全的redis学习脑图。</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-21T12:39:30.926Z" itemprop="datePublished">
+      <a href="/2020/02/07/search_cpu_memery_disk_byShell/" title="shell脚本查询服务器的cpu、内存、磁盘的使用率" itemprop="url">shell脚本查询服务器的cpu、内存、磁盘的使用率</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-02-07T13:00:00.000Z" itemprop="datePublished">
+
+			发表于 2020-02-07 21:00:00
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
 	    
-		
-		
-		   <img src="/img/zhuan.png" title="转载"/> &nbsp;&nbsp;
-	    
-		
-	    2020-02-21 20:39:30
-		
-		
-		   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> &nbsp;&nbsp;
-	    
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/12/interview_Implement_HashMap/" title="面试手写HashMap，手撕HashMap" itemprop="url">
-  
-    <h1 itemprop="name">面试手写HashMap，手撕HashMap</h1>
-    
-     
-           <p itemprop="description" >前言：
-现在面试时，面试官经常会问到HashMap，简单点就会问下HashMap的一些关键知识点，困难些的可能会当场让你手写一个HashMap，考察下你对HashMap底层原理的了解深度；所以，今天特别手写了一个简单的HashMap，只实现了 put、get、containsKe</p>
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
         
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-12T14:20:00.000Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
 		
 		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
 		
-	    2020-02-12 22:20:00
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
 		
+		</div>
 		
-		   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> &nbsp;&nbsp;
-	    
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下<a href="https://blog.csdn.net/feichitianxia/article/details/103088793" target="_blank" rel="noopener">linux的基本命令和管道符的知识</a>。</p>
+</blockquote>
+<h2 id="脚本献上："><a href="#脚本献上：" class="headerlink" title="脚本献上："></a>脚本献上：</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment">#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，"-n5" </span></span><br><span class="line">cpu=`top <span class="literal">-b</span> <span class="literal">-n5</span> | fgrep <span class="string">"Cpu(s)"</span> | tail <span class="literal">-1</span> | awk <span class="operator">-F</span><span class="string">'id,'</span> <span class="string">'&#123;split($1, vs, ","); v=vs[length(vs)]; sub(/\s+/, "", v);sub(/\s+/, "", v); printf "%d", 100-v;&#125;'</span>`</span><br><span class="line">echo <span class="variable">$cpu</span><span class="string">'%'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#统计内存使用率</span></span><br><span class="line">mem_used_persent=`free <span class="literal">-m</span> | awk <span class="operator">-F</span> <span class="string">'[ :]+'</span> <span class="string">'NR==2&#123;printf "%d", ($3)/$2*100&#125;'</span>`</span><br><span class="line"><span class="comment"># -e参数是使 "\n"换行符生效进行输出换行的</span></span><br><span class="line">echo <span class="literal">-e</span> <span class="variable">$mem_used_persent</span><span class="string">'%\n'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#统计磁盘使用情况，df -P参数可以防止打印输出的内容换行</span></span><br><span class="line">df <span class="literal">-THP</span> | awk <span class="operator">-F</span> <span class="string">'[ ]+'</span> <span class="string">'NR!=1&#123;print $1","$6&#125;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="运行结果："><a href="#运行结果：" class="headerlink" title="运行结果："></a>运行结果：</h2><p>12%<br>37%</p>
+<p>/dev/mapper/vg_minghui-lv_root,25%<br>tmpfs,1%<br>/dev/sda1,10%<br>/dev/sr0,100%</p>
+<p>前两行的内容：12% - cpu的使用率， 37% - 内存的使用率；</p>
+<p>后面四行的内容：每个磁盘分区的使用率，磁盘分区名称和其使用率之间用英文逗号隔开。</p>
+<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
   
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/08/singleton_twoIfNull_reason/" title="懒汉式单例模式为什么要进行二次判空" itemprop="url">
-  
-    <h1 itemprop="name">懒汉式单例模式为什么要进行二次判空</h1>
-    
-     
-           <p itemprop="description" >前言：
-在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 CountDownLatch 倒计时器，不清楚CountDownLatch 使用的请参考此文“倒计时器：CountDownLatch” 。
-
-代码展示：1、懒汉式单例模式类123456789101</p>
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
         
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-08T03:44:00.000Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
 		
-		
-		
-	    2020-02-08 11:44:00
-		
-		
-		   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> &nbsp;&nbsp;
-	    
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-   
-    <a href="https://www.jianshu.com/p/d54a970c251a" target="_blank"> 
-  
-    <h1 itemprop="name">什么数据脱敏及其实现方式</h1>
-    
-     
-      <p itemprop="description" >学习什么数据脱敏，它的应用场景以及实现方式！</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-25T07:12:47.534Z" itemprop="datePublished">
-	    
-		
-		
-		   <img src="/img/zhuan.png" title="转载"/> &nbsp;&nbsp;
-	    
-		
-	    2020-02-25 15:12:47
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-   
-    <a href="https://blog.csdn.net/hemin1003/article/details/82882873" target="_blank"> 
-  
-    <h1 itemprop="name">高并发核心技术-幂等实现方案</h1>
-    
-     
-      <p itemprop="description" >学习高并发核心技术-幂等理念及实现方案！</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-25T07:12:46.758Z" itemprop="datePublished">
-	    
-		
-		
-		   <img src="/img/zhuan.png" title="转载"/> &nbsp;&nbsp;
-	    
-		
-	    2020-02-25 15:12:46
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-   
-    <a href="https://www.jianshu.com/p/ab1a1c6b08a1" target="_blank"> 
-  
-    <h1 itemprop="name">柔性事务与传统事务</h1>
-    
-     
-      <p itemprop="description" >学习什么是柔性事务，以及与传统事务（刚性事务）的区别！</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-25T05:21:47.048Z" itemprop="datePublished">
-	    
-		
-		
-		   <img src="/img/zhuan.png" title="转载"/> &nbsp;&nbsp;
-	    
-		
-	    2020-02-25 13:21:47
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-   
-    <a href="https://www.jianshu.com/p/f093ff9ace4b" target="_blank"> 
-  
-    <h1 itemprop="name">数据库分库分表策略，如何分库，如何分表？</h1>
-    
-     
-      <p itemprop="description" >学习数据库分库分表策略，以及如何分库分表的基本知识！努力学习中！</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-24T13:24:45.936Z" itemprop="datePublished">
-	    
-		
-		
-		   <img src="/img/zhuan.png" title="转载"/> &nbsp;&nbsp;
-	    
-		
-	    2020-02-24 21:24:45
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/18/java_imp_DESede_ util/" title="java实现使用 _DESede_ 对称加密的 加解密工具类" itemprop="url">
-  
-    <h1 itemprop="name">java实现使用 _DESede_ 对称加密的 加解密工具类</h1>
-    
-     
-      <p itemprop="description" >Java实现 "DESede" 对称加密</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-18T11:35:46.608Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
-		
-		
-		
-	    2020-02-18 19:35:46
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/15/imp_histogram_byAmcharts/" title="使用 amcharts.js 实现立体柱状图" itemprop="url">
-  
-    <h1 itemprop="name">使用 amcharts.js 实现立体柱状图</h1>
-    
-     
-      <p itemprop="description" >本文章将使用<span style="color:red;"> <B>amcharts.js</B> </span>实现立体柱状图。</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-15T07:19:31.308Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
-		
-		
-		
-	    2020-02-15 15:19:31
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/12/Dubbo_Zookeeper _vs_SpringCloud/" title="Dubbo+Zookeeper vs Spring Cloud 之间的比较" itemprop="url">
-  
-    <h1 itemprop="name">Dubbo+Zookeeper vs Spring Cloud 之间的比较</h1>
-    
-     
-           <p itemprop="description" >前言
-目前学习了下Dubbo 和  Spring Cloud，并且在简单学习后，总结了下这两者之间简单的区别；如果以后有需要搭建分布式系统的需求，可以根据这两者之间的区别，再根据当前公司的业务等情况选择最为合适的来搭建自己的分布式系统。
-
-Dubbo+Zookeeper   vs</p>
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/02/07/search_cpu_memery_disk_byShell/" target="_blank" title="shell脚本查询服务器的cpu、内存、磁盘的使用率">https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
         
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-12T06:36:56.000Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
 		
-		
-		
-	    2020-02-12 14:36:56
-		
-		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-	</time>
-
-	
-  </a>
-</section>
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
 
 
-<!-- 博客首页文章列表鼠标悬浮时阴影展示 -->
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
+  <div class="article-tags">
   
-</style>
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix unexpand">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next</a>
-  </nav>
+  <span></span> <a href="/tags/Shell/">Shell</a>
+  </div>
 
 </div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/" data-title="shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/02/08/singleton_twoIfNull_reason/" title="懒汉式单例模式为什么要进行二次判空">
+  <strong>上一篇：</strong><br/>
+  <span>
+  懒汉式单例模式为什么要进行二次判空</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/01/19/HelloWorld/"  title="Hexo测试">
+ <strong>下一篇：</strong><br/> 
+ <span>Hexo测试
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -1181,12 +863,89 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
 
 
 
@@ -1249,4 +1008,4 @@ $(document).ready(function(){
 <!-- Tiny_search End -->
 
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
- </html>
+</html>

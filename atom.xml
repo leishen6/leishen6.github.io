@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-02-25T05:25:01.247Z</updated>
+  <updated>2020-02-25T07:14:54.914Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>什么数据脱敏及其实现方式</title>
+    <link href="https://leishen6.github.io/2020/02/25/data_desensitization/"/>
+    <id>https://leishen6.github.io/2020/02/25/data_desensitization/</id>
+    <published>2020-02-25T07:12:47.534Z</published>
+    <updated>2020-02-25T07:14:54.914Z</updated>
+    
+    <summary type="html">
+    
+      学习什么数据脱敏，它的应用场景以及实现方式！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="数据脱敏" scheme="https://leishen6.github.io/tags/%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>高并发核心技术-幂等实现方案</title>
+    <link href="https://leishen6.github.io/2020/02/25/power_etc/"/>
+    <id>https://leishen6.github.io/2020/02/25/power_etc/</id>
+    <published>2020-02-25T07:12:46.758Z</published>
+    <updated>2020-02-25T07:17:06.337Z</updated>
+    
+    <summary type="html">
+    
+      学习高并发核心技术-幂等理念及实现方案！
+    
+    </summary>
+    
+    
+      <category term="并发编程" scheme="https://leishen6.github.io/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>柔性事务与传统事务</title>
@@ -81,8 +121,8 @@
   
   <entry>
     <title>java实现使用 _DESede_ 对称加密的 加解密工具类</title>
-    <link href="https://leishen6.github.io/2020/02/18/java%E5%AE%9E%E7%8E%B0%E4%BD%BF%E7%94%A8%20_DESede_%20%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%9A%84%20%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
-    <id>https://leishen6.github.io/2020/02/18/java%E5%AE%9E%E7%8E%B0%E4%BD%BF%E7%94%A8%20_DESede_%20%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%9A%84%20%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB/</id>
+    <link href="https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/"/>
+    <id>https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/</id>
     <published>2020-02-18T11:35:46.608Z</published>
     <updated>2020-02-21T10:50:35.494Z</updated>
     
@@ -102,21 +142,14 @@
   
   <entry>
     <title>使用 amcharts.js 实现立体柱状图</title>
-    <link href="https://leishen6.github.io/2020/02/15/%E4%BD%BF%E7%94%A8%20amcharts.js%20%E5%AE%9E%E7%8E%B0%E7%AB%8B%E4%BD%93%E6%9F%B1%E7%8A%B6%E5%9B%BE/"/>
-    <id>https://leishen6.github.io/2020/02/15/%E4%BD%BF%E7%94%A8%20amcharts.js%20%E5%AE%9E%E7%8E%B0%E7%AB%8B%E4%BD%93%E6%9F%B1%E7%8A%B6%E5%9B%BE/</id>
+    <link href="https://leishen6.github.io/2020/02/15/imp_histogram_byAmcharts/"/>
+    <id>https://leishen6.github.io/2020/02/15/imp_histogram_byAmcharts/</id>
     <published>2020-02-15T07:19:31.308Z</published>
-    <updated>2020-02-21T10:50:57.066Z</updated>
+    <updated>2020-02-25T07:30:30.198Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt; 本文章将使用&lt;span style=&quot;color:red;&quot;&gt;
-        
-      
+      本文章将使用&lt;span style=&quot;color:red;&quot;&gt; &lt;B&gt;amcharts.js&lt;/B&gt; &lt;/span&gt;实现立体柱状图。
     
     </summary>
     
@@ -130,8 +163,8 @@
   
   <entry>
     <title>面试手写HashMap，手撕HashMap</title>
-    <link href="https://leishen6.github.io/2020/02/12/%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99HashMap%EF%BC%8C%E6%89%8B%E6%92%95HashMap/"/>
-    <id>https://leishen6.github.io/2020/02/12/%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99HashMap%EF%BC%8C%E6%89%8B%E6%92%95HashMap/</id>
+    <link href="https://leishen6.github.io/2020/02/12/interview_Implement_HashMap/"/>
+    <id>https://leishen6.github.io/2020/02/12/interview_Implement_HashMap/</id>
     <published>2020-02-12T14:20:00.000Z</published>
     <updated>2020-02-21T10:50:49.544Z</updated>
     
@@ -157,8 +190,8 @@
   
   <entry>
     <title>Dubbo+Zookeeper vs Spring Cloud 之间的比较</title>
-    <link href="https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/"/>
-    <id>https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/</id>
+    <link href="https://leishen6.github.io/2020/02/12/Dubbo_Zookeeper%20_vs_SpringCloud/"/>
+    <id>https://leishen6.github.io/2020/02/12/Dubbo_Zookeeper%20_vs_SpringCloud/</id>
     <published>2020-02-12T06:36:56.000Z</published>
     <updated>2020-02-25T06:11:23.805Z</updated>
     
@@ -189,8 +222,8 @@
   
   <entry>
     <title>Java实现 “ 将数字金额转为大写中文金额 ”</title>
-    <link href="https://leishen6.github.io/2020/02/09/Java%E5%AE%9E%E7%8E%B0%20%E2%80%9C%20%E5%B0%86%E6%95%B0%E5%AD%97%E9%87%91%E9%A2%9D%E8%BD%AC%E4%B8%BA%E5%A4%A7%E5%86%99%E4%B8%AD%E6%96%87%E9%87%91%E9%A2%9D%20%E2%80%9D/"/>
-    <id>https://leishen6.github.io/2020/02/09/Java%E5%AE%9E%E7%8E%B0%20%E2%80%9C%20%E5%B0%86%E6%95%B0%E5%AD%97%E9%87%91%E9%A2%9D%E8%BD%AC%E4%B8%BA%E5%A4%A7%E5%86%99%E4%B8%AD%E6%96%87%E9%87%91%E9%A2%9D%20%E2%80%9D/</id>
+    <link href="https://leishen6.github.io/2020/02/09/Java_imp_chinease_monery/"/>
+    <id>https://leishen6.github.io/2020/02/09/Java_imp_chinease_monery/</id>
     <published>2020-02-09T10:00:00.000Z</published>
     <updated>2020-02-21T10:50:22.331Z</updated>
     
@@ -217,8 +250,8 @@
   
   <entry>
     <title>懒汉式单例模式为什么要进行二次判空</title>
-    <link href="https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/"/>
-    <id>https://leishen6.github.io/2020/02/08/%E6%87%92%E6%B1%89%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8C%E6%AC%A1%E5%88%A4%E7%A9%BA/</id>
+    <link href="https://leishen6.github.io/2020/02/08/singleton_twoIfNull_reason/"/>
+    <id>https://leishen6.github.io/2020/02/08/singleton_twoIfNull_reason/</id>
     <published>2020-02-08T03:44:00.000Z</published>
     <updated>2020-02-21T10:50:42.340Z</updated>
     
@@ -245,8 +278,8 @@
   
   <entry>
     <title>shell脚本查询服务器的cpu、内存、磁盘的使用率</title>
-    <link href="https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/"/>
-    <id>https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/</id>
+    <link href="https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/"/>
+    <id>https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/</id>
     <published>2020-02-07T13:00:00.000Z</published>
     <updated>2020-02-21T10:51:05.390Z</updated>
     
@@ -273,8 +306,8 @@
   
   <entry>
     <title>Hexo测试</title>
-    <link href="https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/"/>
-    <id>https://leishen6.github.io/2020/01/19/%E2%80%9CHelloWorld%E2%80%9D/</id>
+    <link href="https://leishen6.github.io/2020/01/19/HelloWorld/"/>
+    <id>https://leishen6.github.io/2020/01/19/HelloWorld/</id>
     <published>2020-01-19T09:46:28.000Z</published>
     <updated>2020-02-24T13:12:00.537Z</updated>
     

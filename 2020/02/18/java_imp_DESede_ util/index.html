@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客</title>
+    <title>java实现使用 _DESede_ 对称加密的 加解密工具类 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
+    <meta name="description" content="Java实现 &quot;DESede&quot; 对称加密">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell脚本查询服务器的cpu、内存、磁盘的使用率">
-<meta property="og:url" content="https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/index.html">
+<meta property="og:title" content="java实现使用 _DESede_ 对称加密的 加解密工具类">
+<meta property="og:url" content="https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
+<meta property="og:description" content="Java实现 &quot;DESede&quot; 对称加密">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-07T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-21T10:51:05.390Z">
+<meta property="article:published_time" content="2020-02-18T11:35:46.608Z">
+<meta property="article:modified_time" content="2020-02-21T10:50:35.494Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="Shell">
+<meta property="article:tag" content="对称加密">
 <meta name="twitter:card" content="summary">
 
     
@@ -140,7 +140,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" title="shell脚本查询服务器的cpu、内存、磁盘的使用率" itemprop="url">shell脚本查询服务器的cpu、内存、磁盘的使用率</a>
+      <a href="/2020/02/18/java_imp_DESede_ util/" title="java实现使用 _DESede_ 对称加密的 加解密工具类" itemprop="url">java实现使用 _DESede_ 对称加密的 加解密工具类</a>
   </h1>
   <p class="article-author">By
        
@@ -149,9 +149,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-07T13:00:00.000Z" itemprop="datePublished">
+		<time datetime="2020-02-18T11:35:46.608Z" itemprop="datePublished">
 
-			发表于 2020-02-07 21:00:00
+			发表于 2020-02-18 19:35:46
 		
 		</time>
 		
@@ -188,19 +188,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前提："><span class="toc-number">2.</span> <span class="toc-text">前提：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">3.</span> <span class="toc-text">代码：</span></a></li></ol>
 		
 		</div>
 		
 		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
-<p>使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下<a href="https://blog.csdn.net/feichitianxia/article/details/103088793" target="_blank" rel="noopener">linux的基本命令和管道符的知识</a>。</p>
+<p>Java实现 “DESede” 对称加密；</p>
 </blockquote>
-<h2 id="脚本献上："><a href="#脚本献上：" class="headerlink" title="脚本献上："></a>脚本献上：</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment">#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，"-n5" </span></span><br><span class="line">cpu=`top <span class="literal">-b</span> <span class="literal">-n5</span> | fgrep <span class="string">"Cpu(s)"</span> | tail <span class="literal">-1</span> | awk <span class="operator">-F</span><span class="string">'id,'</span> <span class="string">'&#123;split($1, vs, ","); v=vs[length(vs)]; sub(/\s+/, "", v);sub(/\s+/, "", v); printf "%d", 100-v;&#125;'</span>`</span><br><span class="line">echo <span class="variable">$cpu</span><span class="string">'%'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#统计内存使用率</span></span><br><span class="line">mem_used_persent=`free <span class="literal">-m</span> | awk <span class="operator">-F</span> <span class="string">'[ :]+'</span> <span class="string">'NR==2&#123;printf "%d", ($3)/$2*100&#125;'</span>`</span><br><span class="line"><span class="comment"># -e参数是使 "\n"换行符生效进行输出换行的</span></span><br><span class="line">echo <span class="literal">-e</span> <span class="variable">$mem_used_persent</span><span class="string">'%\n'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#统计磁盘使用情况，df -P参数可以防止打印输出的内容换行</span></span><br><span class="line">df <span class="literal">-THP</span> | awk <span class="operator">-F</span> <span class="string">'[ ]+'</span> <span class="string">'NR!=1&#123;print $1","$6&#125;'</span></span><br></pre></td></tr></table></figure>
-<h2 id="运行结果："><a href="#运行结果：" class="headerlink" title="运行结果："></a>运行结果：</h2><p>12%<br>37%</p>
-<p>/dev/mapper/vg_minghui-lv_root,25%<br>tmpfs,1%<br>/dev/sda1,10%<br>/dev/sr0,100%</p>
-<p>前两行的内容：12% - cpu的使用率， 37% - 内存的使用率；</p>
-<p>后面四行的内容：每个磁盘分区的使用率，磁盘分区名称和其使用率之间用英文逗号隔开。</p>
-<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+<h2 id="前提："><a href="#前提：" class="headerlink" title="前提："></a>前提：</h2><blockquote>
+<p>在代码运行前，需要提前将一个依赖导入到项目中 pom.xml 中，使用这个依赖中的base64进行编解码；</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- base64编码使用 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;commons-codec&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.12&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.SecretKeySpec;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.codec.binary.Base64;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DESedeUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 密钥算法</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_ALGORITHM = <span class="string">"DESede"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 加密/解密算法 / 工作模式 / 填充方式</span></span><br><span class="line"><span class="comment">	 * Java 6支持PKCS5Padding填充方式</span></span><br><span class="line"><span class="comment">	 * Bouncy Castle支持PKCS7Padding填充方式</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CIPHER_ALGORITHM = <span class="string">"DESede/ECB/PKCS5Padding"</span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 生成密钥, 返回168位的密钥</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateKey</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//实例化密钥生成器</span></span><br><span class="line">		KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);</span><br><span class="line">		<span class="comment">//DESede 要求密钥长度为 112位或168位</span></span><br><span class="line">		kg.init(<span class="number">168</span>);</span><br><span class="line">		<span class="comment">//生成密钥</span></span><br><span class="line">		SecretKey secretKey = kg.generateKey();</span><br><span class="line">		<span class="comment">//获得密钥的字符串形式</span></span><br><span class="line">		<span class="keyword">return</span> Base64.encodeBase64String(secretKey.getEncoded());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: DES进行加密</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source 待加密的原字符串</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> key  加密时使用的 密钥</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span>   返回经过base64编码的字符串</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encrypt</span><span class="params">(String source, String key)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] sourceBytes = source.getBytes(<span class="string">"UTF-8"</span>);</span><br><span class="line">    	<span class="keyword">byte</span>[] keyBytes = Base64.decodeBase64(key);</span><br><span class="line">    	Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);</span><br><span class="line">    	cipher.init(Cipher.ENCRYPT_MODE,<span class="keyword">new</span> SecretKeySpec(keyBytes, KEY_ALGORITHM));</span><br><span class="line">    	<span class="keyword">byte</span>[] decrypted = cipher.doFinal(sourceBytes);</span><br><span class="line">    	<span class="keyword">return</span> Base64.encodeBase64String(decrypted);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>:  DES解密</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> encryptStr  DES加密后的再经过base64编码的密文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key  加密使用的密钥</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>  返回 utf-8 编码的明文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decrypt</span><span class="params">(String encryptStr, String key)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    	<span class="keyword">byte</span>[] sourceBytes = Base64.decodeBase64(encryptStr);</span><br><span class="line">		<span class="keyword">byte</span>[] keyBytes = Base64.decodeBase64(key);</span><br><span class="line">    	Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);</span><br><span class="line">    	cipher.init(Cipher.DECRYPT_MODE,<span class="keyword">new</span> SecretKeySpec(keyBytes, KEY_ALGORITHM));</span><br><span class="line">    	<span class="keyword">byte</span>[] decoded = cipher.doFinal(sourceBytes);</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> String(decoded, <span class="string">"UTF-8"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">try</span> &#123;</span><br><span class="line">    		<span class="comment">// 生成秘钥</span></span><br><span class="line">        	String key = generateKey();</span><br><span class="line">        	System.out.println(<span class="string">"秘钥："</span>+key);</span><br><span class="line">        	</span><br><span class="line">        	<span class="comment">// 加密</span></span><br><span class="line">        	String encryptStr = encrypt(<span class="string">"hello"</span>, key);</span><br><span class="line">        	System.out.println(<span class="string">"密文："</span>+ encryptStr);</span><br><span class="line">        	<span class="comment">// 解密</span></span><br><span class="line">        	String resource = decrypt(encryptStr, key);</span><br><span class="line">        	System.out.println(<span class="string">"明文："</span>+ resource);</span><br><span class="line">        	</span><br><span class="line">        	System.out.println(<span class="string">"校验："</span>+ <span class="string">"hello"</span>.equals(resource));</span><br><span class="line">        	</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
   
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
@@ -217,7 +217,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/" target="_blank" title="shell脚本查询服务器的cpu、内存、磁盘的使用率">https://leishen6.github.io/2020/02/07/使用shell脚本查询服务器的cpu、内存、磁盘的使用率/</a>
+          <a href="/2020/02/18/java_imp_DESede_ util/" target="_blank" title="java实现使用 _DESede_ 对称加密的 加解密工具类">https://leishen6.github.io/2020/02/18/java_imp_DESede_ util/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -240,13 +240,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  <a class="article-category-link" href="/categories/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">加密算法</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Shell/">Shell</a>
+  <span></span> <a href="/tags/对称加密/">对称加密</a>
   </div>
 
 </div>
@@ -255,7 +255,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/02/07/%E4%BD%BF%E7%94%A8shell%E8%84%9A%E6%9C%AC%E6%9F%A5%E8%AF%A2%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cpu%E3%80%81%E5%86%85%E5%AD%98%E3%80%81%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E7%8E%87/" data-title="shell脚本查询服务器的cpu、内存、磁盘的使用率 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/" data-title="java实现使用 _DESede_ 对称加密的 加解密工具类 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -271,18 +271,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/02/08/懒汉式单例模式为什么要进行二次判空/" title="懒汉式单例模式为什么要进行二次判空">
+ <a href="/2020/02/21/redis_learn_mind_map/" title="全网最全redis学习脑图">
   <strong>上一篇：</strong><br/>
   <span>
-  懒汉式单例模式为什么要进行二次判空</span>
+  全网最全redis学习脑图</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/01/19/“HelloWorld”/"  title="Hexo测试">
+<a href="/2020/02/15/imp_histogram_byAmcharts/"  title="使用 amcharts.js 实现立体柱状图">
  <strong>下一篇：</strong><br/> 
- <span>Hexo测试
+ <span>使用 amcharts.js 实现立体柱状图
 </span>
 </a>
 </div>
@@ -325,7 +325,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前提："><span class="toc-number">2.</span> <span class="toc-text">前提：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">3.</span> <span class="toc-text">代码：</span></a></li></ol>
  
   </div>
 
@@ -596,7 +596,7 @@ function getBrowerInfo(){
 		  
 		
 		  
-			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>2</sup></a></li>
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>3</sup></a></li>
 		  
 		
 		  
@@ -605,6 +605,10 @@ function getBrowerInfo(){
 		
 		  
 			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>1</sup></a></li>
 		  
 		
 		  
@@ -633,7 +637,11 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
@@ -649,15 +657,23 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
 			
 		
 			
@@ -666,14 +682,6 @@ function getBrowerInfo(){
 		
 			
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
