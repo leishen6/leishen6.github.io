@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>柔性事务与传统事务</title>
+      <link href="/2020/02/25/flexible_transaction/"/>
+      <url>/2020/02/25/flexible_transaction/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 关系数据库 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数据库事务 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>数据库分库分表策略，如何分库，如何分表？</title>
       <link href="/2020/02/24/DB_Sharding_Strategy/"/>
       <url>/2020/02/24/DB_Sharding_Strategy/</url>

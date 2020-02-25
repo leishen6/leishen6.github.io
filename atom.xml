@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-02-24T13:32:10.283Z</updated>
+  <updated>2020-02-25T05:25:01.247Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>柔性事务与传统事务</title>
+    <link href="https://leishen6.github.io/2020/02/25/flexible_transaction/"/>
+    <id>https://leishen6.github.io/2020/02/25/flexible_transaction/</id>
+    <published>2020-02-25T05:21:47.048Z</published>
+    <updated>2020-02-25T05:25:01.247Z</updated>
+    
+    <summary type="html">
+    
+      学习什么是柔性事务，以及与传统事务（刚性事务）的区别！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="数据库事务" scheme="https://leishen6.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>数据库分库分表策略，如何分库，如何分表？</title>
@@ -138,8 +159,8 @@
     <title>Dubbo+Zookeeper vs Spring Cloud 之间的比较</title>
     <link href="https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/"/>
     <id>https://leishen6.github.io/2020/02/12/Dubbo+Zookeeper%20vs%20Spring%20Cloud%20%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/</id>
-    <published>2020-02-12T06:00:00.000Z</published>
-    <updated>2020-02-21T10:50:07.892Z</updated>
+    <published>2020-02-12T06:36:56.000Z</published>
+    <updated>2020-02-25T06:11:23.805Z</updated>
     
     <summary type="html">
     
