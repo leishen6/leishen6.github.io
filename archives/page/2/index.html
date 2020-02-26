@@ -179,7 +179,7 @@
 										}
 										// 返回搜索结果
 										if (isMatch) {
-										    // 结果标签
+										     // 结果标签
 											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
 										}
 									})
@@ -189,6 +189,8 @@
 							}
 						})
 					};
+					//var path = "http://localhost:4000/search.xml";
+					
 					var path = "https://leishen6.github.io/search.xml";
 					searchFunc(path, 'search', 'local-search-result');
 					</script>
@@ -254,7 +256,7 @@
 
 
   <nav id="page-nav" class="clearfix archive-nav">
-    <a class="extend prev" rel="prev" href="/archives/">&lt;span&gt;&lt;&#x2F;span&gt;Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/archives/">Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
   </nav>
 
   </div>

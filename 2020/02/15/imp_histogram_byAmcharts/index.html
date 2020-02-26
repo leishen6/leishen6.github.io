@@ -181,7 +181,7 @@
 										}
 										// 返回搜索结果
 										if (isMatch) {
-										    // 结果标签
+										     // 结果标签
 											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
 										}
 									})
@@ -191,6 +191,8 @@
 							}
 						})
 					};
+					//var path = "http://localhost:4000/search.xml";
+					
 					var path = "https://leishen6.github.io/search.xml";
 					searchFunc(path, 'search', 'local-search-result');
 					</script>
@@ -704,10 +706,6 @@ function getBrowerInfo(){
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -717,6 +715,10 @@ function getBrowerInfo(){
 		
 			
 				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
 			
 		
 			
