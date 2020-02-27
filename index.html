@@ -187,10 +187,13 @@
 							}
 						})
 					};
+					
+					
 					//var path = "http://localhost:4000/search.xml";
 					
 					var path = "https://leishen6.github.io/search.xml";
 					searchFunc(path, 'search', 'local-search-result');
+					
 					</script>
  
 
@@ -718,7 +721,7 @@ Dubbo+Zookeeper   vs</p>
 <aside class="clearfix">
 
   <div class="linkslist">
-  <p class="asidetitle">通知</p>
+  <p class="asidetitle">公告</p>
     <br>
     <div id="links" title="通知：PC浏览器访问更佳哟！">
         <img class="zhi" src="/img/tongzhi.png" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp; PC浏览器访问更佳哟！
@@ -749,6 +752,63 @@ Dubbo+Zookeeper   vs</p>
   <div class="rsspart">
 	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
 
   
 <div class="categorieslist">
@@ -801,19 +861,11 @@ Dubbo+Zookeeper   vs</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
 			
 		
 			
@@ -829,15 +881,15 @@ Dubbo+Zookeeper   vs</p>
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
 			
 		
 			
@@ -845,15 +897,23 @@ Dubbo+Zookeeper   vs</p>
 			
 		
 			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -913,9 +973,6 @@ Dubbo+Zookeeper   vs</p>
   
 </div>
 
-
-
-  
 
 
 </aside>
