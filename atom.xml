@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-02-27T05:41:54.746Z</updated>
+  <updated>2020-02-28T05:29:27.340Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>六大工具让你飞起，就问你它香不香！嘿嘿......</title>
+    <link href="https://leishen6.github.io/2020/02/28/six_tool_fly/"/>
+    <id>https://leishen6.github.io/2020/02/28/six_tool_fly/</id>
+    <published>2020-02-28T05:10:02.951Z</published>
+    <updated>2020-02-28T05:29:27.340Z</updated>
+    
+    <summary type="html">
+    
+      六大工具让你工作更加顺畅，生活更加甜蜜，快来瞅瞅并收藏哟！括弧(收藏不看系列不也挺香的呀，嘿嘿.....)
+    
+    </summary>
+    
+    
+      <category term="程序人生" scheme="https://leishen6.github.io/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
+    
+    
+      <category term="实用工具" scheme="https://leishen6.github.io/tags/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>什么数据脱敏及其实现方式</title>
