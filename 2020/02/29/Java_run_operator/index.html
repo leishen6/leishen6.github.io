@@ -4,27 +4,33 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>tags (或categories) | 木子雷的博客</title>
+    <title>Java中的位运算符 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="hello,every body!~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags (或categories)">
-<meta property="og:url" content="https://leishen6.github.io/tags/index.html">
+    <meta name="description" content="学习位运算符的运算方法！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的位运算符">
+<meta property="og:url" content="https://leishen6.github.io/2020/02/29/Java_run_operator/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="hello,every body!~">
+<meta property="og:description" content="学习位运算符的运算方法！">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-05T06:39:21.110Z">
-<meta property="article:modified_time" content="2020-02-05T06:39:21.110Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9JbWFnZS5wbmc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy93ZWlodW8ucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95aWh1by5wbmc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9mYW4ucG5n?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy96dW95aS5wbmc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95b3V5aS5wbmc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9ub3lvdXlpLnBuZw?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-02-29T12:50:36.683Z">
+<meta property="article:modified_time" content="2020-02-29T12:53:32.252Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="分享">
-<meta property="article:tag" content="技术">
-<meta property="article:tag" content="生活">
+<meta property="article:tag" content="位运算符">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9JbWFnZS5wbmc?x-oss-process=image/format,png">
 
     
     <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
@@ -45,11 +51,11 @@
 
   <body>
     <header>
-	  <!-- 爆炸红心效果 -->
+	   <!-- 爆炸红心效果 -->
 		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
 		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
 		<script type="text/javascript" src="/js/firework.js"></script>
-	
+
       
 <div>
 
@@ -205,13 +211,13 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="tags (或categories)" itemscope itemprop="blogPost">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/tags/index.html" title="tags (或categories)" itemprop="url">tags (或categories)</a>
+      <a href="/2020/02/29/Java_run_operator/" title="Java中的位运算符" itemprop="url">Java中的位运算符</a>
   </h1>
   <p class="article-author">By
        
@@ -220,9 +226,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-05T06:39:21.110Z" itemprop="datePublished">
+		<time datetime="2020-02-29T12:50:36.683Z" itemprop="datePublished">
 
-			发表于 2020-02-05 14:39:21
+			发表于 2020-02-29 20:50:36
 		
 		</time>
 		
@@ -238,9 +244,9 @@
 		 
 		 
 			
+			   <img src="/img/yuan.png" title="原创"/> 
 			
 			
-			   <img src="/img/zhuan.png" title="转载"/> 
 			
 			
 			
@@ -256,43 +262,64 @@
         
 		
 		
-		  
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算"><span class="toc-number">2.</span> <span class="toc-text">运算</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>位运算符比一般的算术运算符速度要</strong>快，而且可以实现一些算术运算符不能实现的功能。如果要开发高效率程序，位运算符是必不可少的 。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位运算符用来对二进制位进行操作，包括：按位与（&amp;）、按位或（|）、按位异或（^）、按位取反（~）、按位左移（&lt;&lt;）、按位右移（&gt;&gt;）、按位无符号右移（&gt;&gt;&gt;）。</p>
+</blockquote>
+<h2 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h2><p><strong>例子：指定 A = 60（0011 1100）; B = 13 （0000 1101）</strong><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9JbWFnZS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy93ZWlodW8ucG5n?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95aWh1by5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9mYW4ucG5n?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy96dW95aS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95b3V5aS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9ub3lvdXlpLnBuZw?x-oss-process=image/format,png" alt=""></p>
+  
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
         
 		
 		   <!-- 如果文章是原创，则加上文章版权说明 -->
 		   
-		   
-		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
-		   
 		      
 
-<div class="zhuan">
+<div class="yuan">
         <ul class="post-copyright">
           <li class="post-copyright-author">
           <strong>作者:  </strong>木子雷</a>
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/tags/index.html" target="_blank" title="tags (或categories)">https://leishen6.github.io/tags/index.html</a>
+          <a href="/2020/02/29/Java_run_operator/" target="_blank" title="Java中的位运算符">https://leishen6.github.io/2020/02/29/Java_run_operator/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
-            本文为转载文章，如您想转载此文章，请联系 <a rel="license" href="" target="_blank" title="">原作者！</a>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
           </li>
         </ul>
       <div>
 
 
-
 	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
 		   
         
 		
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/位运算符/">位运算符</a>
+  </div>
 
 </div>
 
@@ -300,7 +327,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/tags/index.html" data-title="tags (或categories) | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/02/29/Java_run_operator/" data-title="Java中的位运算符 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -313,6 +340,19 @@
 	
 	<!-- 分页 -->
 	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/02/28/six_tool_fly/"  title="六大工具让你飞起，就问你它香不香！嘿嘿......">
+ <strong>下一篇：</strong><br/> 
+ <span>六大工具让你飞起，就问你它香不香！嘿嘿......
+</span>
+</a>
+</div>
+
+</nav>
+
 	
 	<!-- 评论 -->
 	
@@ -345,6 +385,13 @@
 </div>  
 
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算"><span class="toc-number">2.</span> <span class="toc-text">运算</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -724,12 +771,89 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
 
 
 
@@ -792,4 +916,4 @@ $(document).ready(function(){
 <!-- Tiny_search End -->
 
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":100,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
- </html>
+</html>

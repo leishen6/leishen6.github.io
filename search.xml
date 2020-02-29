@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Java中的位运算符</title>
+      <link href="/2020/02/29/Java_run_operator/"/>
+      <url>/2020/02/29/Java_run_operator/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>位运算符比一般的算术运算符速度要</strong>快，而且可以实现一些算术运算符不能实现的功能。如果要开发高效率程序，位运算符是必不可少的 。<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位运算符用来对二进制位进行操作，包括：按位与（&amp;）、按位或（|）、按位异或（^）、按位取反（~）、按位左移（&lt;&lt;）、按位右移（&gt;&gt;）、按位无符号右移（&gt;&gt;&gt;）。</p></blockquote><h2 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h2><p><strong>例子：指定 A = 60（0011 1100）; B = 13 （0000 1101）</strong><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9JbWFnZS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy93ZWlodW8ucG5n?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95aWh1by5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9mYW4ucG5n?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy96dW95aS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy95b3V5aS5wbmc?x-oss-process=image/format,png" alt=""><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy9ub3lvdXlpLnBuZw?x-oss-process=image/format,png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 位运算符 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>六大工具让你飞起，就问你它香不香！嘿嘿......</title>
       <link href="/2020/02/28/six_tool_fly/"/>
       <url>/2020/02/28/six_tool_fly/</url>
