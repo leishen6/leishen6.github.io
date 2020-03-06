@@ -4,26 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dubbo+Zookeeper vs Spring Cloud 之间的比较 | 木子雷的博客</title>
+    <title>Java中三目运算符的复杂使用方法 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="前言 目前学习了下Dubbo 和  Spring Cloud，并且在简单学习后，总结了下这两者之间简单的区别；如果以后有需要搭建分布式系统的需求，可以根据这两者之间的区别，再根据当前公司的业务等情况选择最为合适的来搭建自己的分布式系统。  Dubbo+Zookeeper   vs   Spring Cloud：   框架比较的方面 Dubbo+Zookeeper Spring Cloud    性">
+    <meta name="description" content="学习Java中三目运算符的复杂使用方法！">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dubbo+Zookeeper vs Spring Cloud 之间的比较">
-<meta property="og:url" content="https://leishen6.github.io/2020/02/12/Dubbo_Zookeeper%20_vs_SpringCloud/index.html">
+<meta property="og:title" content="Java中三目运算符的复杂使用方法">
+<meta property="og:url" content="https://leishen6.github.io/2020/03/06/three_eys_complexUse/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="前言 目前学习了下Dubbo 和  Spring Cloud，并且在简单学习后，总结了下这两者之间简单的区别；如果以后有需要搭建分布式系统的需求，可以根据这两者之间的区别，再根据当前公司的业务等情况选择最为合适的来搭建自己的分布式系统。  Dubbo+Zookeeper   vs   Spring Cloud：   框架比较的方面 Dubbo+Zookeeper Spring Cloud    性">
+<meta property="og:description" content="学习Java中三目运算符的复杂使用方法！">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-12T06:36:56.000Z">
-<meta property="article:modified_time" content="2020-02-25T06:11:23.805Z">
+<meta property="article:published_time" content="2020-03-06T08:40:38.765Z">
+<meta property="article:modified_time" content="2020-03-06T08:43:58.959Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="Dubbo">
-<meta property="article:tag" content="Zookeeper">
-<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="三目运算符">
 <meta name="twitter:card" content="summary">
 
     
@@ -211,7 +209,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/02/12/Dubbo_Zookeeper _vs_SpringCloud/" title="Dubbo+Zookeeper vs Spring Cloud 之间的比较" itemprop="url">Dubbo+Zookeeper vs Spring Cloud 之间的比较</a>
+      <a href="/2020/03/06/three_eys_complexUse/" title="Java中三目运算符的复杂使用方法" itemprop="url">Java中三目运算符的复杂使用方法</a>
   </h1>
   <p class="article-author">By
        
@@ -220,9 +218,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-12T06:36:56.000Z" itemprop="datePublished">
+		<time datetime="2020-03-06T08:40:38.765Z" itemprop="datePublished">
 
-			发表于 2020-02-12 14:36:56
+			发表于 2020-03-06 16:40:38
 		
 		</time>
 		
@@ -259,57 +257,17 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-Zookeeper-vs-Spring-Cloud："><span class="toc-number">2.</span> <span class="toc-text">Dubbo+Zookeeper   vs   Spring Cloud：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">2.</span> <span class="toc-text">代码：</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>目前学习了下Dubbo 和  Spring Cloud，并且在简单学习后，总结了下这两者之间简单的区别；如果以后有需要搭建分布式系统的需求，可以根据这两者之间的区别，再根据当前公司的业务等情况选择最为合适的来搭建自己的分布式系统。</p>
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>Java中三目运算符的复杂用法，让程序看起来更加简洁，但是代码易读性会降低。大家根据实际情况使用哟！</p>
 </blockquote>
-<h2 id="Dubbo-Zookeeper-vs-Spring-Cloud："><a href="#Dubbo-Zookeeper-vs-Spring-Cloud：" class="headerlink" title="Dubbo+Zookeeper   vs   Spring Cloud："></a>Dubbo+Zookeeper   <span style="color:red;"><strong>vs</strong></span>   Spring Cloud：</h2><table>
-<thead>
-<tr>
-<th>框架比较的方面</th>
-<th>Dubbo+Zookeeper</th>
-<th>Spring Cloud</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>性能方面</td>
-<td>Dubbo是阿里巴巴开源的顶级项目，以前是用于阿里巴巴的分布式服务治理框架,其性能毋庸置疑一定是很强的，它适合一些比较大的公司用的分布式服务治理框架。（注：2017年之前阿里巴巴没有对其进行更新维护，但是2017年Dubbo项目官网宣布重新对其进行更新维护，并且在2018年Dubbo项目正式进入了Apache孵化器）</td>
-<td>Spring Cloud是最近才兴起的一个分布式服务框架，现在它的社区十分的火爆，代码的更新迭代十分的快；它一般适合于中小型企业，并且性能比Dubbo低一些；</td>
-</tr>
-<tr>
-<td>具有的特点</td>
-<td>Dubbo有良好的连通性、健壮性、伸缩性、升级性。结合Dubbo可以相对于单体系统提升系统整体的扩展性。<br> Dubbo提供了多种协议给用户选择， 如dubbo、hessian、rmi 。 并可为每个服务指定不同的传输协议，粒度可以细化到方法， 不同服务在性能上适用不同协议进行传输，比如大数据用短连接协议，小数据大并发用长连接协议。</td>
-<td>Spring Cloud来源于Spring，质量、稳定性、持续性都可以得到保证。<br>Spirng Cloud天然支持Spring Boot，更加便于业务落地。<br>Spring Cloud是Java领域最适合做微服务的框架。<br>相比于其它框架,Spring Cloud对微服务周边环境的支持力度最大。</td>
-</tr>
-<tr>
-<td>方便性</td>
-<td>Dubbo使用起来不太方便，由于许多组件其本身不支持，所以我们在搭建架构环境时，需要集成一些其他的开源组件，集成时会遇到种种的困难，并且在以后的项目维护和升级也不方便。<br>Dubbo服务调用的方式是RPC，服务提供方与调用方接口依赖方式太强：我们需要将调用的抽象接口依赖到消费者项目中才能调用服务，这会导致在以后的开发、测试、版本管理上很麻烦。</td>
-<td>pringCloud自身的组件可以搭建成一个完整的微服务架构，并且搭建起来稍微简单一些；<br>SpringCloud调用的方式是REST，REST接口相比RPC更为轻量化，服务提供方和调用方的依赖只是依靠一纸契约，不存在代码级别的强依赖，当然REST接口也有缺点，很容易导致定义文档与实际实现不一致导致服务集成时的问题。</td>
-</tr>
-<tr>
-<td>灵活性</td>
-<td>由于dubbo许多组件都是集成的第三方，所以dubbo组件之间的自由度很高，dubbo更加的灵活。</td>
-<td>SpringCloud自身支持了组件，各个组件之间的关联关系已经配置好了，所以它的灵活度不是很好，如果想要用第三方组件代替其中的一个组件的话会有一些困难。</td>
-</tr>
-<tr>
-<td>服务注册中心</td>
-<td>Zookeeper保证<span style="color:red;">C(一致性)P(分区容错性)</span>。<br>当master节点因为网络故障与其他节点失去联系时，剩余节点会重新进行leader选举。问题在于，选举leader的时间太长，30 ~ 120s, 且选举期间整个zk集群都是不可用的，这就导致在选举期间注册服务瘫痪。</td>
-<td>Eureka保证<span style="color:red;">A(可用性)P(分区容错性)</span>。<br>Eureka各个节点都是平等的，几个节点挂掉不会影响正常工作。而Eureka的客户端在向某个Eureka注册或时如果发现连接失败，则会自动切换至其它节点，只要有一台Eureka还在，就能保证注册服务可用(保证可用性)，只不过查到的信息可能不是最新的(不保证强一致性)</td>
-</tr>
-<tr>
-<td>代码开发角度</td>
-<td>Dubbo常与Spring、zookeeper结合，而且实现只是通过xml来配置服务地址、名称、端口，代码的侵入性是很小的，可以说几乎没有代码入侵。</td>
-<td>Spring Cloud，由于它的实现需要类注解等，所以多少具有一定代码侵入。</td>
-</tr>
-</tbody></table>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>总的来说这两个搭建分布式系统的框架各有各的好处，在选择时要根据自己的需求等情况综合做选择；<br> 但是Eureka作为单纯的服务注册中心来说感觉要比Zookeeper更加<span style="color:red;">“<strong>专业</strong>”</span>，因为注册服务更重要的是高可用性，可以接受短期内达不到一致性的状况。</p>
-<p> <span style="color:red;"><strong>注：</strong></span>可能此文章中表格内容看起来不太舒服，你还可以参考我在CSDN中的<a href="https://blog.csdn.net/feichitianxia/article/details/92682828" target="_blank" rel="noopener">这篇文章</a>。</p>
-<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><blockquote>
-<p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
-</blockquote>
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Title</span>: ThreeEyeTest </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: 好,你来了</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>`s blog: https://leishen6.github.io/</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreeEyeTest</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">    	</span><br><span class="line">    	<span class="comment">// 三目运算符的简单使用</span></span><br><span class="line">    	String simple = i==<span class="number">10</span>?<span class="string">"true"</span>:<span class="string">"false"</span>;</span><br><span class="line">    	System.out.println(simple);</span><br><span class="line">    	</span><br><span class="line">    	<span class="comment">// 三木运算符的复杂使用</span></span><br><span class="line">    	String complex = i==<span class="number">1</span>?<span class="string">"a1"</span>:(i==<span class="number">2</span>?<span class="string">"a2"</span>:(i==<span class="number">3</span>?<span class="string">"a3"</span>:(i==<span class="number">10</span>?<span class="string">"a4"</span>:<span class="string">"a5"</span>)));</span><br><span class="line">    	</span><br><span class="line">    	System.out.println(complex);</span><br><span class="line">   </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>end</strong>—————————————————–</p>
   
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
@@ -326,7 +284,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/02/12/Dubbo_Zookeeper _vs_SpringCloud/" target="_blank" title="Dubbo+Zookeeper vs Spring Cloud 之间的比较">https://leishen6.github.io/2020/02/12/Dubbo_Zookeeper _vs_SpringCloud/</a>
+          <a href="/2020/03/06/three_eys_complexUse/" target="_blank" title="Java中三目运算符的复杂使用方法">https://leishen6.github.io/2020/03/06/three_eys_complexUse/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -349,13 +307,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F/">集群分布式</a>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Dubbo/">Dubbo</a><a href="/tags/Zookeeper/">Zookeeper</a><a href="/tags/Spring-Cloud/">Spring Cloud</a>
+  <span></span> <a href="/tags/三目运算符/">三目运算符</a>
   </div>
 
 </div>
@@ -364,7 +322,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/02/12/Dubbo_Zookeeper%20_vs_SpringCloud/" data-title="Dubbo+Zookeeper vs Spring Cloud 之间的比较 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/03/06/three_eys_complexUse/" data-title="Java中三目运算符的复杂使用方法 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -379,19 +337,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2020/02/12/interview_Implement_HashMap/" title="面试手写HashMap，手撕HashMap">
-  <strong>上一篇：</strong><br/>
-  <span>
-  面试手写HashMap，手撕HashMap</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2020/02/09/Java_imp_chinease_monery/"  title="Java实现 “ 将数字金额转为大写中文金额 ”">
+<a href="/2020/02/29/Java_run_operator/"  title="Java中的位运算符">
  <strong>下一篇：</strong><br/> 
- <span>Java实现 “ 将数字金额转为大写中文金额 ”
+ <span>Java中的位运算符
 </span>
 </a>
 </div>
@@ -434,7 +384,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-Zookeeper-vs-Spring-Cloud："><span class="toc-number">2.</span> <span class="toc-text">Dubbo+Zookeeper   vs   Spring Cloud：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">2.</span> <span class="toc-text">代码：</span></a></li></ol>
  
   </div>
 
