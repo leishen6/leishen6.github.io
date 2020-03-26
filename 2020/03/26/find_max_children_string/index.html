@@ -4,24 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>柔性事务与传统事务 | 木子雷的博客</title>
+    <title>使用滑动窗口算法查找字符串中不包含重复字符的最长子串 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="学习什么是柔性事务，以及与传统事务（刚性事务）的区别！">
+    <meta name="description" content="使用滑动窗口算法查找字符串中不包含重复字符的最长子串！">
 <meta property="og:type" content="article">
-<meta property="og:title" content="柔性事务与传统事务">
-<meta property="og:url" content="https://leishen6.github.io/2020/02/25/flexible_transaction/index.html">
+<meta property="og:title" content="使用滑动窗口算法查找字符串中不包含重复字符的最长子串">
+<meta property="og:url" content="https://leishen6.github.io/2020/03/26/find_max_children_string/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="学习什么是柔性事务，以及与传统事务（刚性事务）的区别！">
+<meta property="og:description" content="使用滑动窗口算法查找字符串中不包含重复字符的最长子串！">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-25T05:21:47.048Z">
-<meta property="article:modified_time" content="2020-02-27T05:41:49.525Z">
+<meta property="article:published_time" content="2020-03-26T10:28:08.063Z">
+<meta property="article:modified_time" content="2020-03-26T10:30:50.818Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="数据库事务">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="生活">
 <meta name="twitter:card" content="summary">
 
     
@@ -209,7 +211,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="https://www.jianshu.com/p/ab1a1c6b08a1" target="_blank" title="柔性事务与传统事务">柔性事务与传统事务</a>
+      <a href="/2020/03/26/find_max_children_string/" title="使用滑动窗口算法查找字符串中不包含重复字符的最长子串" itemprop="url">使用滑动窗口算法查找字符串中不包含重复字符的最长子串</a>
   </h1>
   <p class="article-author">By
        
@@ -218,9 +220,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-25T05:21:47.048Z" itemprop="datePublished">
+		<time datetime="2020-03-26T10:28:08.063Z" itemprop="datePublished">
 
-			发表于 2020-02-25 13:21:47
+			发表于 2020-03-26 18:28:08
 		
 		</time>
 		
@@ -236,9 +238,9 @@
 		 
 		 
 			
+			   <img src="/img/yuan.png" title="原创"/> 
 			
 			
-			   <img src="/img/zhuan.png" title="转载"/> 
 			
 			
 			
@@ -257,38 +259,40 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码奉上："><span class="toc-number">2.</span> <span class="toc-text">代码奉上：</span></a></li></ol>
 		
 		</div>
 		
-		  
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>使用滑动窗口算法查找字符串中不包含重复字符的最长子串。</p>
+</blockquote>
+<h2 id="代码奉上："><a href="#代码奉上：" class="headerlink" title="代码奉上："></a>代码奉上：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 初始化一个测试用的字符串</span></span><br><span class="line">		String str = <span class="string">"asdfgrsefkkclgtdxdwee"</span>;</span><br><span class="line"> </span><br><span class="line">		StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">		HashMap&lt;Integer, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"> </span><br><span class="line">		<span class="keyword">int</span> n = str.length();</span><br><span class="line">		Set&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		<span class="keyword">int</span> max = <span class="number">0</span>, i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> (i &lt; n &amp;&amp; j &lt; n) &#123;</span><br><span class="line">			<span class="keyword">if</span> (!set.contains(str.charAt(j))) &#123;</span><br><span class="line">				<span class="keyword">char</span> ss = str.charAt(j++);</span><br><span class="line">				set.add(ss);</span><br><span class="line">				sb.append(ss);</span><br><span class="line">				max = max &gt; j - i ? max : j - i;</span><br><span class="line"> </span><br><span class="line">				<span class="keyword">if</span> (j == n) &#123;</span><br><span class="line">					map.put(sb.length(), sb.toString());</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				map.put(sb.length(), sb.toString());</span><br><span class="line">				set.remove(str.charAt(i++));</span><br><span class="line">				sb.delete(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"最大子串的长度："</span> + max);</span><br><span class="line">		System.out.println(<span class="string">"最大子串："</span> + map.get(max));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
         
 		
 		   <!-- 如果文章是原创，则加上文章版权说明 -->
 		   
-		   
-		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
-		   
 		      
 
-<div class="zhuan">
+<div class="yuan">
         <ul class="post-copyright">
           <li class="post-copyright-author">
           <strong>作者:  </strong>木子雷</a>
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/02/25/flexible_transaction/" target="_blank" title="柔性事务与传统事务">https://leishen6.github.io/2020/02/25/flexible_transaction/</a>
+          <a href="/2020/03/26/find_max_children_string/" target="_blank" title="使用滑动窗口算法查找字符串中不包含重复字符的最长子串">https://leishen6.github.io/2020/03/26/find_max_children_string/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
-            本文为转载文章，如您想转载此文章，请联系 <a rel="license" href="https://www.jianshu.com/p/ab1a1c6b08a1" target="_blank" title="https://www.jianshu.com/p/ab1a1c6b08a1">原作者！</a>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
           </li>
         </ul>
       <div>
-
 
 
 
@@ -296,7 +300,7 @@
 
 <!--
 <style>
- .zhuan:hover {
+ .yuan:hover {
 			-webkit-transform: translateY(-6px);
 			-ms-transform: translateY(-6px);
 			transform: translateY(-6px);
@@ -308,7 +312,13 @@
   
 </style>
 -->
+
+
+
 	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
 		   
         
 		
@@ -317,14 +327,9 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">关系数据库</a>
+  <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%97%E6%B3%95/">数据结构+算法</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/数据库事务/">数据库事务</a>
-  </div>
 
 </div>
 
@@ -332,7 +337,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/02/25/flexible_transaction/" data-title="柔性事务与传统事务 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/03/26/find_max_children_string/" data-title="使用滑动窗口算法查找字符串中不包含重复字符的最长子串 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -347,19 +352,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2020/02/25/power_etc/" title="高并发核心技术-幂等实现方案">
-  <strong>上一篇：</strong><br/>
-  <span>
-  高并发核心技术-幂等实现方案</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2020/02/24/DB_Sharding_Strategy/"  title="数据库分库分表策略，如何分库，如何分表？">
+<a href="/2020/03/20/Java_impl_LRU/"  title="Java实现LRU缓存算法">
  <strong>下一篇：</strong><br/> 
- <span>数据库分库分表策略，如何分库，如何分表？
+ <span>Java实现LRU缓存算法
 </span>
 </a>
 </div>
@@ -402,7 +399,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码奉上："><span class="toc-number">2.</span> <span class="toc-text">代码奉上：</span></a></li></ol>
  
   </div>
 
