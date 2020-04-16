@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-03-26T10:30:50.818Z</updated>
+  <updated>2020-04-16T01:14:20.809Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序</title>
+    <link href="https://leishen6.github.io/2020/04/16/written_test_topic_static_construction_run_squence/"/>
+    <id>https://leishen6.github.io/2020/04/16/written_test_topic_static_construction_run_squence/</id>
+    <published>2020-04-16T01:11:24.697Z</published>
+    <updated>2020-04-16T01:14:20.809Z</updated>
+    
+    <summary type="html">
+    
+      经典面试题（一）、&lt;span style=&quot;color:red&quot;&gt;静态代码块、静态属性、构造方法的执行顺序！&lt;/span&gt;
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://leishen6.github.io/categories/Java/"/>
+    
+    
+      <category term="面试题" scheme="https://leishen6.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+  </entry>
   
   <entry>
     <title>使用滑动窗口算法查找字符串中不包含重复字符的最长子串</title>
