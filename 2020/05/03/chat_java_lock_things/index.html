@@ -4,25 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>java实现使用 _DESede_ 对称加密的 加解密工具类 | 木子雷的博客</title>
+    <title>聊聊Java中的锁，这也是面试时不可避免的 &#34; 锁 &#34; 事！ | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="Java实现 &quot;DESede&quot; 对称加密">
+    <meta name="description" content="聊聊Java中的锁，这也是面试时不可避免的 &quot; 锁 &quot; 事！；">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java实现使用 _DESede_ 对称加密的 加解密工具类">
-<meta property="og:url" content="https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/index.html">
+<meta property="og:title" content="聊聊Java中的锁，这也是面试时不可避免的 &quot; 锁 &quot; 事！">
+<meta property="og:url" content="https://leishen6.github.io/2020/05/03/chat_java_lock_things/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="Java实现 &quot;DESede&quot; 对称加密">
+<meta property="og:description" content="聊聊Java中的锁，这也是面试时不可避免的 &quot; 锁 &quot; 事！；">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-18T11:35:46.608Z">
-<meta property="article:modified_time" content="2020-02-21T10:50:35.494Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUwMzE2MjEwNS5wbmc?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-05-03T09:49:23.651Z">
+<meta property="article:modified_time" content="2020-05-03T09:56:24.463Z">
 <meta property="article:author" content="木子雷">
-<meta property="article:tag" content="对称加密">
+<meta property="article:tag" content="Java锁">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUwMzE2MjEwNS5wbmc?x-oss-process=image/format,png">
 
     
     <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
@@ -209,7 +211,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/02/18/java_imp_DESede_ util/" title="java实现使用 _DESede_ 对称加密的 加解密工具类" itemprop="url">java实现使用 _DESede_ 对称加密的 加解密工具类</a>
+      <a href="/2020/05/03/chat_java_lock_things/" title="聊聊Java中的锁，这也是面试时不可避免的 &#34; 锁 &#34; 事！" itemprop="url">聊聊Java中的锁，这也是面试时不可避免的 &#34; 锁 &#34; 事！</a>
   </h1>
   <p class="article-author">By
        
@@ -218,9 +220,9 @@
 	  
 	  <p class="article-time">
 		
-		<time datetime="2020-02-18T11:35:46.608Z" itemprop="datePublished">
+		<time datetime="2020-05-03T09:49:23.651Z" itemprop="datePublished">
 
-			发表于 2020-02-18 19:35:46
+			发表于 2020-05-03 17:49:23
 		
 		</time>
 		
@@ -242,6 +244,8 @@
 			
 			
 			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
 		
 		
 		
@@ -257,19 +261,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前提："><span class="toc-number">2.</span> <span class="toc-text">前提：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">3.</span> <span class="toc-text">代码：</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锁分类"><span class="toc-number">2.</span> <span class="toc-text">锁分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料："><span class="toc-number">3.</span> <span class="toc-text">参考资料：</span></a></li></ol>
 		
 		</div>
 		
 		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
-<p>Java实现 “DESede” 对称加密；</p>
+<p>Java提供了种类丰富的锁，每种锁因其特性的不同，在适当的场景下能够展现出非常高的效率。</p>
 </blockquote>
-<h2 id="前提："><a href="#前提：" class="headerlink" title="前提："></a>前提：</h2><blockquote>
-<p>在代码运行前，需要提前将一个依赖导入到项目中 pom.xml 中，使用这个依赖中的base64进行编解码；</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- base64编码使用 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;commons-codec&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.12&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.SecretKeySpec;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.codec.binary.Base64;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DESedeUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 密钥算法</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_ALGORITHM = <span class="string">"DESede"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 加密/解密算法 / 工作模式 / 填充方式</span></span><br><span class="line"><span class="comment">	 * Java 6支持PKCS5Padding填充方式</span></span><br><span class="line"><span class="comment">	 * Bouncy Castle支持PKCS7Padding填充方式</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CIPHER_ALGORITHM = <span class="string">"DESede/ECB/PKCS5Padding"</span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: 生成密钥, 返回168位的密钥</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateKey</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//实例化密钥生成器</span></span><br><span class="line">		KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);</span><br><span class="line">		<span class="comment">//DESede 要求密钥长度为 112位或168位</span></span><br><span class="line">		kg.init(<span class="number">168</span>);</span><br><span class="line">		<span class="comment">//生成密钥</span></span><br><span class="line">		SecretKey secretKey = kg.generateKey();</span><br><span class="line">		<span class="comment">//获得密钥的字符串形式</span></span><br><span class="line">		<span class="keyword">return</span> Base64.encodeBase64String(secretKey.getEncoded());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@Description</span>: DES进行加密</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source 待加密的原字符串</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> key  加密时使用的 密钥</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span>   返回经过base64编码的字符串</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encrypt</span><span class="params">(String source, String key)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] sourceBytes = source.getBytes(<span class="string">"UTF-8"</span>);</span><br><span class="line">    	<span class="keyword">byte</span>[] keyBytes = Base64.decodeBase64(key);</span><br><span class="line">    	Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);</span><br><span class="line">    	cipher.init(Cipher.ENCRYPT_MODE,<span class="keyword">new</span> SecretKeySpec(keyBytes, KEY_ALGORITHM));</span><br><span class="line">    	<span class="keyword">byte</span>[] decrypted = cipher.doFinal(sourceBytes);</span><br><span class="line">    	<span class="keyword">return</span> Base64.encodeBase64String(decrypted);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>:  DES解密</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> encryptStr  DES加密后的再经过base64编码的密文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key  加密使用的密钥</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>  返回 utf-8 编码的明文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decrypt</span><span class="params">(String encryptStr, String key)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    	<span class="keyword">byte</span>[] sourceBytes = Base64.decodeBase64(encryptStr);</span><br><span class="line">		<span class="keyword">byte</span>[] keyBytes = Base64.decodeBase64(key);</span><br><span class="line">    	Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);</span><br><span class="line">    	cipher.init(Cipher.DECRYPT_MODE,<span class="keyword">new</span> SecretKeySpec(keyBytes, KEY_ALGORITHM));</span><br><span class="line">    	<span class="keyword">byte</span>[] decoded = cipher.doFinal(sourceBytes);</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> String(decoded, <span class="string">"UTF-8"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">try</span> &#123;</span><br><span class="line">    		<span class="comment">// 生成秘钥</span></span><br><span class="line">        	String key = generateKey();</span><br><span class="line">        	System.out.println(<span class="string">"秘钥："</span>+key);</span><br><span class="line">        	</span><br><span class="line">        	<span class="comment">// 加密</span></span><br><span class="line">        	String encryptStr = encrypt(<span class="string">"hello"</span>, key);</span><br><span class="line">        	System.out.println(<span class="string">"密文："</span>+ encryptStr);</span><br><span class="line">        	<span class="comment">// 解密</span></span><br><span class="line">        	String resource = decrypt(encryptStr, key);</span><br><span class="line">        	System.out.println(<span class="string">"明文："</span>+ resource);</span><br><span class="line">        	</span><br><span class="line">        	System.out.println(<span class="string">"校验："</span>+ <span class="string">"hello"</span>.equals(resource));</span><br><span class="line">        	</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="锁分类"><a href="#锁分类" class="headerlink" title="锁分类"></a>锁分类</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUwMzE2MjEwNS5wbmc?x-oss-process=image/format,png" alt=""></p>
+<table><tbody><tr><td bgcolor="#FFA500"><font size="5" color="#fffff">这些只是简单的概念，具体可以根据源码学习！</font></td></tr></tbody></table>
 
+<br>
+
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><p>1、<a href="https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651749434&idx=3&sn=5ffa63ad47fe166f2f1a9f604ed10091&chksm=bd12a5778a652c61509d9e718ab086ff27ad8768586ea9b38c3dcf9e017a8e49bcae3df9bcc8&scene=38#wechat_redirect" target="_blank" rel="noopener"> 美团技术团队 ：【基本功】不可不说的Java“锁”事 </a></p>
   
 	 </div>
 	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
@@ -286,7 +290,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/02/18/java_imp_DESede_ util/" target="_blank" title="java实现使用 _DESede_ 对称加密的 加解密工具类">https://leishen6.github.io/2020/02/18/java_imp_DESede_ util/</a>
+          <a href="/2020/05/03/chat_java_lock_things/" target="_blank" title="聊聊Java中的锁，这也是面试时不可避免的 &#34; 锁 &#34; 事！">https://leishen6.github.io/2020/05/03/chat_java_lock_things/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -329,13 +333,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">加密算法</a>
+  <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/对称加密/">对称加密</a>
+  <span></span> <a href="/tags/Java锁/">Java锁</a>
   </div>
 
 </div>
@@ -344,7 +348,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/02/18/java_imp_DESede_%20util/" data-title="java实现使用 _DESede_ 对称加密的 加解密工具类 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/05/03/chat_java_lock_things/" data-title="聊聊Java中的锁，这也是面试时不可避免的 &#34; 锁 &#34; 事！ | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -359,19 +363,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2020/02/21/redis_learn_mind_map/" title="全网最全redis学习脑图">
-  <strong>上一篇：</strong><br/>
-  <span>
-  全网最全redis学习脑图</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2020/02/15/imp_histogram_byAmcharts/"  title="使用 amcharts.js 实现立体柱状图">
+<a href="/2020/04/16/written_test_topic_static_construction_run_squence/"  title="经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序">
  <strong>下一篇：</strong><br/> 
- <span>使用 amcharts.js 实现立体柱状图
+ <span>经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序
 </span>
 </a>
 </div>
@@ -414,7 +410,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前提："><span class="toc-number">2.</span> <span class="toc-text">前提：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">3.</span> <span class="toc-text">代码：</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锁分类"><span class="toc-number">2.</span> <span class="toc-text">锁分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料："><span class="toc-number">3.</span> <span class="toc-text">参考资料：</span></a></li></ol>
  
   </div>
 

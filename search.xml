@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>聊聊Java中的锁，这也是面试时不可避免的 &quot; 锁 &quot; 事！</title>
+      <link href="/2020/05/03/chat_java_lock_things/"/>
+      <url>/2020/05/03/chat_java_lock_things/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote><p>Java提供了种类丰富的锁，每种锁因其特性的不同，在适当的场景下能够展现出非常高的效率。</p></blockquote><h2 id="锁分类"><a href="#锁分类" class="headerlink" title="锁分类"></a>锁分类</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUwMzE2MjEwNS5wbmc?x-oss-process=image/format,png" alt=""></p><table><tbody><tr><td bgcolor="#FFA500"><font size="5" color="#fffff">这些只是简单的概念，具体可以根据源码学习！</font></td></tr></tbody></table><br><h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><p>1、<a href="https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&mid=2651749434&idx=3&sn=5ffa63ad47fe166f2f1a9f604ed10091&chksm=bd12a5778a652c61509d9e718ab086ff27ad8768586ea9b38c3dcf9e017a8e49bcae3df9bcc8&scene=38#wechat_redirect" target="_blank" rel="noopener"> 美团技术团队 ：【基本功】不可不说的Java“锁”事 </a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 并发编程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java锁 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序</title>
       <link href="/2020/04/16/written_test_topic_static_construction_run_squence/"/>
       <url>/2020/04/16/written_test_topic_static_construction_run_squence/</url>
