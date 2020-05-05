@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-05-03T09:56:24.463Z</updated>
+  <updated>2020-05-05T07:29:12.567Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Java实现简单的监控系统</title>
+    <link href="https://leishen6.github.io/2020/05/05/Java_impl_monitor_system/"/>
+    <id>https://leishen6.github.io/2020/05/05/Java_impl_monitor_system/</id>
+    <published>2020-05-05T07:23:26.732Z</published>
+    <updated>2020-05-05T07:29:12.567Z</updated>
+    
+    <summary type="html">
+    
+      使用Java实现简单的&lt;span style=&quot;color:red&quot;&gt;监控系统&lt;/span&gt;
+    
+    </summary>
+    
+    
+      <category term="工作所遇" scheme="https://leishen6.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%89%80%E9%81%87/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>聊聊Java中的锁，这也是面试时不可避免的 &quot; 锁 &quot; 事！</title>
@@ -435,34 +454,6 @@
     
     
       <category term="单例模式" scheme="https://leishen6.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>shell脚本查询服务器的cpu、内存、磁盘的使用率</title>
-    <link href="https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/"/>
-    <id>https://leishen6.github.io/2020/02/07/search_cpu_memery_disk_byShell/</id>
-    <published>2020-02-07T13:00:00.000Z</published>
-    <updated>2020-02-21T10:51:05.390Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Linux" scheme="https://leishen6.github.io/categories/Linux/"/>
-    
-    
-      <category term="Shell" scheme="https://leishen6.github.io/tags/Shell/"/>
     
   </entry>
   
