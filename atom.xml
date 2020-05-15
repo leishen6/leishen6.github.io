@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-05-05T07:29:12.567Z</updated>
+  <updated>2020-05-15T07:47:07.006Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>模拟实战排查堆内存溢出（java.lang.OutOfMemoryError Java heap space）问题</title>
+    <link href="https://leishen6.github.io/2020/05/15/simulation_heap_OutOfMemory_screening/"/>
+    <id>https://leishen6.github.io/2020/05/15/simulation_heap_OutOfMemory_screening/</id>
+    <published>2020-05-15T07:46:00.375Z</published>
+    <updated>2020-05-15T07:47:07.006Z</updated>
+    
+    <summary type="html">
+    
+      模拟实战排查堆内存溢出（java.lang.OutOfMemoryError Java heap space）问题
+    
+    </summary>
+    
+    
+      <category term="实战问题排查" scheme="https://leishen6.github.io/categories/%E5%AE%9E%E6%88%98%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>使用Java实现简单的监控系统</title>
@@ -426,34 +445,6 @@
     
     
       <category term="工具类" scheme="https://leishen6.github.io/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>懒汉式单例模式为什么要进行二次判空</title>
-    <link href="https://leishen6.github.io/2020/02/08/singleton_twoIfNull_reason/"/>
-    <id>https://leishen6.github.io/2020/02/08/singleton_twoIfNull_reason/</id>
-    <published>2020-02-08T03:44:00.000Z</published>
-    <updated>2020-02-21T10:50:42.340Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 &lt;span
-        
-      
-    
-    </summary>
-    
-    
-      <category term="设计模式" scheme="https://leishen6.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="单例模式" scheme="https://leishen6.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
