@@ -208,6 +208,61 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
+    <a href="/2020/02/08/singleton_twoIfNull_reason/" title="懒汉式单例模式为什么要进行二次判空" itemprop="url">
+  
+    <h1 itemprop="name">懒汉式单例模式为什么要进行二次判空</h1>
+    
+     
+           <p itemprop="description" >前言：
+在本文中会使用代码进行展示懒汉单例模式为什么需要进行二次判空；代码中使用到 CountDownLatch 倒计时器，不清楚CountDownLatch 使用的请参考此文“倒计时器：CountDownLatch” 。
+
+代码展示：1、懒汉式单例模式类123456789101</p>
+        
+    
+	
+	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
+    <time datetime="2020-02-08T03:44:00.000Z" itemprop="datePublished">
+	    
+		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
+	    
+		
+		
+		
+	    发表于：2020-02-08 11:44:00
+		
+		
+		   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> &nbsp;&nbsp;
+	    
+
+	</time>
+
+	
+  </a>
+</section>
+
+
+<!-- 博客首页文章列表鼠标悬浮时阴影展示，暂时先注释掉，感觉弄得太花哨了，朴素点挺好的。 -->
+<!--
+<style>
+ .post:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+ -->
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
     <a href="/2020/04/16/written_test_topic_static_construction_run_squence/" title="经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序" itemprop="url">
   
     <h1 itemprop="name">经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序</h1>
@@ -655,56 +710,6 @@
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2020/02/15/imp_histogram_byAmcharts/" title="使用 amcharts.js 实现立体柱状图" itemprop="url">
-  
-    <h1 itemprop="name">使用 amcharts.js 实现立体柱状图</h1>
-    
-     
-      <p itemprop="description" >本文章将使用<span style="color:red;"> <B>amcharts.js</B> </span>实现立体柱状图。</p>
-      
-    
-	
-	<!-- 博客首页列表中每个文章的左下角的时间展示 -->
-    <time datetime="2020-02-15T07:19:31.308Z" itemprop="datePublished">
-	    
-		   <img src="/img/yuan.png" title="原创"/> &nbsp;&nbsp;
-	    
-		
-		
-		
-	    发表于：2020-02-15 15:19:31
-		
-		
-
-	</time>
-
-	
-  </a>
-</section>
-
-
-<!-- 博客首页文章列表鼠标悬浮时阴影展示，暂时先注释掉，感觉弄得太花哨了，朴素点挺好的。 -->
-<!--
-<style>
- .post:hover {
-			-webkit-transform: translateY(-6px);
-			-ms-transform: translateY(-6px);
-			transform: translateY(-6px);
-			-webkit-box-shadow: 0 0 12px #999;
-			box-shadow: 0 0 12px #999;
-			-webkit-transition: all .10s ease-out;
-			transition: all .10s ease-out;
-		}
-  
-</style>
- -->
-
-
-
-
 
   <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
@@ -860,7 +865,7 @@
 		  
 		
 		  
-			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>3</sup></a></li>
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>4</sup></a></li>
 		  
 		
 		  
@@ -889,6 +894,14 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>1</sup></a></li>
 			
 		
@@ -905,23 +918,7 @@
 			
 		
 			
-				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
@@ -929,7 +926,15 @@
 			
 		
 			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
@@ -937,15 +942,7 @@
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
 			
 		
 			
@@ -953,7 +950,15 @@
 			
 		
 			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
 			
 		
 			
@@ -961,7 +966,7 @@
 			
 		
 			
-				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
 			
 		
 			
