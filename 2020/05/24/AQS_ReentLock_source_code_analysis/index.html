@@ -4,19 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>AQS之ReentLock源码解析 | 木子雷的博客</title>
+    <title>AQS之ReentrantLock源码解析 | 木子雷的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="木子雷">
     
 
     
-    <meta name="description" content="通过解析ReentLock源码来学习AQS的原理">
+    <meta name="description" content="通过解析ReentrantLock源码来学习AQS的独占模式原理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AQS之ReentLock源码解析">
+<meta property="og:title" content="AQS之ReentrantLock源码解析">
 <meta property="og:url" content="https://leishen6.github.io/2020/05/24/AQS_ReentLock_source_code_analysis/index.html">
 <meta property="og:site_name" content="木子雷的博客">
-<meta property="og:description" content="通过解析ReentLock源码来学习AQS的原理">
+<meta property="og:description" content="通过解析ReentrantLock源码来学习AQS的独占模式原理">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085104.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085104.gif">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085118.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085639.gif">
 <meta property="article:published_time" content="2020-05-24T10:50:33.964Z">
-<meta property="article:modified_time" content="2020-05-24T11:05:45.425Z">
+<meta property="article:modified_time" content="2020-05-31T07:12:33.247Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="AQS队列同步器">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/05/24/AQS_ReentLock_source_code_analysis/" title="AQS之ReentLock源码解析" itemprop="url">AQS之ReentLock源码解析</a>
+      <a href="/2020/05/24/AQS_ReentLock_source_code_analysis/" title="AQS之ReentrantLock源码解析" itemprop="url">AQS之ReentrantLock源码解析</a>
   </h1>
   <p class="article-author">By
        
@@ -411,7 +411,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>文章连结:  </strong>
-          <a href="/2020/05/24/AQS_ReentLock_source_code_analysis/" target="_blank" title="AQS之ReentLock源码解析">https://leishen6.github.io/2020/05/24/AQS_ReentLock_source_code_analysis/</a>
+          <a href="/2020/05/24/AQS_ReentLock_source_code_analysis/" target="_blank" title="AQS之ReentrantLock源码解析">https://leishen6.github.io/2020/05/24/AQS_ReentLock_source_code_analysis/</a>
           </li>
           <li class="post-copyright-license">
             <strong>版权声明:   </strong>
@@ -469,7 +469,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://leishen6.github.io/2020/05/24/AQS_ReentLock_source_code_analysis/" data-title="AQS之ReentLock源码解析 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  <div data-url="https://leishen6.github.io/2020/05/24/AQS_ReentLock_source_code_analysis/" data-title="AQS之ReentrantLock源码解析 | 木子雷的博客" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -686,7 +686,7 @@
 		  
 		
 		  
-			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>3</sup></a></li>
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
 		  
 		
 		  
@@ -719,6 +719,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
 			
 		
@@ -727,7 +731,19 @@
 			
 		
 			
-				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>1</sup></a></li>
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
 			
 		
 			
@@ -743,27 +759,7 @@
 			
 		
 			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
@@ -771,7 +767,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
@@ -779,11 +775,7 @@
 			
 		
 			
-				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -795,7 +787,15 @@
 			
 		
 			
+				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
 			
 		
 		</ul>
