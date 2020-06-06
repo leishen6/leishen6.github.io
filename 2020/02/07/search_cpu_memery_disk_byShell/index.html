@@ -19,7 +19,7 @@
 <meta property="og:description" content="前言： 使用shell脚本查询服务器的cpu、内存、磁盘的使用率；如果需要对此脚本进行理解的话，请首先熟悉下linux的基本命令和管道符的知识。  脚本献上：123456789101112#!&#x2F;bin&#x2F;bash#计算cpu使用率, -n number：指定在结束前应该产生的最大迭代次数或帧数,一般迭代次数越大，获取到的cpu使用率越准确; 本脚本中是迭代了5次，&quot;-n5&quot; cpu&#x3D;&#96;top -b">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-07T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-21T10:51:05.390Z">
+<meta property="article:modified_time" content="2020-06-06T05:39:15.306Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="Shell">
 <meta name="twitter:card" content="summary">
@@ -257,7 +257,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提示："><span class="toc-number">4.</span> <span class="toc-text">提示：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
 		
 		</div>
 		
@@ -269,6 +269,9 @@
 <p>/dev/mapper/vg_minghui-lv_root,25%<br>tmpfs,1%<br>/dev/sda1,10%<br>/dev/sr0,100%</p>
 <p>前两行的内容：12% - cpu的使用率， 37% - 内存的使用率；</p>
 <p>后面四行的内容：每个磁盘分区的使用率，磁盘分区名称和其使用率之间用英文逗号隔开。</p>
+<h2 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h2><blockquote>
+<p>在脚本编写好，且运行前，可以先使用命令<font color=red>  bash &nbsp;  -n  &nbsp;  *.sh  </font> 判断下脚本是否存在语法错误，如果存在语法错误的话，再使用命令 <font color=red> bash  &nbsp; -x   &nbsp; *.sh  </font> 一步步执行脚本看下到底哪个地方存在语法错误。</p>
+</blockquote>
 <h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><span style="color:red;">❤</span>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
   
 	 </div>
@@ -414,7 +417,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本献上："><span class="toc-number">2.</span> <span class="toc-text">脚本献上：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行结果："><span class="toc-number">3.</span> <span class="toc-text">运行结果：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提示："><span class="toc-number">4.</span> <span class="toc-text">提示：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
  
   </div>
 
@@ -606,19 +609,11 @@
 			
 		
 			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
@@ -634,15 +629,23 @@
 			
 		
 			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
@@ -654,15 +657,15 @@
 			
 		
 			
+				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
 			
 		
 			
