@@ -1,0 +1,1045 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>SpringBoot结合Sharding-JDBC实现分库分表 | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="SpringBoot结合Sharding-JDBC实现分库分表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot结合Sharding-JDBC实现分库分表">
+<meta property="og:url" content="https://leishen6.github.io/2020/06/20/SpringBoot_shardDB_shardTable/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="SpringBoot结合Sharding-JDBC实现分库分表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620160051.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620144919.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620161834.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620162548.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620171454.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620175720.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620181924.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194412.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194419.png">
+<meta property="article:published_time" content="2020-06-20T11:54:16.115Z">
+<meta property="article:modified_time" content="2020-06-20T11:57:06.176Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="Sharding-JDBC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620160051.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["爱学习的渣渣！","爱美食，更享受做美食的过程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/06/20/SpringBoot_shardDB_shardTable/" title="SpringBoot结合Sharding-JDBC实现分库分表" itemprop="url">SpringBoot结合Sharding-JDBC实现分库分表</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-06-20T11:54:16.115Z" itemprop="datePublished">
+
+			发表于 2020-06-20 19:54:16
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、项目信息描述："><span class="toc-number">1.0.1.</span> <span class="toc-text">1、项目信息描述：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo详解："><span class="toc-number">2.</span> <span class="toc-text">Demo详解：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、工程目录："><span class="toc-number">2.0.1.</span> <span class="toc-text">1、工程目录：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、工程环境："><span class="toc-number">2.0.2.</span> <span class="toc-text">2、工程环境：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、pom-xml"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">2.1、pom.xml :</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、sql-环境："><span class="toc-number">2.0.2.2.</span> <span class="toc-text">2.2、sql 环境：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharding-JDBC-基本知识："><span class="toc-number">3.</span> <span class="toc-text">Sharding-JDBC 基本知识：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、基本概念："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、基本概念：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、兼容性："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、兼容性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、架构图："><span class="toc-number">3.0.3.</span> <span class="toc-text">3、架构图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、数据分片："><span class="toc-number">3.0.4.</span> <span class="toc-text">4、数据分片：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1、垂直分片："><span class="toc-number">3.0.4.1.</span> <span class="toc-text">4.1、垂直分片：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2、水平分片："><span class="toc-number">3.0.4.2.</span> <span class="toc-text">4.2、水平分片：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、内部执行流程："><span class="toc-number">3.0.5.</span> <span class="toc-text">5、内部执行流程：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharding-JDBC-集成过程："><span class="toc-number">4.</span> <span class="toc-text">Sharding-JDBC 集成过程：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、首先看下-Sharding-JDBC-的配置文件："><span class="toc-number">4.0.1.</span> <span class="toc-text">1、首先看下 Sharding-JDBC 的配置文件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、一致性hash算法："><span class="toc-number">4.0.2.</span> <span class="toc-text">2、一致性hash算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、介绍一致性hash算法为什么易于扩容呢？"><span class="toc-number">4.0.2.1.</span> <span class="toc-text">2.1、介绍一致性hash算法为什么易于扩容呢？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、自定义分片算法："><span class="toc-number">4.0.3.</span> <span class="toc-text">3、自定义分片算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1、自定义分库实现："><span class="toc-number">4.0.3.1.</span> <span class="toc-text">3.1、自定义分库实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2、自定义分表算法："><span class="toc-number">4.0.3.2.</span> <span class="toc-text">3.2、自定义分表算法：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>今天来聊下 SpringBoot 集成 <strong>Sharding-JDBC</strong> 实现分库分表；为此写了一个小<strong><em>Demo</em></strong>，这个Demo是基于SpringBoot，并集成了  <strong>Mybatis、Redis、Swagger（生成在线的接口文档 ）、PageHelper（分页工具）</strong> 等，当然绝对也集成了 Sharding-JDBC ；以及设计了 <strong>RestFul</strong> 风格的接口 ，添加了 <strong>单元测试</strong> 。</p>
+<p>下面简单介绍下本文的主线：</p>
+<p>①、首先介绍下Demo的工程目录，并且介绍下使用的基本环境，如：sql、工程的pom.xml等</p>
+<p>②、然后会着重介绍 SpringBoot 集成  Sharding-JDBC 的过程，及 Sharding-JDBC 基本知识 和 注意事项。</p>
+</blockquote>
+<h4 id="1、项目信息描述："><a href="#1、项目信息描述：" class="headerlink" title="1、项目信息描述："></a>1、项目信息描述：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620160051.png" alt=""></p>
+<blockquote>
+<p><font color=red> <strong>完整项目在gitHub，地址：</strong> </font> <a href="https://github.com/leishen6/SpringBoot_shardDB_shardTable" target="_blank" rel="noopener">https://github.com/leishen6/SpringBoot_shardDB_shardTable</a></p>
+<p><strong>如有需要请自己去 giHub 上拉取代码进行查阅，由于本人水品有限，如有问题请留言提出，谢谢！</strong></p>
+</blockquote>
+<h2 id="Demo详解："><a href="#Demo详解：" class="headerlink" title="Demo详解："></a>Demo详解：</h2><h4 id="1、工程目录："><a href="#1、工程目录：" class="headerlink" title="1、工程目录："></a>1、工程目录：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620144919.png" alt=""></p>
+<h4 id="2、工程环境："><a href="#2、工程环境：" class="headerlink" title="2、工程环境："></a>2、工程环境：</h4><h5 id="2-1、pom-xml"><a href="#2-1、pom-xml" class="headerlink" title="2.1、pom.xml :"></a>2.1、pom.xml :</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;2.0.6.RELEASE&lt;/version&gt;</span><br><span class="line">     &lt;relativePath/&gt;</span><br><span class="line"> &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;properties&gt;</span><br><span class="line">     &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">     &lt;java.version&gt;1.7&lt;/java.version&gt;</span><br><span class="line"></span><br><span class="line">     &lt;mybatis-spring-boot&gt;1.2.0&lt;/mybatis-spring-boot&gt;</span><br><span class="line">     &lt;mysql-connector&gt;5.1.39&lt;/mysql-connector&gt;</span><br><span class="line">     &lt;fastjson&gt;1.2.41&lt;/fastjson&gt;</span><br><span class="line"> &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &lt;dependencies&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-boot-starter-redis&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;1.4.7.RELEASE&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">         &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">         &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &lt;!-- Spring Boot Mybatis 依赖 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;2.0.1&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!-- MySQL 连接驱动依赖 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!--druid 连接池--&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;1.1.16&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;$&#123;fastjson&#125;&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!--swagger--&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!-- pagehelper分页工具 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;pagehelper&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;4.1.6&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;4.10&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!-- sharding-jdbc --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;org.apache.shardingsphere&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;sharding-jdbc-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;4.0.0-RC1&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">     &lt;!-- hutool 工具类 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">         &lt;groupId&gt;cn.hutool&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;hutool-setting&lt;/artifactId&gt;</span><br><span class="line">         &lt;version&gt;5.2.4&lt;/version&gt;</span><br><span class="line">     &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>注意：pom.xml 的内容最好不要改动了，因为如果将里面的一些 <strong>依赖版本变动了</strong> ，可能会导致依赖版本兼容性问题出现，最终导致程序运行失败。</p>
+</blockquote>
+<h5 id="2-2、sql-环境："><a href="#2-2、sql-环境：" class="headerlink" title="2.2、sql 环境："></a>2.2、sql 环境：</h5><p>①、数据库使用的 Mysql，Demo程序运行前需要提前创建好数据库，由于使用了分库分表，所以需要创建两个库； 数据库名：<strong>springboot0、springboot1</strong> 。</p>
+<p>②、在 springboot0 数据库中执行下面的sql语句创建表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_role`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_role`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`role_name`</span> <span class="built_in">varchar</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">3</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for t_user0</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user0`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user0`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">43</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for t_user1</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user1`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user1`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">35</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for t_user2</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user2`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user2`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">34</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+
+<p>③、然后在创建的 springboot1 数据库中执行sql语句创建表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user0`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user0`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">36</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for t_user1</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user1`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user1`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">34</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for t_user2</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`t_user2`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user2`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">65</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'id'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">36</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面的基本信息介绍完了，接下来介绍重头戏了，<strong><em>Sharding-JDBC 集成之路</em></strong>。嘿嘿 . . . . . </p>
+</blockquote>
+<h2 id="Sharding-JDBC-基本知识："><a href="#Sharding-JDBC-基本知识：" class="headerlink" title="Sharding-JDBC 基本知识："></a>Sharding-JDBC 基本知识：</h2><blockquote>
+<p>首先将 Sharding-JDBC 的官网贴出来，也可以去官网进行详细了解。<a href="https://shardingsphere.apache.org/document/legacy/3.x/document/cn/overview/" target="_blank" rel="noopener">shardingsphere 之 Sharding-JDBC</a>  </p>
+<p>大家如果没去官网了解过的，也可以通过下面进行了解下哟：</p>
+</blockquote>
+<h4 id="1、基本概念："><a href="#1、基本概念：" class="headerlink" title="1、基本概念："></a>1、基本概念：</h4><p>Sharding-JDBC 定位为轻量级Java框架，在Java的<strong>JDBC层</strong>提供的额外服务，所以说它是一款属于 <strong><em>应用层依赖类中间件</em></strong> 。 它使用客户端直连数据库，以jar包形式提供服务，无需额外部署和依赖，可理解为增强版的JDBC驱动，完全兼容JDBC和各种ORM框架。</p>
+<blockquote>
+<p>应用层依赖类中间件：这类分库分表中间件的特点就是<strong>和应用强耦合</strong>，需要应用显示依赖相应的jar包。</p>
+</blockquote>
+<h4 id="2、兼容性："><a href="#2、兼容性：" class="headerlink" title="2、兼容性："></a>2、兼容性：</h4><ul>
+<li>适用于任何基于Java的ORM框架，如：JPA, Hibernate, Mybatis, Spring JDBC Template或直接使用JDBC。</li>
+<li>基于任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, Druid, HikariCP等。</li>
+<li>支持任意实现JDBC规范的数据库。目前支持MySQL，Oracle，SQLServer和PostgreSQL。</li>
+</ul>
+<h4 id="3、架构图："><a href="#3、架构图：" class="headerlink" title="3、架构图："></a>3、架构图：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620161834.png" alt=""></p>
+<p>​                                                        图片来源：<a href="https://shardingsphere.apache.org/document/legacy/3.x/document/cn/overview/" target="_blank" rel="noopener">sharding-JDBC官网</a></p>
+<h4 id="4、数据分片："><a href="#4、数据分片：" class="headerlink" title="4、数据分片："></a>4、数据分片：</h4><blockquote>
+<p>进行分库分表时，是绕不开 <strong>数据分片</strong> 的知识的。</p>
+<p>数据分片指按照某个维度将存放在单一数据库中的数据分散地存放至多个数据库或表中以达到提升性能瓶颈以及可用性的效果。</p>
+<p>数据分片的拆分方式又分为<strong>垂直分片</strong>和<strong>水平分片（最为常用的方式）</strong>。</p>
+</blockquote>
+<h5 id="4-1、垂直分片："><a href="#4-1、垂直分片：" class="headerlink" title="4.1、垂直分片："></a>4.1、垂直分片：</h5><p>按照业务拆分的方式称为垂直分片，又称为纵向拆分，它的核心理念是专库专用。</p>
+<p>例如：本来一个库由订单表和用户表构成，由于并发量和数据量太大，可以将这原本的一个库进行拆分，拆分成两个库，一个订单库，里面只有一个订单表，一个用户库，里面只有一个用户表，这样使用两个库就能支持更大的并发量，提升数据库的并发瓶颈。</p>
+<p><strong>缺点：</strong></p>
+<p>垂直分片往往需要对架构和设计进行调整。通常来讲，是来不及应对互联网业务需求快速变化的；而且，它也并无法真正的解决单点瓶颈。 垂直拆分可以缓解数据量和访问量带来的问题，但无法根治。</p>
+<h5 id="4-2、水平分片："><a href="#4-2、水平分片：" class="headerlink" title="4.2、水平分片："></a>4.2、水平分片：</h5><p>水平分片又称为横向拆分。 相对于垂直分片，它不再将数据根据业务逻辑分类，而是通过某个字段（或某几个字段），根据某种规则将数据分散至多个库或表中，每个分片仅包含数据的一部分。</p>
+<p>注意：<strong>水平分片从理论上突破了单机数据量处理的瓶颈，并且扩展相对自由，是分库分表的标准解决方案。</strong></p>
+<blockquote>
+<p>例如，本文中实现的分库分表就是使用的 <strong>水平分片</strong> ;  根据用户表中 <strong>name</strong> 用户名字段进行分片；</p>
+<p>在新增用户数据时，首先根据配置的分片策略（分片策略包含分片算法）判断此用户名的数据到底新增到哪个数据库中，以及哪个表中。</p>
+</blockquote>
+<h4 id="5、内部执行流程："><a href="#5、内部执行流程：" class="headerlink" title="5、内部执行流程："></a>5、内部执行流程：</h4><blockquote>
+<p> 核心由 <strong>SQL解析 =&gt; 执行器优化 =&gt; SQL路由 =&gt; SQL改写 =&gt; SQL执行 =&gt; 结果归并</strong> 的流程组成。</p>
+<p>主要介绍下 SQL路由、SQL改写的概念：</p>
+<p>SQL路由：根据解析上下文匹配用户配置的分片策略，并生成最终的路由路径；</p>
+<p>SQL改写：将SQL改写为在<strong>真实数据库</strong>中可以正确执行的语句。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620162548.png" alt=""></p>
+<h2 id="Sharding-JDBC-集成过程："><a href="#Sharding-JDBC-集成过程：" class="headerlink" title="Sharding-JDBC 集成过程："></a>Sharding-JDBC 集成过程：</h2><h4 id="1、首先看下-Sharding-JDBC-的配置文件："><a href="#1、首先看下-Sharding-JDBC-的配置文件：" class="headerlink" title="1、首先看下 Sharding-JDBC 的配置文件："></a>1、首先看下 Sharding-JDBC 的配置文件：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620171454.png" alt=""></p>
+<blockquote>
+<p>下面是Sharding-JDBC 配置文件的内容；</p>
+<p>注意：</p>
+<p>本工程中的分库分表是分库2个，分表3个，分片键是  name 字段，分库分表都是依据name这个分片键，</p>
+<p>分表只有 t_user 表进行分表；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 分库分表 配置: (下面配置的分库数量、虚拟节点数量等主要是为了实现一致性hash算法进行分片)</span><br><span class="line"></span><br><span class="line"># 分库数量</span><br><span class="line">sharding.datasource.count=<span class="number">2</span></span><br><span class="line"></span><br><span class="line"># 分库虚拟节点数量</span><br><span class="line">sharding.datasource.virtual.node.count=<span class="number">360</span></span><br><span class="line"></span><br><span class="line"># 虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的, 所以使用名字的hash值对虚拟节点数取余;</span><br><span class="line"># 得到一个0-359的余数，然后按照余数所属的范围, 如果余数在0-179范围则数据分片访问 springboot0 数据源,</span><br><span class="line"># 如果余数在180-359范围，则数据被分片访问 springboot1 数据源; 下面的分表原理一样。</span><br><span class="line">sharding.datasource.virtual.node.count.rang=<span class="number">0</span>-<span class="number">179</span>,<span class="number">180</span>-<span class="number">359</span></span><br><span class="line"></span><br><span class="line"># 分表数量</span><br><span class="line">sharding.table.count=<span class="number">3</span></span><br><span class="line"></span><br><span class="line"># 分表虚拟节点数量</span><br><span class="line">sharding.table.virtual.node.count=<span class="number">360</span></span><br><span class="line"></span><br><span class="line"># 虚拟节点映射到物理节点范围</span><br><span class="line">sharding.table.virtual.node.count.rang=<span class="number">0</span>-<span class="number">119</span>,<span class="number">120</span>-<span class="number">249</span>,<span class="number">250</span>-<span class="number">359</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 实际数据源名字</span><br><span class="line">spring.shardingsphere.datasource.names=springboot0,springboot1</span><br><span class="line"></span><br><span class="line"># 数据源</span><br><span class="line">spring.shardingsphere.datasource.springboot0.type=com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">spring.shardingsphere.datasource.springboot0.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br><span class="line">spring.shardingsphere.datasource.springboot0.url=jdbc:mysql:<span class="comment">//localhost:3306/springboot0?characterEncoding=utf-8&amp;useSSL=false</span></span><br><span class="line">spring.shardingsphere.datasource.springboot0.username=root</span><br><span class="line">spring.shardingsphere.datasource.springboot0.password=root</span><br><span class="line"></span><br><span class="line">spring.shardingsphere.datasource.springboot1.type=com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">spring.shardingsphere.datasource.springboot1.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br><span class="line">spring.shardingsphere.datasource.springboot1.url=jdbc:mysql:<span class="comment">//localhost:3306/springboot1?characterEncoding=utf-8&amp;useSSL=false</span></span><br><span class="line">spring.shardingsphere.datasource.springboot1.username=root</span><br><span class="line">spring.shardingsphere.datasource.springboot1.password=root</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 分片策略使用的是: 自定义的分片算法</span><br><span class="line">## 实际的数据节点，符合 groovy 语法; 这里的&#123;0..1&#125;指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个;</span><br><span class="line">## 并且拼接在 springboot 后面，就构成了上面配置的实际数据源名称了</span><br><span class="line">spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;&#123;<span class="number">0</span>..<span class="number">1</span>&#125;.t_user$-&gt;&#123;<span class="number">0</span>..<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">## 分片键：name字段</span><br><span class="line">spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.shardingColumn=name</span><br><span class="line">## 自定义 分库 算法</span><br><span class="line">spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseDBShardingAlgorithm</span><br><span class="line"></span><br><span class="line">## 分片键：name字段</span><br><span class="line">spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.shardingColumn=name</span><br><span class="line">## 自定义 分表 算法</span><br><span class="line">spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseTableShardingAlgorithm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 不进行分库分表的数据源指定，使用设置的默认数据源springboot0 ;例如，本文中的 t_role表就不进行</span><br><span class="line"># 分库分表，那关于 t_role 表的增删改差都走默认数据源 springboot0</span><br><span class="line">spring.shardingsphere.sharding.<span class="keyword">default</span>-data-source-name=springboot0</span><br><span class="line"># 打印执行的数据库以及语句</span><br><span class="line">spring.shardingsphere.props.sql.show=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果需要更改分库数量，或者分表数量的话，那么也需要对配置文件进行更改；例如：将分库数量改为3个；</p>
+<p>下面这些配置文件内容需要更改：</p>
+<p>原配置内容：</p>
+<p>sharding.datasource.count=2</p>
+<p>sharding.datasource.virtual.node.count.rang=0-179,180-359</p>
+<p>spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;{0..1}.t_user$-&gt;{0..2}</p>
+<p>改为：</p>
+<p>sharding.datasource.count=3</p>
+<p>sharding.datasource.virtual.node.count.rang=0-119,120-249,250-359</p>
+<p>spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;{0..2}.t_user$-&gt;{0..2}</p>
+</blockquote>
+<h4 id="2、一致性hash算法："><a href="#2、一致性hash算法：" class="headerlink" title="2、一致性hash算法："></a>2、一致性hash算法：</h4><p>一致性hash算法学习可参考：<a href="http://www.zsythink.net/archives/1182" target="_blank" rel="noopener">白话解析：一致性哈希算法 consistent hashing</a></p>
+<blockquote>
+<p>首先解释下，sharing-JDBC配置文件中使用的虚拟节点就是为了实现一致性hash算法；</p>
+<p>为什么使用一致性hash算法呢？</p>
+<p>因为，使用一致性hash算法是为了满足后期可能出现的数据库扩容问题；</p>
+<p>在这里来简单介绍下，常用的分片算法（方式）：hash方式，<strong>一致性hash</strong>（consistent hash），按照数据范围（range based）。</p>
+</blockquote>
+<p>上面三种分片方式学习可参考：<a href="https://www.cnblogs.com/xybaby/p/7076731.html#_label_0" target="_blank" rel="noopener">带着问题学习分布式系统之数据分片</a></p>
+<h5 id="2-1、介绍一致性hash算法为什么易于扩容呢？"><a href="#2-1、介绍一致性hash算法为什么易于扩容呢？" class="headerlink" title="2.1、介绍一致性hash算法为什么易于扩容呢？"></a>2.1、介绍一致性hash算法为什么易于扩容呢？</h5><p>结合下文本，本文是根据name字段进行分片的，使用name用户名的hash值对虚拟节点数360<strong>取余</strong> ，得到一个 </p>
+<p>0-359 的余数，然后根据余数匹配配置的虚拟节点范围进行映射实际物理节点，来得到实际的数据源节点等。</p>
+<p>如图：（分库 2个，实际数据源 springboot0、springboot1，虚拟节点数360，虚拟节点范围 0-179，180-359）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620175720.png" alt=""></p>
+<p><strong>进行扩容：</strong>（增加一个数据库）</p>
+<blockquote>
+<p>分库 3个，实际数据源 springboot0、springboot1、springboot2，虚拟节点数360不变，虚拟节点范围</p>
+<p>0-119,120-249,250-359</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620181924.png" alt=""></p>
+<p>如图，使用一致性hash算法，在扩容时，不会导致整体数据的不可用，只会损失一部分数据；原本分2个库时，应处于springboot1数据源中的数据，在分库3时，进行查询此数据时，会被分片到springboot2中查询，此时会出现查询不到的情况；但是，这也只是损失了一小部分数据，不会导致整体数据出现问题。</p>
+<h4 id="3、自定义分片算法："><a href="#3、自定义分片算法：" class="headerlink" title="3、自定义分片算法："></a>3、自定义分片算法：</h4><h5 id="3-1、自定义分库实现："><a href="#3-1、自定义分库实现：" class="headerlink" title="3.1、自定义分库实现："></a>3.1、自定义分库实现：</h5><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194412.png" alt=""></p>
+<h5 id="3-2、自定义分表算法："><a href="#3-2、自定义分表算法：" class="headerlink" title="3.2、自定义分表算法："></a>3.2、自定义分表算法：</h5><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194419.png" alt=""></p>
+<blockquote>
+<p>end，本文结束 . . . . . . . . . . . . . . . . </p>
+</blockquote>
+<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><font color=red>❤</font>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><blockquote>
+<p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+</blockquote>
+  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/06/20/SpringBoot_shardDB_shardTable/" target="_blank" title="SpringBoot结合Sharding-JDBC实现分库分表">https://leishen6.github.io/2020/06/20/SpringBoot_shardDB_shardTable/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">分库分表</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Sharding-JDBC/">Sharding-JDBC</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/06/20/SpringBoot_shardDB_shardTable/" data-title="SpringBoot结合Sharding-JDBC实现分库分表 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/06/07/rotate_Single_linked_list/"  title="旋转链表？面试官你确定要让手写这个吗？">
+ <strong>下一篇：</strong><br/> 
+ <span>旋转链表？面试官你确定要让手写这个吗？
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、项目信息描述："><span class="toc-number">1.0.1.</span> <span class="toc-text">1、项目信息描述：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo详解："><span class="toc-number">2.</span> <span class="toc-text">Demo详解：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、工程目录："><span class="toc-number">2.0.1.</span> <span class="toc-text">1、工程目录：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、工程环境："><span class="toc-number">2.0.2.</span> <span class="toc-text">2、工程环境：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、pom-xml"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">2.1、pom.xml :</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、sql-环境："><span class="toc-number">2.0.2.2.</span> <span class="toc-text">2.2、sql 环境：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharding-JDBC-基本知识："><span class="toc-number">3.</span> <span class="toc-text">Sharding-JDBC 基本知识：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、基本概念："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、基本概念：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、兼容性："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、兼容性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、架构图："><span class="toc-number">3.0.3.</span> <span class="toc-text">3、架构图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、数据分片："><span class="toc-number">3.0.4.</span> <span class="toc-text">4、数据分片：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1、垂直分片："><span class="toc-number">3.0.4.1.</span> <span class="toc-text">4.1、垂直分片：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2、水平分片："><span class="toc-number">3.0.4.2.</span> <span class="toc-text">4.2、水平分片：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、内部执行流程："><span class="toc-number">3.0.5.</span> <span class="toc-text">5、内部执行流程：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharding-JDBC-集成过程："><span class="toc-number">4.</span> <span class="toc-text">Sharding-JDBC 集成过程：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、首先看下-Sharding-JDBC-的配置文件："><span class="toc-number">4.0.1.</span> <span class="toc-text">1、首先看下 Sharding-JDBC 的配置文件：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、一致性hash算法："><span class="toc-number">4.0.2.</span> <span class="toc-text">2、一致性hash算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、介绍一致性hash算法为什么易于扩容呢？"><span class="toc-number">4.0.2.1.</span> <span class="toc-text">2.1、介绍一致性hash算法为什么易于扩容呢？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、自定义分片算法："><span class="toc-number">4.0.3.</span> <span class="toc-text">3、自定义分片算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1、自定义分库实现："><span class="toc-number">4.0.3.1.</span> <span class="toc-text">3.1、自定义分库实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2、自定义分表算法："><span class="toc-number">4.0.3.2.</span> <span class="toc-text">3.2、自定义分表算法：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！">
+        <img class="zhi" src="/img/tongzhi.png" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp; PC浏览器访问更佳哟！
+	</div>	
+
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
