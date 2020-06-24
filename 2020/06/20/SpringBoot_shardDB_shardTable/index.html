@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194412.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620194419.png">
 <meta property="article:published_time" content="2020-06-20T11:54:16.115Z">
-<meta property="article:modified_time" content="2020-06-20T11:57:06.176Z">
+<meta property="article:modified_time" content="2020-06-24T02:47:02.043Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="Sharding-JDBC">
 <meta name="twitter:card" content="summary">
@@ -370,12 +370,15 @@
 <p>上面三种分片方式学习可参考：<a href="https://www.cnblogs.com/xybaby/p/7076731.html#_label_0" target="_blank" rel="noopener">带着问题学习分布式系统之数据分片</a></p>
 <h5 id="2-1、介绍一致性hash算法为什么易于扩容呢？"><a href="#2-1、介绍一致性hash算法为什么易于扩容呢？" class="headerlink" title="2.1、介绍一致性hash算法为什么易于扩容呢？"></a>2.1、介绍一致性hash算法为什么易于扩容呢？</h5><p>结合下文本，本文是根据name字段进行分片的，使用name用户名的hash值对虚拟节点数360<strong>取余</strong> ，得到一个 </p>
 <p>0-359 的余数，然后根据余数匹配配置的虚拟节点范围进行映射实际物理节点，来得到实际的数据源节点等。</p>
-<p>如图：（分库 2个，实际数据源 springboot0、springboot1，虚拟节点数360，虚拟节点范围 0-179，180-359）</p>
+<p>如图：</p>
+<blockquote>
+<p>分库 2个，实际数据源 springboot0、springboot1，虚拟节点数360，虚拟节点范围 0-179，180-359</p>
+</blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620175720.png" alt=""></p>
 <p><strong>进行扩容：</strong>（增加一个数据库）</p>
 <blockquote>
 <p>分库 3个，实际数据源 springboot0、springboot1、springboot2，虚拟节点数360不变，虚拟节点范围</p>
-<p>0-119,120-249,250-359</p>
+<p>0-179,180-269,270-359</p>
 </blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200620181924.png" alt=""></p>
 <p>如图，使用一致性hash算法，在扩容时，不会导致整体数据的不可用，只会损失一部分数据；原本分2个库时，应处于springboot1数据源中的数据，在分库3时，进行查询此数据时，会被分片到springboot2中查询，此时会出现查询不到的情况；但是，这也只是损失了一小部分数据，不会导致整体数据出现问题。</p>
@@ -715,6 +718,18 @@
 			
 		
 			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
 			
 		
@@ -739,22 +754,6 @@
 			
 		
 			
-				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
 			
 		
@@ -763,7 +762,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
@@ -771,7 +770,7 @@
 			
 		
 			
-				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -779,11 +778,15 @@
 			
 		
 			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/三目运算符/" title="三目运算符">三目运算符<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>1</sup></a></li>
 			
 		
 		</ul>
