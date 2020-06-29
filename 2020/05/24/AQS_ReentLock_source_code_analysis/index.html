@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085118.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085639.gif">
 <meta property="article:published_time" content="2020-05-24T10:50:33.964Z">
-<meta property="article:modified_time" content="2020-05-31T07:12:33.247Z">
+<meta property="article:modified_time" content="2020-06-29T01:34:01.951Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="AQS队列同步器">
 <meta name="twitter:card" content="summary">
@@ -327,7 +327,7 @@
 <p>②、源码分析：加锁时首先使用CAS算法尝试将state状态变量设置为1，设置成功后，表示当前线程获取到了锁，然后将独占锁的拥有者设置为当前线程；如果CAS设置不成功，则进入Acquire方法进行后续处理。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 使用CAS算法尝试将state状态变量设置为1</span></span><br><span class="line">    <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">        <span class="comment">// 设置成功后，表示当前线程获取到了锁，然后将独占锁的拥有者设置为当前线程</span></span><br><span class="line">        setExclusiveOwnerThread(Thread.currentThread());</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="comment">// 进行后续处理，会涉及到重入性、创建Node节点加入到队列尾等</span></span><br><span class="line">        acquire(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>③、探究下<strong>acquire(1)</strong> 方法里面是什么呢<img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085104.gif" alt="">   acquire(1) 方法是AQS提供的方法：</p>
+<p>③、探究下<strong>acquire(1)</strong> 方法里面是什么呢<img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200524085104.gif" alt="">   acquire(1) 方法是AQS提供的   <strong>模版方法</strong> ：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用tryAcquire()方法，让当前线程尝试获取同步锁，获取成的话，就不会执行后面的acquireQueued()</span></span><br><span class="line"><span class="comment">     * 方法了，这是由于 &amp;&amp; 逻辑运算符的特性决定的。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 如果使用tryAcquire()方法获取同步锁失败的话，就会继续执行acquireQueued（）方法，它的作用是</span></span><br><span class="line"><span class="comment">     * 一直死循环遍历同步队列，直到使addWaiter()方法创建的节点中线程获取到锁。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 如果acquireQueued()返回的true，这个true不是代表成功的获取到锁，而是代表当前线程是否存在</span></span><br><span class="line"><span class="comment">     * 中断标志，如果存在的话，在获取到同步锁后，需要使用selfInterrupt()对当前线程进行中断。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>1）</strong>、<strong>tryAcquire(arg)</strong> 方法源码解读：NonfairSync 非公平锁中重写了AQS的tryAcquire()方法</p>
@@ -739,10 +739,6 @@
 			
 		
 			
-				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -755,15 +751,23 @@
 			
 		
 			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
 			
 		
 			
@@ -775,11 +779,7 @@
 			
 		
 			
-				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
 			
 		
 			
@@ -787,19 +787,19 @@
 			
 		
 			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>1</sup></a></li>
 			
 		
 		</ul>
