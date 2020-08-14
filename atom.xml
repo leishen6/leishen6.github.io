@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-07-10T14:17:59.595Z</updated>
+  <updated>2020-08-14T02:24:33.714Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>联合索引在B+树上的存储结构及数据查找方式</title>
+    <link href="https://leishen6.github.io/2020/08/14/The_storage_structure_of_a_federated_index_on_a_tree/"/>
+    <id>https://leishen6.github.io/2020/08/14/The_storage_structure_of_a_federated_index_on_a_tree/</id>
+    <published>2020-08-14T02:12:28.184Z</published>
+    <updated>2020-08-14T02:24:33.714Z</updated>
+    
+    <summary type="html">
+    
+      学习联合索引在B+树上的存储结构及数据查找方式，从而可以创建更加合适的联合索引！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="联合索引" scheme="https://leishen6.github.io/tags/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95/"/>
+    
+      <category term="B+Tree" scheme="https://leishen6.github.io/tags/B-Tree/"/>
+    
+  </entry>
   
   <entry>
     <title>查找一个字符串中最长不含重复字符的子字符串，计算该最长子字符串的长度</title>
@@ -278,7 +301,7 @@
     <link href="https://leishen6.github.io/2020/03/18/Java_Impl_Trie/"/>
     <id>https://leishen6.github.io/2020/03/18/Java_Impl_Trie/</id>
     <published>2020-03-18T08:01:43.226Z</published>
-    <updated>2020-03-18T08:10:04.753Z</updated>
+    <updated>2020-07-31T02:40:31.954Z</updated>
     
     <summary type="html">
     
@@ -392,27 +415,6 @@
     
     
       <category term="数据库事务" scheme="https://leishen6.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据库分库分表策略，如何分库，如何分表？</title>
-    <link href="https://leishen6.github.io/2020/02/24/DB_Sharding_Strategy/"/>
-    <id>https://leishen6.github.io/2020/02/24/DB_Sharding_Strategy/</id>
-    <published>2020-02-24T13:24:45.936Z</published>
-    <updated>2020-02-27T05:40:08.306Z</updated>
-    
-    <summary type="html">
-    
-      学习数据库分库分表策略，以及如何分库分表的基本知识！努力学习中！
-    
-    </summary>
-    
-    
-      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    
-      <category term="分库分表" scheme="https://leishen6.github.io/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/"/>
     
   </entry>
   

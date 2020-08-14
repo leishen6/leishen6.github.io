@@ -20,7 +20,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDMxODE0NTkwOS5wbmc?x-oss-process=image/format,png">
 <meta property="article:published_time" content="2020-03-18T08:01:43.226Z">
-<meta property="article:modified_time" content="2020-03-18T08:10:04.753Z">
+<meta property="article:modified_time" content="2020-07-31T02:40:31.954Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="分享">
 <meta property="article:tag" content="技术">
@@ -268,7 +268,7 @@
 		</div>
 		
 		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
-<p>Trie树也称为字典树、单词查找树，最大的特点就是共享字符串的公共前缀来达到节省空间的目的了。<br>然后可以根据它的公共前缀的特性来实现敏感词过滤、自动联想等功能。</p>
+<p>Trie树也称为 <span style="color:red"> 字典树、单词查找树 </span>，最大的特点就是共享字符串的公共前缀来达到节省空间的目的了。<br>然后可以根据它的公共前缀的特性来实现敏感词过滤、自动联想等功能。</p>
 </blockquote>
 <h2 id="抽象出trie树的数据结构："><a href="#抽象出trie树的数据结构：" class="headerlink" title="抽象出trie树的数据结构："></a>抽象出trie树的数据结构：</h2><p>1、首先来看下trie树的结构图：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDMxODE0NTkwOS5wbmc?x-oss-process=image/format,png" alt=""><br><strong>从上图可以归纳出Trie树的基本性质：</strong><br>①根节点不包含字符，除根节点外的每一个子节点都包含一个字符。<br>②从根节点到某一个节点，路径上经过的字符连接起来，为该节点对应的字符串。<br>③每个节点的所有子节点包含的字符互不相同。<br>④从第一字符开始有连续重复的字符只占用一个节点，比如上面的to，和ten，中重复的单词t只占用了一个节点</p>
 <p><strong>从上面归纳出的基本性质可以抽象出节点的class属性：</strong><br>1、是否为叶子节点的标志位  <span style="color:blue"><strong>isWord</strong></span> ；<br>2、既能存储此节点的值也能存储其所有的子节点的 <span style="color:blue"><strong>children</strong></span> 数据结构HashMap；</p>
@@ -426,10 +426,17 @@
   <p class="asidetitle">公告</p>
     <br>
 	
-    <div id="links" title="通知：PC浏览器访问更佳哟！">
-        <img class="zhi" src="/img/tongzhi.png" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp; PC浏览器访问更佳哟！
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:230px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:180px;'>
+		    PC浏览器访问更佳哟！
+		</div>
+		
 	</div>	
 
+	
 	
 	<!--
 	<div id="links" title="4月4日，全国哀悼！">
@@ -541,7 +548,7 @@
 		  
 		
 		  
-			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>3</sup></a></li>
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>4</sup></a></li>
 		  
 		
 		  
@@ -610,18 +617,6 @@
 			
 		
 			
-				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
 			
 		
@@ -634,11 +629,23 @@
 			
 		
 			
-				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
 			
 		
 			
@@ -650,15 +657,11 @@
 			
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
@@ -666,7 +669,11 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
 			
 		
 			
@@ -674,7 +681,7 @@
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 		</ul>
