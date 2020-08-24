@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUxNTE0NDMxNi5wbmc?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2xlaXNoZW42L0ltZ0hvc3RpbmcvTXVaaUxlaV9ibG9nX2ltZy8yMDIwMDUxNTE0NDMzNS5wbmc?x-oss-process=image/format,png">
 <meta property="article:published_time" content="2020-05-15T07:46:00.375Z">
-<meta property="article:modified_time" content="2020-05-15T07:47:07.006Z">
+<meta property="article:modified_time" content="2020-08-24T11:38:31.336Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="分享">
 <meta property="article:tag" content="技术">
@@ -300,7 +300,8 @@
 <p>（1）、 YGC(堆中新生代GC)、FGC( FULL GC)为什么触发频率这么快呢？<br>答：由于堆内存空间不够用了，需要通过GC垃圾回收将一些空间进行回收，用于存放新创建的对象。</p>
 </blockquote>
 <blockquote>
-<p>（ 2）、当堆内存空间不够用时，GC具体会发生什么呢？<br>答：<br>1）、当堆中的新生代空间不够用时，会触发YGC，对堆中新生代空间进行垃圾回收，同时垃圾回收后剩余存活的对象会移动到堆中<br>老年代存储，所以每次YGC后，堆中年老代中存储的对象数量会增大；<br>2）、当堆的新生代即将发生YGC时，如果发现新生代中存活下来的对象比堆中年老代中剩余的刻意空间大的话，就会直接不进行YGC，<br>而会直接触发FGC，FULL GC会对整个堆空间（新生代、老年代）以及方法区/永久代进行垃圾回收；</p>
+<p>（ 2）、当堆内存空间不够用时，GC具体会发生什么呢？<br>答：<br>【1】、当堆中的新生代空间不够用时，会触发YGC（又称之为 Minor GC），对堆中新生代空间进行垃圾回收后，在剩余存活<br>的对象中，如果有对象的 <font color=blue> <strong>“晋升年龄达“ 到 “晋升年龄阈值” 后</strong>  </font>  ，就会将其移动到堆中老年代存储，所以每次YGC后，堆中年老代中存储的对象数量可能会增大；<br><font color=red> <strong>注意：晋升年龄：指新生代中的对象每经历一次 YGC，晋升年龄加1；</strong> </font><br><font color=red> <strong>注意：晋升年龄阈值：在Serial和ParNew GC两种回收器中，“晋升年龄阈值” 可通过参数MaxTenuringThreshold设定，默认值为15。</strong> </font><br>上面的 “晋升年龄” 来自： <a href="https://tech.meituan.com/2017/12/29/jvm-optimize.html" target="_blank" rel="noopener">从实际案例聊聊Java应用的GC优化</a></p>
+<p>【2】、当堆的新生代即将发生YGC时，如果发现新生代中存活下来的对象中达到“晋升年龄阈值”的对象所占用的空间比堆中年老代中剩余的可用空间大的话，就会直接不进行YGC，而会直接触发FGC，FULL GC会对整个堆空间（新生代、老年代）以及方法区/永久代进行垃圾回收。<br><font color=red> <strong>注意：FULL GC 主要可以分为两步，先是对 堆中老年代进行垃圾回收（又称之为Major GC），然后再对 堆中新生代进行垃圾回收（YGC）。</strong> </font></p>
 </blockquote>
 <table><tbody><tr><td bgcolor="#FF00FF"><font size="4" color="#fffff">扩展：堆的结构图</font></td></tr></tbody></table>
 
@@ -630,6 +631,10 @@
 		  
 		
 		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
 		  
 		
@@ -667,11 +672,11 @@
 			
 		
 			
-				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
 			
 		
 			
@@ -703,7 +708,19 @@
 			
 		
 			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
@@ -712,18 +729,6 @@
 		
 			
 				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
 			
 		
 			

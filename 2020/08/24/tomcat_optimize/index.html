@@ -1,0 +1,1200 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Tomcat优化，值得你拥有！ | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="在 连接器和JVM 两方面对Tomcat进行全面优化，你值得拥有！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat优化，值得你拥有！">
+<meta property="og:url" content="https://leishen6.github.io/2020/08/24/tomcat_optimize/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="在 连接器和JVM 两方面对Tomcat进行全面优化，你值得拥有！">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-24T12:56:18.865Z">
+<meta property="article:modified_time" content="2020-08-24T13:03:03.648Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="tomcat">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["爱学习的渣渣！","爱美食，更享受做美食的过程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/08/24/tomcat_optimize/" title="Tomcat优化，值得你拥有！" itemprop="url">Tomcat优化，值得你拥有！</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-08-24T12:56:18.865Z" itemprop="datePublished">
+
+			发表于 2020-08-24 20:56:18
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			
+			
+			   <img src="/img/zhuan.png" title="转载"/> 
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat的运行模式："><span class="toc-number">2.</span> <span class="toc-text">Tomcat的运行模式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#确认Tomcat运行模式："><span class="toc-number">3.</span> <span class="toc-text">确认Tomcat运行模式：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关键配置："><span class="toc-number">3.1.</span> <span class="toc-text">关键配置：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#maxThreads："><span class="toc-number">3.1.0.1.</span> <span class="toc-text">maxThreads：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#minSpareThread："><span class="toc-number">3.1.0.2.</span> <span class="toc-text">minSpareThread：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#maxQueueSize："><span class="toc-number">3.1.0.3.</span> <span class="toc-text">maxQueueSize：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#连接器（Connector）："><span class="toc-number">3.1.0.4.</span> <span class="toc-text">连接器（Connector）：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nio-配置："><span class="toc-number">3.2.</span> <span class="toc-text">nio 配置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#影响性能的配置："><span class="toc-number">3.3.</span> <span class="toc-text">影响性能的配置：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#protocol："><span class="toc-number">3.3.0.1.</span> <span class="toc-text">protocol：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#enableLookups："><span class="toc-number">3.3.0.2.</span> <span class="toc-text">enableLookups：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#compression："><span class="toc-number">3.3.0.3.</span> <span class="toc-text">compression：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用AJP链接器"><span class="toc-number">3.4.</span> <span class="toc-text">禁用AJP链接器:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化-JVM："><span class="toc-number">4.</span> <span class="toc-text">优化 JVM：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#JDK1-7："><span class="toc-number">4.0.0.1.</span> <span class="toc-text">JDK1.7：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JDK1-8："><span class="toc-number">4.0.0.2.</span> <span class="toc-text">JDK1.8：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数说明："><span class="toc-number">4.1.</span> <span class="toc-text">参数说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他参数优化："><span class="toc-number">4.2.</span> <span class="toc-text">其他参数优化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践："><span class="toc-number">4.3.</span> <span class="toc-text">最佳实践：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见-JVM-异常："><span class="toc-number">4.4.</span> <span class="toc-text">常见 JVM 异常：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>Tomcat作为Web应用的服务器，目前绝大多数公司都是用其作为应用服务器的；应用服务器的执行效率会影响系统执行，这里会讲Tomcat怎样进行配置能提高处理性能；除此之外也必然会提到对应的JVM参数的优化的一些经验。</p>
+</blockquote>
+<p>本文为 <font color=#1AFA29> <strong>转载文章</strong> </font> ，原文地址：<a href="https://segmentfault.com/a/1190000015918707" target="_blank" rel="noopener">系统优化怎么做-Tomcat优化</a></p>
+<h2 id="Tomcat的运行模式："><a href="#Tomcat的运行模式：" class="headerlink" title="Tomcat的运行模式："></a>Tomcat的运行模式：</h2><blockquote>
+<p>运行模式分3种模式：</p>
+<ul>
+<li>bio：默认的模式，效率比较低</li>
+<li>nio：优化时使用的模式</li>
+<li>apr：对系统配置有一些比较高的要求</li>
+</ul>
+</blockquote>
+<h2 id="确认Tomcat运行模式："><a href="#确认Tomcat运行模式：" class="headerlink" title="确认Tomcat运行模式："></a>确认Tomcat运行模式：</h2><blockquote>
+<p>查找配置文件  <strong>server.xml</strong> ， 在tomcat下的路径：conf 目录下；</p>
+<p>Executor 为自定义配置 Tomcat 线程池：</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Executor</span> <span class="attr">name</span>=<span class="string">"tomcatThreadPool"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">namePrefix</span>=<span class="string">"catalina-exec-"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">maxThreads</span>=<span class="string">"1024"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">minSpareThreads</span>=<span class="string">"512"</span> </span></span><br><span class="line"><span class="tag"><span class="attr">prestartminSpareThreads</span>=<span class="string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="关键配置："><a href="#关键配置：" class="headerlink" title="关键配置："></a>关键配置：</h3><h5 id="maxThreads："><a href="#maxThreads：" class="headerlink" title="maxThreads："></a>maxThreads：</h5><blockquote>
+<p>最大线程数，默认是200</p>
+</blockquote>
+<h5 id="minSpareThread："><a href="#minSpareThread：" class="headerlink" title="minSpareThread："></a>minSpareThread：</h5><blockquote>
+<p>最小活跃线程数，默认是25</p>
+</blockquote>
+<h5 id="maxQueueSize："><a href="#maxQueueSize：" class="headerlink" title="maxQueueSize："></a>maxQueueSize：</h5><blockquote>
+<p>最大的等待队列个数，超过则请求拒绝默认值是Integer.MAX_VALUE ，一般不改变。在某些紧急状态修复问题需要调整</p>
+</blockquote>
+<h5 id="连接器（Connector）："><a href="#连接器（Connector）：" class="headerlink" title="连接器（Connector）："></a>连接器（Connector）：</h5><blockquote>
+<p>Connector是连接器，负责接收客户的请求，以及向客户端回送响应的消息。所以Connector的优化是重要部分。默认情况下 Tomcat只支持200线程访问，超过这个数量的连接将被等待甚至超时放弃，所以我们需要提高这方面的处理能力。</p>
+</blockquote>
+<h3 id="nio-配置："><a href="#nio-配置：" class="headerlink" title="nio 配置："></a>nio 配置：</h3><blockquote>
+<p>配置文件  <strong>server.xml</strong> </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 运行模式为 nio --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"14081"</span> <span class="attr">protocol</span>=<span class="string">"org.apache.coyote.http11.Http11NioProtocol"</span></span></span><br><span class="line"><span class="tag"><span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line">&lt;!-- 连接器中连接处理 使用上面自定义的 线程池中的线程 --&gt;</span><br><span class="line">executor="tomcatThreadPool" </span><br><span class="line">URIEncoding="UTF-8" </span><br><span class="line">compression="on"   </span><br><span class="line">useBodyEncodingForURI="true" </span><br><span class="line">enableLookups="false" </span><br><span class="line">redirectPort="14443" /&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="影响性能的配置："><a href="#影响性能的配置：" class="headerlink" title="影响性能的配置："></a>影响性能的配置：</h3><h5 id="protocol："><a href="#protocol：" class="headerlink" title="protocol："></a>protocol：</h5><blockquote>
+<p>org.apache.coyote.http11.Http11Protocol - 阻塞式的Java连接器<br>org.apache.coyote.http11.Http11NioProtocol - 不阻塞Java连接器<br>org.apache.coyote.http11.Http11AprProtocol - APR / native 连接器<br>选择不阻塞Java连接器</p>
+</blockquote>
+<h5 id="enableLookups："><a href="#enableLookups：" class="headerlink" title="enableLookups："></a>enableLookups：</h5><blockquote>
+<p>若是你想request.getRemoteHost()的调用履行，以便返回的长途客户端的实际主机名的DNS查询，则设置为true。设置为false时跳过DNS查找，并返回字符串的IP地址（从而提高性能）。 <strong>默认场景下，禁用DNS查找</strong> 。</p>
+</blockquote>
+<h5 id="compression："><a href="#compression：" class="headerlink" title="compression："></a>compression：</h5><blockquote>
+<p>设置成on，开启压缩</p>
+</blockquote>
+<h3 id="禁用AJP链接器"><a href="#禁用AJP链接器" class="headerlink" title="禁用AJP链接器:"></a>禁用AJP链接器:</h3><p>使用Nginx+tomcat的架构，用不着AJP协议，所以把AJP连接器禁用<br>server.xml注释掉以下配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8019"</span> <span class="attr">protocol</span>=<span class="string">"AJP/1.3"</span> <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="优化-JVM："><a href="#优化-JVM：" class="headerlink" title="优化 JVM："></a>优化 JVM：</h2><blockquote>
+<p>优化位置：/bin/catalina.sh</p>
+<p>修改 <strong>JAVA_OPTS</strong> 参数，这里需要参照 <strong>机器配置</strong> ，对JVM进行参数优化 。</p>
+</blockquote>
+<h5 id="JDK1-7："><a href="#JDK1-7：" class="headerlink" title="JDK1.7："></a>JDK1.7：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms512m -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=1024M -XX:PermSize=1024m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC"</span><br></pre></td></tr></table></figure>
+
+<h5 id="JDK1-8："><a href="#JDK1-8：" class="headerlink" title="JDK1.8："></a>JDK1.8：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize=512m -XX:MaxNewSize=1024M -XX:+DisableExplicitGC"</span><br></pre></td></tr></table></figure>
+
+<p>注意：1.8 中已经没有 <strong>永久代</strong>了，所以也就没有 <strong>没有PermSize、MaxPermSize</strong>  ；Java8 中将永久代改为了 <strong>元空间</strong> 了，JAVA8里对metaspace可以在小范围自动扩展永生代避免溢出。</p>
+<h3 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h3><ul>
+<li>-Djava.awt.headless</li>
+</ul>
+<blockquote>
+<p>没有设备、键盘或鼠标的模式。</p>
+</blockquote>
+<ul>
+<li>-Dfile.encoding</li>
+</ul>
+<blockquote>
+<p>设置字符集</p>
+</blockquote>
+<ul>
+<li>-server</li>
+</ul>
+<blockquote>
+<p>jvm的server工作模式，对应的有client工作模式。使用“java -version”可以查看当前工作模式</p>
+</blockquote>
+<ul>
+<li>-Xms1024m</li>
+</ul>
+<blockquote>
+<p>初始Heap大小，使用的最小内存</p>
+</blockquote>
+<ul>
+<li>-Xmx1024m</li>
+</ul>
+<blockquote>
+<p>Java heap最大值，使用的最大内存<br>经验: 设置Xms大小等于Xmx大小</p>
+</blockquote>
+<ul>
+<li>-XX:NewSize=512m</li>
+</ul>
+<blockquote>
+<p>表示新生代初始内存的大小，应该小于 -Xms的值</p>
+</blockquote>
+<ul>
+<li>-XX:MaxNewSize=1024M</li>
+</ul>
+<blockquote>
+<p>表示新生代可被分配的内存的最大上限，应该小于 -Xmx的值</p>
+</blockquote>
+<ul>
+<li>-XX:PermSize=1024m</li>
+</ul>
+<blockquote>
+<p>设定内存的永久保存区域,内存的永久保存区域，VM 存放Class 和 Meta 信息，JVM在运行期间不会清除该区域； <strong>一般情况下，此参数值使用默认即可，默认大小就够用了</strong> 。</p>
+<p>程序加载很多class情况下，超出PermSize情况下：<br>JDK1.7会抛出java.lang.OutOfMemoryError:  <strong>PermGen space异常</strong><br>JDK1.8下会抛出 ERROR: java.lang.OutOfMemoryError:  <strong>Metadata space 异常</strong> </p>
+</blockquote>
+<ul>
+<li>-XX:MaxPermSize=1024m</li>
+</ul>
+<blockquote>
+<p>设定最大内存的永久保存区域<br>经验: 设置PermSize大小等于MaxPermSize大小</p>
+</blockquote>
+<ul>
+<li>-XX:+DisableExplicitGC</li>
+</ul>
+<blockquote>
+<p>自动将System.gc()调用转换成一个空操作，即应用中调用System.gc()会变成一个空操作,避免程序员在代码里进行System.gc()这种危险操作。System.gc() 除非是到了万不得也的情况下使用，都交给JVM吧</p>
+</blockquote>
+<h3 id="其他参数优化："><a href="#其他参数优化：" class="headerlink" title="其他参数优化："></a>其他参数优化：</h3><ul>
+<li>X:SurvivorRatio=2</li>
+</ul>
+<blockquote>
+<p>年轻代中Eden区与Survivor区的大小比值</p>
+</blockquote>
+<ul>
+<li>-XX:ReservedCodeCacheSize=256m</li>
+</ul>
+<blockquote>
+<p>保留代码占用的内存容量，无大的影响</p>
+</blockquote>
+<ul>
+<li>-Xss1024k</li>
+</ul>
+<blockquote>
+<p>单个线程堆栈大小值，减少这个值可以生成更多线程，操作系统对于一个进程内的线程数是有限制的，经验值在3000-5000左右</p>
+</blockquote>
+<ul>
+<li>-XX:+CMSParallelRemarkEnabled</li>
+</ul>
+<blockquote>
+<p>CMS 垃圾回收算法，对响应时间的重要性需求 大于 对吞吐量的要求，能够承受垃圾回收线程和应用线程共享处理器资源，并且应用中存在比较多的长生命周期的对象的应用</p>
+</blockquote>
+<ul>
+<li>-XX:+UseCMSCompactAtFullCollection</li>
+</ul>
+<blockquote>
+<p>在使用concurrent gc 的情况下, 防止 memoryfragmention, 对live object 进行整理, 使 memory 碎片减少。</p>
+</blockquote>
+<ul>
+<li>-XX:+UseCMSInitiatingOccupancyOnly</li>
+</ul>
+<blockquote>
+<p>在FULL GC的时候， 对年老代的压缩。CMS是不会移动内存的， 因此这个非常容易产生碎片， 导致内存不够用， 因此， 内存的压缩这个时候就会被启用。 增加这个参数是个好习惯。可能会影响性能,但是可以消除碎片。</p>
+</blockquote>
+<ul>
+<li>-XX:CMSInitiatingOccupancyFraction=60</li>
+</ul>
+<blockquote>
+<p>使用cms作为垃圾回收, 使用60％后开始CMS收集</p>
+</blockquote>
+<ul>
+<li>-XX:+UseGCOverheadLimit</li>
+</ul>
+<blockquote>
+<p>用来限制使用内存，如果不做控制，可能会报出<br>java.lang.OutOfMemoryError: GC overhead limit exceeded</p>
+</blockquote>
+<ul>
+<li>-XX:+UseConcMarkSweepGC</li>
+</ul>
+<blockquote>
+<p>使用CMS内存收集</p>
+</blockquote>
+<ul>
+<li>-XX:+UseParNewGC</li>
+</ul>
+<blockquote>
+<p>设置年轻代为并行收集</p>
+</blockquote>
+<ul>
+<li>-XX:+HeapDumpOnOutOfMemoryError</li>
+<li>-XX:HeapDumpPath=/x/dump_tomcat.hprof</li>
+</ul>
+<blockquote>
+<p>JVM会在遇到OutOfMemoryError时拍摄一个“堆转储快照”，并将其保存在一个文件中。</p>
+</blockquote>
+<ul>
+<li>-Xloggc:/xx/gc_tomcat.log</li>
+</ul>
+<blockquote>
+<p>gc的日志，如果该日志中出现频繁的Full GC就是有相关的系统问题，如果很少，说明暂时还算正常</p>
+</blockquote>
+<ul>
+<li>-XX:+PrintGCDateStamps</li>
+</ul>
+<blockquote>
+<p>输出GC的时间戳（以基准时间的形式）</p>
+</blockquote>
+<ul>
+<li>-XX:+PrintGCDetails</li>
+</ul>
+<blockquote>
+<p>输出GC的日志格式</p>
+</blockquote>
+<ul>
+<li>-Dnetworkaddress.cache.ttl=60</li>
+<li>-Dsun.net.inetaddr.ttl=60</li>
+</ul>
+<blockquote>
+<p>设置DNS缓存时间</p>
+</blockquote>
+<ul>
+<li>-DautoStartup=false</li>
+<li>-Dsun.net.client.defaultConnectTimeout=60000</li>
+</ul>
+<blockquote>
+<p>连接建立超时时间</p>
+</blockquote>
+<ul>
+<li>-Dsun.net.client.defaultReadTimeout=60000</li>
+</ul>
+<blockquote>
+<p>内容获取超时设置</p>
+</blockquote>
+<ul>
+<li>-Djmagick.systemclassloader=no</li>
+</ul>
+<blockquote>
+<p>是否生成缩略图的一个框架的配置</p>
+</blockquote>
+<ul>
+<li>-Djava.security.egd=file:/dev/./urandom</li>
+</ul>
+<h3 id="最佳实践："><a href="#最佳实践：" class="headerlink" title="最佳实践："></a>最佳实践：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_OPTS="-server -showversion -Xms2000m -Xmx2000m -Xmn500m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:ReservedCodeCacheSize=256m -Xss1024k -Djava.awt.headless=true -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=60 -XX:+UseGCOverheadLimit -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tomcat_path/logs/dump_tomcat.hprof -Xloggc:/tomcat_path/logs/gc_tomcat.log -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCDetails -Dnetworkaddress.cache.ttl=60 -Dsun.net.inetaddr.ttl=60 -DautoStartup=false -Dsun.net.client.defaultConnectTimeout=60000 -Dsun.net.client.defaultReadTimeout=60000 -Djmagick.systemclassloader=no -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="常见-JVM-异常："><a href="#常见-JVM-异常：" class="headerlink" title="常见 JVM 异常："></a>常见 JVM 异常：</h3><ol>
+<li><p>java.lang.OutOfMemoryError: Java heap space —-JVM Heap（堆）溢出：</p>
+<blockquote>
+<p>JVM 在启动的时候会自动设置 JVM Heap  的值，其初始空间（即-Xms）是物理内存的1/64，最大空间（-Xmx）不可超过物理内存。可以利用 JVM提供的 -Xmn -Xms -Xmx  等选项可进行设置。Heap 的大小是 Young Generation 和 Tenured Generaion 之和。在 JVM 中如果 98％ 的时间是用于 GC，且可用的 Heap size 不足 2％ 的时候将抛出此异常信息。</p>
+<p>解决方法：</p>
+<ul>
+<li>首先检查代码，是否存在创建了大量无用对象，且其被引用着，无法被GC回收 的代码；</li>
+<li>手动设置 JVM Heap（堆）的大小；</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<ol start="2">
+<li><p>java.lang.OutOfMemoryError: PermGen space —- PermGen space溢出：</p>
+<blockquote>
+<p>jdk1.8 抛出 ERROR: java.lang.OutOfMemoryError: Metadata space 异常<br>PermGen space 的全称是 Permanent Generation space，是指内存的永久保存区域。为什么会内存溢出，这是由于这块内存主要是被 JVM 存放Class 和 Meta 信息的，Class 在被 Load 的时候被放入 PermGen space 区域，它和存放  Instance 的 Heap 区域不同，sun 的 GC 不会在主程序运行期对 PermGen space 进行清理，所以如果你的 APP  会载入很多 CLASS 的话，就很可能出现 PermGen space 溢出。</p>
+<p>解决方法： 手动设置 MaxPermSize 大小；</p>
+</blockquote>
+</li>
+</ol>
+<ol start="3">
+<li>java.lang.StackOverflowError —- 栈溢出：</li>
+</ol>
+<blockquote>
+<p>​      栈溢出了，JVM 依然是采用栈式的虚拟机。函数的调用过程都体现在堆栈和退栈上了。调用构造函数的  “层”太多了，以致于把栈区溢出了。通常来讲，一般栈区远远小于堆区的，因为函数调用过程往往不会多于上千层，而即便每个函数调用需要 1K  的空间（这个大约相当于在一个 C 函数内声明了 256 个 int 类型的变量），那么栈区也不过是需要 1MB 的空间。通常栈的大小是  1－2MB 的。</p>
+<p>解决方法: 代码中递归也不要递归的层次过多；</p>
+</blockquote>
+<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><font color=red>❤</font>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><blockquote>
+<p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+</blockquote>
+  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		      
+
+<div class="zhuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/08/24/tomcat_optimize/" target="_blank" title="Tomcat优化，值得你拥有！">https://leishen6.github.io/2020/08/24/tomcat_optimize/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本文为转载文章，如您想转载此文章，请联系 <a rel="license" href="https://segmentfault.com/a/1190000015918707" target="_blank" title="https://segmentfault.com/a/1190000015918707">原作者！</a>
+          </li>
+        </ul>
+      <div>
+
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .zhuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+	       
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/">系统优化</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/tomcat/">tomcat</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/08/24/tomcat_optimize/" data-title="Tomcat优化，值得你拥有！ | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/08/14/The_storage_structure_of_a_federated_index_on_a_tree/"  title="联合索引在B+树上的存储结构及数据查找方式">
+ <strong>下一篇：</strong><br/> 
+ <span>联合索引在B+树上的存储结构及数据查找方式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat的运行模式："><span class="toc-number">2.</span> <span class="toc-text">Tomcat的运行模式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#确认Tomcat运行模式："><span class="toc-number">3.</span> <span class="toc-text">确认Tomcat运行模式：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关键配置："><span class="toc-number">3.1.</span> <span class="toc-text">关键配置：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#maxThreads："><span class="toc-number">3.1.0.1.</span> <span class="toc-text">maxThreads：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#minSpareThread："><span class="toc-number">3.1.0.2.</span> <span class="toc-text">minSpareThread：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#maxQueueSize："><span class="toc-number">3.1.0.3.</span> <span class="toc-text">maxQueueSize：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#连接器（Connector）："><span class="toc-number">3.1.0.4.</span> <span class="toc-text">连接器（Connector）：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nio-配置："><span class="toc-number">3.2.</span> <span class="toc-text">nio 配置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#影响性能的配置："><span class="toc-number">3.3.</span> <span class="toc-text">影响性能的配置：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#protocol："><span class="toc-number">3.3.0.1.</span> <span class="toc-text">protocol：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#enableLookups："><span class="toc-number">3.3.0.2.</span> <span class="toc-text">enableLookups：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#compression："><span class="toc-number">3.3.0.3.</span> <span class="toc-text">compression：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用AJP链接器"><span class="toc-number">3.4.</span> <span class="toc-text">禁用AJP链接器:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化-JVM："><span class="toc-number">4.</span> <span class="toc-text">优化 JVM：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#JDK1-7："><span class="toc-number">4.0.0.1.</span> <span class="toc-text">JDK1.7：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JDK1-8："><span class="toc-number">4.0.0.2.</span> <span class="toc-text">JDK1.8：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数说明："><span class="toc-number">4.1.</span> <span class="toc-text">参数说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他参数优化："><span class="toc-number">4.2.</span> <span class="toc-text">其他参数优化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践："><span class="toc-number">4.3.</span> <span class="toc-text">最佳实践：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见-JVM-异常："><span class="toc-number">4.4.</span> <span class="toc-text">常见 JVM 异常：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:230px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:180px;'>
+		    PC浏览器访问更佳哟！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

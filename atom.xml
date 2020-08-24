@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-08-14T02:24:33.714Z</updated>
+  <updated>2020-08-24T13:03:03.648Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tomcat优化，值得你拥有！</title>
+    <link href="https://leishen6.github.io/2020/08/24/tomcat_optimize/"/>
+    <id>https://leishen6.github.io/2020/08/24/tomcat_optimize/</id>
+    <published>2020-08-24T12:56:18.865Z</published>
+    <updated>2020-08-24T13:03:03.648Z</updated>
+    
+    <summary type="html">
+    
+      在 连接器和JVM 两方面对Tomcat进行全面优化，你值得拥有！
+    
+    </summary>
+    
+    
+      <category term="系统优化" scheme="https://leishen6.github.io/categories/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/"/>
+    
+    
+      <category term="tomcat" scheme="https://leishen6.github.io/tags/tomcat/"/>
+    
+  </entry>
   
   <entry>
     <title>联合索引在B+树上的存储结构及数据查找方式</title>
@@ -183,7 +204,7 @@
     <link href="https://leishen6.github.io/2020/05/15/simulation_heap_OutOfMemory_screening/"/>
     <id>https://leishen6.github.io/2020/05/15/simulation_heap_OutOfMemory_screening/</id>
     <published>2020-05-15T07:46:00.375Z</published>
-    <updated>2020-05-15T07:47:07.006Z</updated>
+    <updated>2020-08-24T11:38:31.336Z</updated>
     
     <summary type="html">
     
@@ -394,27 +415,6 @@
     
       <category term="并发编程" scheme="https://leishen6.github.io/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>柔性事务与传统事务</title>
-    <link href="https://leishen6.github.io/2020/02/25/flexible_transaction/"/>
-    <id>https://leishen6.github.io/2020/02/25/flexible_transaction/</id>
-    <published>2020-02-25T05:21:47.048Z</published>
-    <updated>2020-02-27T05:41:49.525Z</updated>
-    
-    <summary type="html">
-    
-      学习什么是柔性事务，以及与传统事务（刚性事务）的区别！
-    
-    </summary>
-    
-    
-      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    
-      <category term="数据库事务" scheme="https://leishen6.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/"/>
     
   </entry>
   
