@@ -1,0 +1,1087 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>索引该怎么创建？ | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="怎么创建最合适、合理的索引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="索引该怎么创建？">
+<meta property="og:url" content="https://leishen6.github.io/2020/08/29/how_do_create_index/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="怎么创建最合适、合理的索引">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224408.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224416.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224424.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224435.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224443.png">
+<meta property="article:published_time" content="2020-08-29T10:40:52.326Z">
+<meta property="article:modified_time" content="2020-08-29T11:57:22.136Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="B+Tree">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224408.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["爱学习的渣渣！","爱美食，更享受做美食的过程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/08/29/how_do_create_index/" title="索引该怎么创建？" itemprop="url">索引该怎么创建？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-08-29T10:40:52.326Z" itemprop="datePublished">
+
+			发表于 2020-08-29 18:40:52
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引基本知识："><span class="toc-number">2.</span> <span class="toc-text">索引基本知识：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、索引的数据结构："><span class="toc-number">2.0.1.</span> <span class="toc-text">1、索引的数据结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1、至于为什么索引使用此数据机构呢？"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">1.1、至于为什么索引使用此数据机构呢？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2、索引-B-Tree-结构的特性："><span class="toc-number">2.0.1.2.</span> <span class="toc-text">1.2、索引 B+Tree 结构的特性：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、索引的类型："><span class="toc-number">2.0.2.</span> <span class="toc-text">2、索引的类型：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、不同类型索引在磁盘中的B-Tree的存储结构："><span class="toc-number">2.0.3.</span> <span class="toc-text">3、不同类型索引在磁盘中的B+Tree的存储结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1、聚簇索引：（主键索引）"><span class="toc-number">2.0.3.1.</span> <span class="toc-text">3.1、聚簇索引：（主键索引）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2、单字段索引：（二级索引）"><span class="toc-number">2.0.3.2.</span> <span class="toc-text">3.2、单字段索引：（二级索引）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3、联合索引：（二级索引）"><span class="toc-number">2.0.3.3.</span> <span class="toc-text">3.3、联合索引：（二级索引）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、回表："><span class="toc-number">2.0.4.</span> <span class="toc-text">4、回表：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1、举例说明："><span class="toc-number">2.0.4.1.</span> <span class="toc-text">4.1、举例说明：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2、扩展："><span class="toc-number">2.0.4.2.</span> <span class="toc-text">4.2、扩展：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、覆盖索引："><span class="toc-number">2.0.5.</span> <span class="toc-text">5、覆盖索引：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#5-1、举例说明："><span class="toc-number">2.0.5.1.</span> <span class="toc-text">5.1、举例说明：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、最左前缀原则："><span class="toc-number">2.0.6.</span> <span class="toc-text">6、最左前缀原则：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-1、索引的最左前缀原则的两种情况："><span class="toc-number">2.0.6.1.</span> <span class="toc-text">6.1、索引的最左前缀原则的两种情况：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-2、索引字段的最左前缀原则："><span class="toc-number">2.0.6.2.</span> <span class="toc-text">6.2、索引字段的最左前缀原则：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-2、联合索引的最左前缀原则："><span class="toc-number">2.0.6.3.</span> <span class="toc-text">6.2、联合索引的最左前缀原则：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引创建的准则："><span class="toc-number">3.</span> <span class="toc-text">索引创建的准则：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、考虑创建索引的表的读写情况："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、考虑创建索引的表的读写情况：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、避免冗余索引："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、避免冗余索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、对多表关联查询使用的-连接键-字段创建索引："><span class="toc-number">3.0.3.</span> <span class="toc-text">3、对多表关联查询使用的 连接键  字段创建索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、明确字段的区分度："><span class="toc-number">3.0.4.</span> <span class="toc-text">4、明确字段的区分度：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、保证索引的唯一性："><span class="toc-number">3.0.5.</span> <span class="toc-text">5、保证索引的唯一性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、创建联合索引时，索引字段怎么排序："><span class="toc-number">3.0.6.</span> <span class="toc-text">6、创建联合索引时，索引字段怎么排序：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、SQL中，有等值查询和范围查询时，联合索引怎么创建？"><span class="toc-number">3.0.7.</span> <span class="toc-text">7、SQL中，有等值查询和范围查询时，联合索引怎么创建？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8、单表索引数量建议："><span class="toc-number">3.0.8.</span> <span class="toc-text">8、单表索引数量建议：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导致索引失效的SQL："><span class="toc-number">4.</span> <span class="toc-text">导致索引失效的SQL：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、查看SQL的执行计划："><span class="toc-number">4.0.1.</span> <span class="toc-text">1、查看SQL的执行计划：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、导致SQL执行时没走索引的原因："><span class="toc-number">4.0.2.</span> <span class="toc-text">2、导致SQL执行时没走索引的原因：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、优化器采样估算后不走索引："><span class="toc-number">4.0.2.1.</span> <span class="toc-text">2.1、优化器采样估算后不走索引：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、SQL语句问题导致索引失效：（简单写几个常用到的）"><span class="toc-number">4.0.2.2.</span> <span class="toc-text">2.2、SQL语句问题导致索引失效：（简单写几个常用到的）</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>想要彻底明白索引该怎么创建，以及怎样创建出最合理的索引，首先需要对一些知识要有所了解；</p>
+<p>本文将从以下几方面来进行阐述：</p>
+<ul>
+<li>索引的相关知识（包括索引数据结构等）；</li>
+<li>索引创建的准则/依据；</li>
+<li>学会查看sql执行计划，以及哪些sql执行时会导致索引失效；</li>
+</ul>
+</blockquote>
+<h2 id="索引基本知识："><a href="#索引基本知识：" class="headerlink" title="索引基本知识："></a>索引基本知识：</h2><h4 id="1、索引的数据结构："><a href="#1、索引的数据结构：" class="headerlink" title="1、索引的数据结构："></a>1、索引的数据结构：</h4><blockquote>
+<p>索引的数据机构是 B+Tree，B+Tree 是一个多路平衡查找树。</p>
+</blockquote>
+<h5 id="1-1、至于为什么索引使用此数据机构呢？"><a href="#1-1、至于为什么索引使用此数据机构呢？" class="headerlink" title="1.1、至于为什么索引使用此数据机构呢？"></a>1.1、至于为什么索引使用此数据机构呢？</h5><p>最主要一个原因就是：使用B+Tree这种数据机构的索引，在进行sql查询时只需要较少的几次磁盘IO 即可，所以会大大提升查询效率；具体原因可参考：<a href="https://www.cnblogs.com/kismetv/p/11582214.html" target="_blank" rel="noopener">【深入学习MySQL】MySQL的索引结构为什么使用B+树？</a></p>
+<h5 id="1-2、索引-B-Tree-结构的特性："><a href="#1-2、索引-B-Tree-结构的特性：" class="headerlink" title="1.2、索引 B+Tree 结构的特性："></a>1.2、索引 B+Tree 结构的特性：</h5><p>①、B+Tree 只有叶子节点会存储真实的数据，非叶子节点只会存储索引字段值；</p>
+<p>②、B+Tree的叶子节点之间使用 双向链表 链接，所以更加适合范围查询和排序；</p>
+<h4 id="2、索引的类型："><a href="#2、索引的类型：" class="headerlink" title="2、索引的类型："></a>2、索引的类型：</h4><p>在平时创建的索引中，可以将索引大体分为两类：</p>
+<p>①、聚簇索引（主键索引） ②、非聚簇索引（二级索引）</p>
+<p>二级索引根据索引中的字段个数可以分为：</p>
+<p>①、单字段索引  ②、联合索引 / 复合索引（多个字段组成的索引）</p>
+<h4 id="3、不同类型索引在磁盘中的B-Tree的存储结构："><a href="#3、不同类型索引在磁盘中的B-Tree的存储结构：" class="headerlink" title="3、不同类型索引在磁盘中的B+Tree的存储结构："></a>3、不同类型索引在磁盘中的B+Tree的存储结构：</h4><h5 id="3-1、聚簇索引：（主键索引）"><a href="#3-1、聚簇索引：（主键索引）" class="headerlink" title="3.1、聚簇索引：（主键索引）"></a>3.1、聚簇索引：（主键索引）</h5><blockquote>
+<p>聚簇索引：当表中创建了主键，默认就会生成主键索引；</p>
+</blockquote>
+<p>聚簇索引的B+Tree索引结构中，非叶子节点中存储的是  <strong>ID主键值</strong> ，存储在叶子节点中的真实数据是具体的 <strong>行记录</strong> ； 结构图如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224408.png" alt=""></p>
+<h5 id="3-2、单字段索引：（二级索引）"><a href="#3-2、单字段索引：（二级索引）" class="headerlink" title="3.2、单字段索引：（二级索引）"></a>3.2、单字段索引：（二级索引）</h5><blockquote>
+<p>单字段索引：手动创建的索引，由 <strong>一个字段</strong> 组成的索引；</p>
+</blockquote>
+<p>单字段索引的B+Tree索引结构中，非叶子节点中存储的是 <strong>索引字段值</strong>，存储在叶子节点中的数据部分是  <strong>主键值</strong> 。结构图如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224416.png" alt=""></p>
+<h5 id="3-3、联合索引：（二级索引）"><a href="#3-3、联合索引：（二级索引）" class="headerlink" title="3.3、联合索引：（二级索引）"></a>3.3、联合索引：（二级索引）</h5><blockquote>
+<p>联合索引：手动创建的索引，由 <strong>多个字段</strong> 组成的索引；</p>
+</blockquote>
+<p>联合索引的B+Tree索引结构中，非叶子节点中存储的是 <strong>多个索引字段值</strong>，存储在叶子节点中的数据部分是 <strong>主键值</strong> 。结构图如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224424.png" alt=""></p>
+<h4 id="4、回表："><a href="#4、回表：" class="headerlink" title="4、回表："></a>4、回表：</h4><blockquote>
+<p>什么是回表？</p>
+<p><strong>回表</strong> 是发生在 <strong>二级索引</strong> 中的；在使用二级索引查询数据时，如果 <strong>select 投影列</strong> 中拥有 索引字段和主键 之外的字段时，此时就需要 回表；使用在二级索引树中查询到的 主键值 去主键索引树中查询具体的行记录，然后在具体行记录中取得最终的 select 投影列 数据。</p>
+</blockquote>
+<h5 id="4-1、举例说明："><a href="#4-1、举例说明：" class="headerlink" title="4.1、举例说明："></a>4.1、举例说明：</h5><p>数据表：t_user</p>
+<p>字    段：id（主键）、name、age、address、sex</p>
+<p>索    引：index( name, age )   <strong>测试的这个索引是 联合索引，单字段索引也是一样的原理</strong></p>
+<p>Sql语句：select  <strong>name, age, address, sex</strong>  from  t_user where  name=’黎明’  and  age=18</p>
+<p>上面的sql语句执行时，就会发生回表；具体执行步骤如下：</p>
+<p>①、执行时，首先会使用到 联合索引 index( name, age )，在此索引树中查询时，最终在叶子节点中查询到数据，发现此时最终只能得到 name、age、id 三个字段的数据，发现 address、age 这两个字段的数据没有得到，所以只能再根据查询到主键值去主键索引树中查询；</p>
+<p>②、拿着 id主键值 去主键索引树中查询具体的行记录，然后在行记录中取出select投影列需要的字段的数据，最后返回。</p>
+<h5 id="4-2、扩展："><a href="#4-2、扩展：" class="headerlink" title="4.2、扩展："></a>4.2、扩展：</h5><blockquote>
+<p>根据上面举的例子可以知道什么时候会发生回表，但是发生回表就代表着 查询效率 会比较低下的，因为需要走两边索引树（二级索引树 + 主键索引树）；所以一般情况下需要避免回表的发生；怎么避免发生呢？这又涉及到了 <strong>覆盖索引</strong>  这个知识点。下面就来介绍下  <strong>覆盖索引的知识</strong> 。</p>
+</blockquote>
+<h4 id="5、覆盖索引："><a href="#5、覆盖索引：" class="headerlink" title="5、覆盖索引："></a>5、覆盖索引：</h4><blockquote>
+<p>覆盖索引：大白话就是 将select 的投影列字段全部放入到 索引中；</p>
+</blockquote>
+<h5 id="5-1、举例说明："><a href="#5-1、举例说明：" class="headerlink" title="5.1、举例说明："></a>5.1、举例说明：</h5><p>数据表：t_user</p>
+<p>字    段：id（主键）、name、age、address、sex</p>
+<p>索    引：index( name, age )  </p>
+<p>Sql语句：select  <strong>name, age, address, sex</strong>  from  t_user  where  name=’黎明’  and  age=18</p>
+<p>这个sql执行时，会发生回表；</p>
+<p>发生回表的原因通过上面的解释应该也清楚了些，所以如果 将索引  <strong>index( name, age )</strong>  改为 *<em>index( name, age, address, sex ) *</em> 后，在执行上面的sql 就 不会发生回表了，并且提高了查询效率， 这就是 覆盖索引。</p>
+<p>但是，索引的创建及维护也是需要耗费代价的，并且这种代价也是随着索引中索引字段的个数增加而增加的，所以覆盖索引需要根据实际情况使用。</p>
+<h4 id="6、最左前缀原则："><a href="#6、最左前缀原则：" class="headerlink" title="6、最左前缀原则："></a>6、最左前缀原则：</h4><blockquote>
+<p>说到索引的最左前缀原则，就必须说下  <strong>索引长度</strong>  这个概念了；</p>
+</blockquote>
+<p>索引长度指的是 索引字段列的 前缀长度索引；</p>
+<p>例如：name字段的长度设置为100，但是在以name设置索引时设置的索引长度为20；意思就是创建的索引中存储的索引key键值就是name字段值的前20长度的内容。</p>
+<h5 id="6-1、索引的最左前缀原则的两种情况："><a href="#6-1、索引的最左前缀原则的两种情况：" class="headerlink" title="6.1、索引的最左前缀原则的两种情况："></a>6.1、索引的最左前缀原则的两种情况：</h5><p>①、索引字段的最左前缀原则；</p>
+<p>②、联合索引的最左前缀原则；</p>
+<h5 id="6-2、索引字段的最左前缀原则："><a href="#6-2、索引字段的最左前缀原则：" class="headerlink" title="6.2、索引字段的最左前缀原则："></a>6.2、索引字段的最左前缀原则：</h5><p>根据 索引长度 应该就可以明白了 索引字段的最左前缀原则了；但还是举例说明下：</p>
+<blockquote>
+<p>经常说的导致索引失效的情况之一： 模糊查询时 将 % 放在了索引字段的前面；导致失效的最终原因就是 不满足索引的最左前缀原则；</p>
+</blockquote>
+<p>数据表：t_user</p>
+<p>字    段：id（主键）、name、age、address、sex</p>
+<p>索    引：index( name )  </p>
+<p>Sql语句：select  name, age  from   t_user  where  name  like  ’ <strong>%</strong>黎明 ’</p>
+<p>上面这个 sql 语句执行时，并不会走 index(name) 索引查询，因为什么呢？不满足索引的最左前缀原则。</p>
+<h5 id="6-2、联合索引的最左前缀原则："><a href="#6-2、联合索引的最左前缀原则：" class="headerlink" title="6.2、联合索引的最左前缀原则："></a>6.2、联合索引的最左前缀原则：</h5><blockquote>
+<p>根据联合索引的B+Tree 存储结构可以知道其最左前缀原则是什么。</p>
+</blockquote>
+<p>不太清楚也别着急，下面将会举例说明：</p>
+<p>数据表：t_user</p>
+<p>字    段：id（主键）、name、age、address、sex</p>
+<p>索    引：index( name, age )  </p>
+<p>Sql语句：select  id  from  t_user  where  name=’黎明’  and  age=26</p>
+<p>测试数据 如图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224435.png" alt=""></p>
+<p>根据上面的测试数据及联合索引可以得到 B+Tree存储结构图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20200828224443.png" alt=""></p>
+<p>上面sql执行时索引树的搜索步骤：</p>
+<p>①、首先是加载索引树的根节点（磁盘块1），然后匹配根节点中的第一个索引字段的值，查询name值是“黎明”的数据，得到指向其子节点地址的指针p1；</p>
+<p>②、然后根据指针p1 找到子节点所在的磁盘块，然后将磁盘块加载到内存中，然后接着查询name值是“黎明”的数据，得到指向其子节点（叶子节点）地址的指针p3；</p>
+<p>③、然后根据p3指针找到name值是“黎明”的 所在叶子节点的磁盘块，然后将磁盘块中数据加载到内存中，然后再比较 age 为26的数据，最终找到name值是“黎明”并且age为26 的 id主键值，由于select 投影列 只有 id 主键值，所以不需要回表，直接返回结果集了。</p>
+<p><strong>注意：在联合索引中，当索引中前一个索引字段值相同时，后面紧挨着的索引字段的值是有序的，所以索引天然适合进行排序，无需自己再进行排序了，提升了查询效率。</strong></p>
+<blockquote>
+<p>根据 上面的索引树搜索过程，知道一开始是以索引中的第一个索引字段进行搜索的，最后在叶子节点中依次进行的索引字段值的匹配，这就是联合索引的最左前缀原则；</p>
+<p>所以如果sql语句中的where 条件中没有使用到联合索引的第一个索引字段，则整个索引就失效了。</p>
+</blockquote>
+<h2 id="索引创建的准则："><a href="#索引创建的准则：" class="headerlink" title="索引创建的准则："></a>索引创建的准则：</h2><h4 id="1、考虑创建索引的表的读写情况："><a href="#1、考虑创建索引的表的读写情况：" class="headerlink" title="1、考虑创建索引的表的读写情况："></a>1、考虑创建索引的表的读写情况：</h4><p>对于 <strong>写操作比较多</strong> 的表，创建索引时，应该尽量保证 联合索引 尽可能的 <strong>窄（窄： 索引字段个数尽可能少），</strong> 如果索引字段比较多的话，写数据时的索引维护比较麻烦。</p>
+<blockquote>
+<p>所以说，能创建单字段索引就不创建联合索引。</p>
+</blockquote>
+<h4 id="2、避免冗余索引："><a href="#2、避免冗余索引：" class="headerlink" title="2、避免冗余索引："></a>2、避免冗余索引：</h4><p>合理创建索引，避免冗余索引；</p>
+<p>联合索引index(a, b, c)相当于 index(a)、index(a，b)、index(a，b，c)这三个索引，所以如果有 index(a, b, c)索引了，那么 index(a)、index(a，b)这两个索引就不用存在了，属于重复索引了。</p>
+<h4 id="3、对多表关联查询使用的-连接键-字段创建索引："><a href="#3、对多表关联查询使用的-连接键-字段创建索引：" class="headerlink" title="3、对多表关联查询使用的 连接键  字段创建索引："></a>3、对多表关联查询使用的 <em>连接键</em>  字段创建索引：</h4><p>针对 多表关联 查询时，需要将  <strong>连接键 字段创建索引</strong> ； 例如：user 、role 两张表；</p>
+<p>(一)、 select *  from user a, role b where  <strong>a.name = b.name</strong>  <strong>【普通连接查询】</strong></p>
+<p>   需要在 role 表中创建 name 连接键的索引，user 不必创建 name 字段索引；</p>
+<p>(二)、select * from user a left join role b on <strong>a.name = b.name</strong>   <strong>【左外连接查询】</strong></p>
+<p>  需要在 role 表中创建 name 连接键的索引，user 不必创建 name 字段索引；</p>
+<h4 id="4、明确字段的区分度："><a href="#4、明确字段的区分度：" class="headerlink" title="4、明确字段的区分度："></a>4、明确字段的区分度：</h4><p>提前估算出表中每个字段存储的值的区分度，尽量在 <strong>区分度高的字段创建索引</strong> ，区分度低的字段创建索引用处不大，并且还会多出索引维护的消耗。</p>
+<p>区分度：字段值的不同的比例；例如性别字段只会有两种值，男或女，属于区分度低的字段。</p>
+<h4 id="5、保证索引的唯一性："><a href="#5、保证索引的唯一性：" class="headerlink" title="5、保证索引的唯一性："></a>5、保证索引的唯一性：</h4><blockquote>
+<p>创建索引时，尽可能保证索引的唯一性，唯一性指的什么呢？</p>
+</blockquote>
+<p>在查看SQL执行计划时，执行计划中 possible_keys 中展示的就是优化器采样估算后可能会使用到的索引，只有这里展示一个索引，并且与实际使用的索引一致时，这才是唯一性；如果此处展示了多个索引名称的话，说明没有保证索引的唯一性。</p>
+<blockquote>
+<p>为什么要保证唯一性呢？</p>
+</blockquote>
+<p>因为如果在执行一个SQL时，优化器是通过采样分析判断发现有两个索引都可以时，那么就会面临抉择，到底最终使用哪个索引呢；如果只有一个索引符合的话，优化器直接选择即可。所以如果可以使用的索引存在多个的话，那么优化器还需要通过 <strong>额外的运算</strong> 得到最终使用的索引的，那么这就会降低查询效率的。</p>
+<h4 id="6、创建联合索引时，索引字段怎么排序："><a href="#6、创建联合索引时，索引字段怎么排序：" class="headerlink" title="6、创建联合索引时，索引字段怎么排序："></a>6、创建联合索引时，索引字段怎么排序：</h4><blockquote>
+<p>在联合索引中，怎么对索引字段进行排序？ 大白话就是 在联合索引中，哪些索引字段 放在最前面？</p>
+</blockquote>
+<p>①、where 条件中长使用的字段 放到前面。</p>
+<p>②、区分度高的字段放在前面，因为这样可以减少扫描 B+tree 中的叶块。</p>
+<p><strong>《高性能MySQL》</strong>  一书中提到的一个经验法则：将选择性最高（ <strong>区分度高</strong> ）的列放到索引最前列。</p>
+<h4 id="7、SQL中，有等值查询和范围查询时，联合索引怎么创建？"><a href="#7、SQL中，有等值查询和范围查询时，联合索引怎么创建？" class="headerlink" title="7、SQL中，有等值查询和范围查询时，联合索引怎么创建？"></a>7、SQL中，有等值查询和范围查询时，联合索引怎么创建？</h4><blockquote>
+<p>当然是将 <strong>等值查询的字段</strong> 放在联合索引的前面， <strong>范围查询</strong>  的放到联合索引的后面；</p>
+</blockquote>
+<p>为什么这么设计呢？</p>
+<p>因为依据索引的查询规则，在联合索引中，首先都是根据第一个索引字段查询符合要求的数据，然后再从符合要求的数据中筛选第二个索引字段符合的数据；如果第一个索引字段值不符合，则直接结束查询了，不会再去进行范围查询了；但是如果将范围查询字段放在联合索引的第一位的话，那么很大可能会查询到符合范围的数据，然后再从数据中筛选等值查询的字段值，如果等值查询的值不存在，那么前面范围查询所做的工作就白白浪费了；并且降低了查询效率。</p>
+<h4 id="8、单表索引数量建议："><a href="#8、单表索引数量建议：" class="headerlink" title="8、单表索引数量建议："></a>8、单表索引数量建议：</h4><blockquote>
+<p>建议：单张表中索引的数量不超过5个；单个索引中的索引字段个数不超过5个；</p>
+</blockquote>
+<h2 id="导致索引失效的SQL："><a href="#导致索引失效的SQL：" class="headerlink" title="导致索引失效的SQL："></a>导致索引失效的SQL：</h2><blockquote>
+<p>明明已经创建好了索引，但是SQL执行时通过执行计划发现没有走索引查询，为什么？</p>
+</blockquote>
+<h4 id="1、查看SQL的执行计划："><a href="#1、查看SQL的执行计划：" class="headerlink" title="1、查看SQL的执行计划："></a>1、查看SQL的执行计划：</h4><p>创建好索引后，一般会查看下SQL的执行计划，看看SQL执行时是否走了索引查询；</p>
+<p>Mysql  数据库查看执行计划 参考：<a href="https://juejin.im/post/6844903973032296461" target="_blank" rel="noopener">使用explain分析SQL执行计划</a></p>
+<p>Oracle 数据库查看执行计划 参考：<a href="https://blog.csdn.net/rexueqingchun/article/details/84563686" target="_blank" rel="noopener">Oracle通过执行计划查看查询语句是否使用索引</a></p>
+<h4 id="2、导致SQL执行时没走索引的原因："><a href="#2、导致SQL执行时没走索引的原因：" class="headerlink" title="2、导致SQL执行时没走索引的原因："></a>2、导致SQL执行时没走索引的原因：</h4><h5 id="2-1、优化器采样估算后不走索引："><a href="#2-1、优化器采样估算后不走索引：" class="headerlink" title="2.1、优化器采样估算后不走索引："></a>2.1、优化器采样估算后不走索引：</h5><blockquote>
+<p>可能数据库的优化器在进行采样估算时，发现走全表扫描更加合适；例如：表中数据量很小时，全表扫描和索引查询可能一样快，所以此时可能会直接进行全部扫描查询了。</p>
+</blockquote>
+<h5 id="2-2、SQL语句问题导致索引失效：（简单写几个常用到的）"><a href="#2-2、SQL语句问题导致索引失效：（简单写几个常用到的）" class="headerlink" title="2.2、SQL语句问题导致索引失效：（简单写几个常用到的）"></a>2.2、SQL语句问题导致索引失效：（简单写几个常用到的）</h5><ul>
+<li>不满足索引的最左前缀原则；例如：like模糊查询时，%放在前面；联合索引；</li>
+<li>使用了反向查询，例如：not in 、!= 、&lt;&gt; 等，导致索引失效；</li>
+<li>在索引字段上进行了 函数运算 或者 算数运算；</li>
+<li>隐式转换导致索引失效：隐式类型转换、隐式字符集转换；其实底层都是使用函数进行的隐式转换，所以导致的索引失效；</li>
+<li>对索引字段做 判 null 操作，会导致索引失效；</li>
+</ul>
+<h2 id="❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><a href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ" class="headerlink" title="❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ"></a><font color=red>❤</font>不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</h2><blockquote>
+<p>一切看文章不点赞都是“耍流氓”，嘿嘿ヾ(◍°∇°◍)ﾉﾞ！开个玩笑，动一动你的小手，点赞就完事了，你每个人出一份力量(点赞 + 评论)就会让更多的学习者加入进来！非常感谢！￣ω￣=</p>
+</blockquote>
+  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/08/29/how_do_create_index/" target="_blank" title="索引该怎么创建？">https://leishen6.github.io/2020/08/29/how_do_create_index/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">关系数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/B-Tree/">B+Tree</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/08/29/how_do_create_index/" data-title="索引该怎么创建？ | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/08/24/tomcat_optimize/"  title="Tomcat优化，值得你拥有！">
+ <strong>下一篇：</strong><br/> 
+ <span>Tomcat优化，值得你拥有！
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引基本知识："><span class="toc-number">2.</span> <span class="toc-text">索引基本知识：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、索引的数据结构："><span class="toc-number">2.0.1.</span> <span class="toc-text">1、索引的数据结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1、至于为什么索引使用此数据机构呢？"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">1.1、至于为什么索引使用此数据机构呢？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2、索引-B-Tree-结构的特性："><span class="toc-number">2.0.1.2.</span> <span class="toc-text">1.2、索引 B+Tree 结构的特性：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、索引的类型："><span class="toc-number">2.0.2.</span> <span class="toc-text">2、索引的类型：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、不同类型索引在磁盘中的B-Tree的存储结构："><span class="toc-number">2.0.3.</span> <span class="toc-text">3、不同类型索引在磁盘中的B+Tree的存储结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1、聚簇索引：（主键索引）"><span class="toc-number">2.0.3.1.</span> <span class="toc-text">3.1、聚簇索引：（主键索引）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2、单字段索引：（二级索引）"><span class="toc-number">2.0.3.2.</span> <span class="toc-text">3.2、单字段索引：（二级索引）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3、联合索引：（二级索引）"><span class="toc-number">2.0.3.3.</span> <span class="toc-text">3.3、联合索引：（二级索引）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、回表："><span class="toc-number">2.0.4.</span> <span class="toc-text">4、回表：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1、举例说明："><span class="toc-number">2.0.4.1.</span> <span class="toc-text">4.1、举例说明：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2、扩展："><span class="toc-number">2.0.4.2.</span> <span class="toc-text">4.2、扩展：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、覆盖索引："><span class="toc-number">2.0.5.</span> <span class="toc-text">5、覆盖索引：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#5-1、举例说明："><span class="toc-number">2.0.5.1.</span> <span class="toc-text">5.1、举例说明：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、最左前缀原则："><span class="toc-number">2.0.6.</span> <span class="toc-text">6、最左前缀原则：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-1、索引的最左前缀原则的两种情况："><span class="toc-number">2.0.6.1.</span> <span class="toc-text">6.1、索引的最左前缀原则的两种情况：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-2、索引字段的最左前缀原则："><span class="toc-number">2.0.6.2.</span> <span class="toc-text">6.2、索引字段的最左前缀原则：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-2、联合索引的最左前缀原则："><span class="toc-number">2.0.6.3.</span> <span class="toc-text">6.2、联合索引的最左前缀原则：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引创建的准则："><span class="toc-number">3.</span> <span class="toc-text">索引创建的准则：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、考虑创建索引的表的读写情况："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、考虑创建索引的表的读写情况：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、避免冗余索引："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、避免冗余索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、对多表关联查询使用的-连接键-字段创建索引："><span class="toc-number">3.0.3.</span> <span class="toc-text">3、对多表关联查询使用的 连接键  字段创建索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、明确字段的区分度："><span class="toc-number">3.0.4.</span> <span class="toc-text">4、明确字段的区分度：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、保证索引的唯一性："><span class="toc-number">3.0.5.</span> <span class="toc-text">5、保证索引的唯一性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、创建联合索引时，索引字段怎么排序："><span class="toc-number">3.0.6.</span> <span class="toc-text">6、创建联合索引时，索引字段怎么排序：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、SQL中，有等值查询和范围查询时，联合索引怎么创建？"><span class="toc-number">3.0.7.</span> <span class="toc-text">7、SQL中，有等值查询和范围查询时，联合索引怎么创建？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8、单表索引数量建议："><span class="toc-number">3.0.8.</span> <span class="toc-text">8、单表索引数量建议：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导致索引失效的SQL："><span class="toc-number">4.</span> <span class="toc-text">导致索引失效的SQL：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、查看SQL的执行计划："><span class="toc-number">4.0.1.</span> <span class="toc-text">1、查看SQL的执行计划：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、导致SQL执行时没走索引的原因："><span class="toc-number">4.0.2.</span> <span class="toc-text">2、导致SQL执行时没走索引的原因：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、优化器采样估算后不走索引："><span class="toc-number">4.0.2.1.</span> <span class="toc-text">2.1、优化器采样估算后不走索引：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、SQL语句问题导致索引失效：（简单写几个常用到的）"><span class="toc-number">4.0.2.2.</span> <span class="toc-text">2.2、SQL语句问题导致索引失效：（简单写几个常用到的）</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">5.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:230px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:180px;'>
+		    PC浏览器访问更佳哟！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

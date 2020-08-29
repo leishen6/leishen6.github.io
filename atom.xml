@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-08-24T13:03:03.648Z</updated>
+  <updated>2020-08-29T11:57:22.136Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>索引该怎么创建？</title>
+    <link href="https://leishen6.github.io/2020/08/29/how_do_create_index/"/>
+    <id>https://leishen6.github.io/2020/08/29/how_do_create_index/</id>
+    <published>2020-08-29T10:40:52.326Z</published>
+    <updated>2020-08-29T11:57:22.136Z</updated>
+    
+    <summary type="html">
+    
+      怎么创建最合适、合理的索引
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="B+Tree" scheme="https://leishen6.github.io/tags/B-Tree/"/>
+    
+  </entry>
   
   <entry>
     <title>Tomcat优化，值得你拥有！</title>
@@ -54,9 +75,9 @@
       <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="联合索引" scheme="https://leishen6.github.io/tags/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95/"/>
-    
       <category term="B+Tree" scheme="https://leishen6.github.io/tags/B-Tree/"/>
+    
+      <category term="联合索引" scheme="https://leishen6.github.io/tags/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95/"/>
     
   </entry>
   
@@ -396,25 +417,6 @@
     
     
       <category term="数据脱敏" scheme="https://leishen6.github.io/tags/%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>高并发核心技术-幂等实现方案</title>
-    <link href="https://leishen6.github.io/2020/02/25/power_etc/"/>
-    <id>https://leishen6.github.io/2020/02/25/power_etc/</id>
-    <published>2020-02-25T07:12:46.758Z</published>
-    <updated>2020-02-27T05:41:42.665Z</updated>
-    
-    <summary type="html">
-    
-      学习高并发核心技术-幂等理念及实现方案！
-    
-    </summary>
-    
-    
-      <category term="并发编程" scheme="https://leishen6.github.io/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
-    
     
   </entry>
   
