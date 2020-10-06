@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-09-24T13:24:27.131Z</updated>
+  <updated>2020-10-06T12:41:45.656Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>线上服务平均响应时间太长，怎么排查？</title>
+    <link href="https://leishen6.github.io/2020/10/06/check_service_response_time_long/"/>
+    <id>https://leishen6.github.io/2020/10/06/check_service_response_time_long/</id>
+    <published>2020-10-06T12:39:17.888Z</published>
+    <updated>2020-10-06T12:41:45.656Z</updated>
+    
+    <summary type="html">
+    
+      线上服务某接口响应时间太长，导致用户体验超差；遇到这种问题，怎么去排查呢？
+    
+    </summary>
+    
+    
+      <category term="实战问题排查" scheme="https://leishen6.github.io/categories/%E5%AE%9E%E6%88%98%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>JMeter压测时跑一会聚合报告就不动了？</title>
@@ -394,27 +413,6 @@
     
     
       <category term="位运算符" scheme="https://leishen6.github.io/tags/%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>十大工具让你飞起，就问你它香不香！嘿嘿......</title>
-    <link href="https://leishen6.github.io/2020/02/28/six_tool_fly/"/>
-    <id>https://leishen6.github.io/2020/02/28/six_tool_fly/</id>
-    <published>2020-02-28T05:10:02.951Z</published>
-    <updated>2020-06-06T10:12:23.905Z</updated>
-    
-    <summary type="html">
-    
-      十大工具让你工作更加顺畅，生活更加甜蜜，快来瞅瞅并收藏哟！括弧(收藏不看系列不也挺香的呀，嘿嘿.....)
-    
-    </summary>
-    
-    
-      <category term="程序人生" scheme="https://leishen6.github.io/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
-    
-    
-      <category term="实用工具" scheme="https://leishen6.github.io/tags/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
