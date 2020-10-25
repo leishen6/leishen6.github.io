@@ -80,7 +80,7 @@
 						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
 					  }
 					  var l = "",
-					  o = ["爱学习的渣渣！","爱美食，更享受做美食的过程！"].map(function (r) {
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
 					  return r + ""
 					  }),
 					  a = 2,
