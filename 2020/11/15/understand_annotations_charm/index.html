@@ -1,0 +1,1126 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>自定义注解的魅力你到底懂不懂 | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="项目中使用过自定义注解吗？怎么使用的，可以说说吗？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义注解的魅力你到底懂不懂">
+<meta property="og:url" content="https://leishen6.github.io/2020/11/15/understand_annotations_charm/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="项目中使用过自定义注解吗？怎么使用的，可以说说吗？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201113141104.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111102238.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111102246.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111185449.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111202620.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201114164532.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111214214.png">
+<meta property="article:published_time" content="2020-11-15T00:58:42.955Z">
+<meta property="article:modified_time" content="2020-11-15T01:03:18.292Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201113141104.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/11/15/understand_annotations_charm/" title="自定义注解的魅力你到底懂不懂" itemprop="url">自定义注解的魅力你到底懂不懂</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-11-15T00:58:42.955Z" itemprop="datePublished">
+
+			发表于 2020-11-15 08:58:42
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">1.0.1.</span> <span class="toc-text">本文主线：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">2.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.</span> <span class="toc-text">注解是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">①、引用自维基百科的内容：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">②、引用自网络的内容：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.</span> <span class="toc-text">元注解是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">标准的元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.2.</span> <span class="toc-text">@Target元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.3.</span> <span class="toc-text">@Retention元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.4.</span> <span class="toc-text">@Documented元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.5.</span> <span class="toc-text">@Inherited元注解：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.3.</span> <span class="toc-text">自定义注解实现：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.4.</span> <span class="toc-text">自定义注解的简单使用：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">3.</span> <span class="toc-text">应用场景实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.</span> <span class="toc-text">场景一：自定义注解 + 拦截器  &#x3D; 实现接口响应的包装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.1.</span> <span class="toc-text">普通的接口响应包装方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.2.</span> <span class="toc-text">自定义注解实现接口响应包装：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.</span> <span class="toc-text">场景二：自定义注解 + AOP  &#x3D; 实现优雅的使用分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.1.</span> <span class="toc-text">普通的分布式锁使用方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.2.</span> <span class="toc-text">自定义注解优雅的使用分布式锁：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.</span> <span class="toc-text">场景三：自定义注解 + AOP  &#x3D; 实现日志的打印</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.1.</span> <span class="toc-text">普通日志的打印方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.2.</span> <span class="toc-text">自定义注解实现日志打印：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">4.</span> <span class="toc-text">❤  关注 + 点赞 + 收藏 + 评论 哟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+		
+		</div>
+		
+		<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="padding: 0 10px; word-spacing: 0px; word-wrap: break-word; text-align: left; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; line-height: 1.6; letter-spacing: .034em; color: rgb(63, 63, 63); font-size: 16px; word-break: all;"><h2 data-tool="mdnice编辑器" style="padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; text-align: center; background-image: url(https://files.mdnice.com/mountain_2.png); background-position: center center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; margin-bottom: 10px;"><span class="prefix" style="display: none;"></span><span class="content" style="text-align: center; display: inline-block; height: 38px; line-height: 42px; color: rgb(60, 112, 198); background-position: left center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; font-size: 18px; margin-bottom: 10px;">前言</span><span class="suffix"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">你知道自定义注解的魅力所在吗？</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">你知道自定义注解该怎么使用吗？</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">本文一开始的这两个问题，需要您仔细思考下，然后结合这两个问题来阅读下面的内容；如果您在阅读完文章后对这两个问题有了比较清晰的，请动动您发财的小手，点赞留言呀！</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201113141104.jpg" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">本文主线：</span><span class="suffix" style="display: none;"></span></h4>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">注解是什么；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">实现一个自定义注解；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">自定义注解的实战应用场景；</p>
+</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">注意：本文在介绍自定义注解实战应用场景时，需要结合拦截器、AOP进行使用，所以本文也会简单聊下AOP相关知识点，如果对于AOP的相关内容不太清楚的可以参考此 <a href="https://blog.csdn.net/q982151756/article/details/80513340" target="_blank" rel="noopener" style="word-wrap: break-word; font-weight: bold; color: rgb(60, 112, 198); text-decoration: none; border-bottom: 1px solid rgb(60, 112, 198);">细说Spring——AOP详解</a> 文章进行了解。</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; text-align: center; background-image: url(https://files.mdnice.com/mountain_2.png); background-position: center center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; margin-bottom: 10px;"><span class="prefix" style="display: none;"></span><span class="content" style="text-align: center; display: inline-block; height: 38px; line-height: 42px; color: rgb(60, 112, 198); background-position: left center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; font-size: 18px; margin-bottom: 10px;">注解</span><span class="suffix"></span></h2>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">注解是什么？</span><span class="suffix" style="display: none;"></span></h4>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">①、引用自维基百科的内容：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">Java注解又称Java标注，是JDK5.0版本开始支持加入源代码的特殊语法 <strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">元数据</strong> 。</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">Java语言中的类、方法、变量、参数和包等都可以被标注。和Javadoc不同，Java标注可以通过反射获取标注内容。在编译器生成类文件时，标注可以被嵌入到字节码中。Java虚拟机可以保留标注内容，在运行时可以获取到标注内容。 当然它也支持自定义Java标注。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">②、引用自网络的内容：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">Java 注解是在 JDK5 时引入的新特性，注解（也被称为 <strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">元数据</strong> ）为我们在代码中添加信息提供了一种形式化的方法，使我们可以在稍后某个时刻非常方便地使用这些数据。</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">元注解是什么？</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);"><strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">元注解</strong> 的作用就是负责注解其他注解。Java5.0定义了4个标准的meta-annotation（元注解）类型，它们被用来提供对其它 annotation类型作说明。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">标准的元注解：</span><span class="suffix" style="display: none;"></span></h5>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">@Target</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">@Retention</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">@Documented</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">@Inherited</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">在详细说这四个元数据的含义之前，先来看一个在工作中会经常使用到的 @Autowired 注解，进入这个注解里面瞧瞧： 此注解中使用到了@Target、@Retention、@Documented 这三个元注解 。</p>
+</blockquote>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Target</span>({ElementType.CONSTRUCTOR,&nbsp;ElementType.METHOD,&nbsp;ElementType.PARAMETER,&nbsp;ElementType.FIELD,&nbsp;ElementType.ANNOTATION_TYPE})<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Retention</span>(RetentionPolicy.RUNTIME)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Documented</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@interface</span>&nbsp;Autowired&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">boolean</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">required</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">default</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">true</span></span>;<br>}<br></code></pre>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">@Target元注解：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">@Target注解，是专门用来限定某个自定义注解能够被应用在哪些Java元素上面的，标明作用范围；取值在<code style="font-size: 14px; word-wrap: break-word; padding: 2px 4px; border-radius: 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(60, 112, 198);">java.lang.annotation.ElementType</code> 进行定义的。</p>
+</blockquote>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">enum</span>&nbsp;ElementType&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;类，接口（包括注解类型）或枚举的声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;TYPE,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;属性的声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;FIELD,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;方法的声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;METHOD,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;方法形式参数声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;PARAMETER,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;构造方法的声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;局部变量声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;LOCAL_VARIABLE,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;注解类型声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;ANNOTATION_TYPE,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**&nbsp;包的声明&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;PACKAGE<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">根据此处可以知道 @Autowired 注解的作用范围：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;可以作用在&nbsp;构造方法、方法、方法形参、属性、注解类型&nbsp;上</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Target</span>({ElementType.CONSTRUCTOR,&nbsp;ElementType.METHOD,&nbsp;ElementType.PARAMETER,&nbsp;ElementType.FIELD,&nbsp;ElementType.ANNOTATION_TYPE})<br></code></pre>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">@Retention元注解：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">@Retention注解，翻译为持久力、保持力。即用来修饰自定义注解的生命周期。</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">注解的生命周期有三个阶段：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">Java源文件阶段；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">编译到class文件阶段；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">运行期阶段；</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">同样使用了RetentionPolicy 枚举类型对这三个阶段进行了定义：</p>
+</blockquote>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">enum</span>&nbsp;RetentionPolicy&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Annotations&nbsp;are&nbsp;to&nbsp;be&nbsp;discarded&nbsp;by&nbsp;the&nbsp;compiler.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;（注解将被编译器忽略掉）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;SOURCE,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Annotations&nbsp;are&nbsp;to&nbsp;be&nbsp;recorded&nbsp;in&nbsp;the&nbsp;class&nbsp;file&nbsp;by&nbsp;the&nbsp;compiler<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;but&nbsp;need&nbsp;not&nbsp;be&nbsp;retained&nbsp;by&nbsp;the&nbsp;VM&nbsp;at&nbsp;run&nbsp;time.&nbsp;&nbsp;This&nbsp;is&nbsp;the&nbsp;default<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;behavior.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;（注解将被编译器记录在class文件中，但在运行时不会被虚拟机保留，这是一个默认的行为）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;CLASS,<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Annotations&nbsp;are&nbsp;to&nbsp;be&nbsp;recorded&nbsp;in&nbsp;the&nbsp;class&nbsp;file&nbsp;by&nbsp;the&nbsp;compiler&nbsp;and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;retained&nbsp;by&nbsp;the&nbsp;VM&nbsp;at&nbsp;run&nbsp;time,&nbsp;so&nbsp;they&nbsp;may&nbsp;be&nbsp;read&nbsp;reflectively.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;（注解将被编译器记录在class文件中，而且在运行时会被虚拟机保留，因此它们能通过反射被读取到）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@see</span>&nbsp;java.lang.reflect.AnnotatedElement<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;RUNTIME<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;"><strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">再详细描述下这三个阶段：</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">①、如果被定义为 RetentionPolicy.SOURCE，则它将被限定在Java源文件中，那么这个注解即不会参与编译也不会在运行期起任何作用，这个注解就和一个注释是一样的效果，只能被阅读Java文件的人看到；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">②、如果被定义为 RetentionPolicy.CLASS，则它将被编译到Class文件中，那么编译器可以在编译时根据注解做一些处理动作，但是运行时JVM（Java虚拟机）会忽略它，并且在运行期也不能读取到；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">③、如果被定义为 RetentionPolicy.RUNTIME，那么这个注解可以在运行期的加载阶段被加载到Class对象中。那么在程序运行阶段，可以通过反射得到这个注解，并通过判断是否有这个注解或这个注解中属性的值，从而执行不同的程序代码段。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;"><strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">注意：实际开发中的自定义注解几乎都是使用的 RetentionPolicy.RUNTIME</strong>  。</p>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">@Documented元注解：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">@Documented注解，是被用来指定自定义注解是否能随着被定义的java文件生成到JavaDoc文档当中。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">@Inherited元注解：</span><span class="suffix" style="display: none;"></span></h5>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">@Inherited注解，是指定某个自定义注解如果写在了父类的声明部分，那么子类的声明部分也能自动拥有该注解。</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">@Inherited注解只对那些@Target被定义为 ElementType.TYPE 的自定义注解起作用。</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">自定义注解实现：</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">在了解了上面的内容后，我们来尝试实现一个自定义注解：</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111102238.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">根据上面自定义注解中使用到的元注解得知：</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">①、此注解的作用范围，可以使用在类（接口、枚举）、方法上；</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">②、此注解的生命周期，被编译器保存在class文件中，而且在运行时会被JVM保留，可以通过反射读取；</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">自定义注解的简单使用：</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">上面已经创建了一个自定义的注解，那该怎么使用呢？下面首先描述下它简单的用法，后面将会使用其结合拦截器和AOP切面编程进行实战应用；</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111102246.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<h2 data-tool="mdnice编辑器" style="padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; text-align: center; background-image: url(https://files.mdnice.com/mountain_2.png); background-position: center center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; margin-bottom: 10px;"><span class="prefix" style="display: none;"></span><span class="content" style="text-align: center; display: inline-block; height: 38px; line-height: 42px; color: rgb(60, 112, 198); background-position: left center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; font-size: 18px; margin-bottom: 10px;">应用场景实现</span><span class="suffix"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">在了解了上面注解的知识后，我们乘胜追击，看看它的实际应用场景是肿么样的，以此加深下我们的理解；</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">实现的 Demo 项目是以 SpringBoot 实现的，项目工程结构图如下：</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111185449.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">场景一：自定义注解 + 拦截器  = 实现接口响应的包装</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">使用自定义注解 结合 拦截器 优雅的实现对API接口响应的包装。</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">在介绍自定义实现的方式之前，先简单介绍下普遍的实现方式，通过两者的对比，才能更加明显的发现谁最优雅。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">普通的接口响应包装方式：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">现在项目绝大部分都采用的前后端分离方式，所以需要前端和后端通过接口进行交互；目前在接口交互中使用最多的数据格式是 json，然后后端返回给前端的最为常见的响应格式如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">{<br>&nbsp;&nbsp;&nbsp;&nbsp;#返回状态码<br>&nbsp;&nbsp;&nbsp;&nbsp;code:integer,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;#返回信息描述<br>&nbsp;&nbsp;&nbsp;&nbsp;message:string,<br>&nbsp;&nbsp;&nbsp;&nbsp;#返回数据值<br>&nbsp;&nbsp;&nbsp;&nbsp;data:object<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">项目中经常使用枚举类定义状态码和消息，代码如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Title</span>:&nbsp;ResponseCode<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;使用枚举类封装好的响应状态码及对应的响应消息<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@date</span>:&nbsp;2019年8月23日&nbsp;下午7:12:50<br>&nbsp;*/</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">enum</span>&nbsp;ResponseCode&nbsp;{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;SUCCESS(<span class="hljs-number" style="color: #986801; line-height: 26px;">1200</span>,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"请求成功"</span>),<br><br>&nbsp;&nbsp;&nbsp;&nbsp;ERROR(<span class="hljs-number" style="color: #986801; line-height: 26px;">1400</span>,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"请求失败"</span>);<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;Integer&nbsp;code;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;String&nbsp;message;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">ResponseCode</span><span class="hljs-params" style="line-height: 26px;">(Integer&nbsp;code,&nbsp;String&nbsp;message)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.code&nbsp;=&nbsp;code;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.message&nbsp;=&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Integer&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">code</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.code;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">message</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">同时项目中也会设计一个返回响应包装类，代码如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">import</span>&nbsp;com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">import</span>&nbsp;java.io.Serializable;<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Title</span>:&nbsp;Response<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;封装的统一的响应返回类<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@date</span>:&nbsp;2019年8月23日&nbsp;下午7:07:13<br>&nbsp;*/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@SuppressWarnings</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"serial"</span>)<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">Response</span>&lt;<span class="hljs-title" style="color: #c18401; line-height: 26px;">T</span>&gt;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">implements</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">Serializable</span>&nbsp;</span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;响应数据<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;T&nbsp;date;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;响应状态码<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;Integer&nbsp;code;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;响应描述信息<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;String&nbsp;message;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">Response</span><span class="hljs-params" style="line-height: 26px;">(T&nbsp;date,&nbsp;Integer&nbsp;code,&nbsp;String&nbsp;message)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">super</span>();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.date&nbsp;=&nbsp;date;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.code&nbsp;=&nbsp;code;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.message&nbsp;=&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;T&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">getDate</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;date;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">setDate</span><span class="hljs-params" style="line-height: 26px;">(T&nbsp;date)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.date&nbsp;=&nbsp;date;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Integer&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">getCode</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;code;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">setCode</span><span class="hljs-params" style="line-height: 26px;">(Integer&nbsp;code)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.code&nbsp;=&nbsp;code;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">getMessage</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">setMessage</span><span class="hljs-params" style="line-height: 26px;">(String&nbsp;message)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.message&nbsp;=&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Override</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">toString</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;JSONObject.toJSONString(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">最后就是使用响应包装类和状态码枚举类 来实现返回响应的包装了：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@GetMapping</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"/user/findAllUser"</span>)<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Response&lt;List&lt;User&gt;&gt;&nbsp;findAllUser()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"开始查询所有数据..."</span>);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;List&lt;User&gt;&nbsp;findAllUser&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;ArrayList&lt;&gt;();<br>&nbsp;&nbsp;&nbsp;&nbsp;findAllUser.add(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;User(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"木子雷"</span>,&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">26</span>));<br>&nbsp;&nbsp;&nbsp;&nbsp;findAllUser.add(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;User(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"公众号"</span>,&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">28</span>));<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;返回响应进行包装</span><br>&nbsp;&nbsp;&nbsp;&nbsp;Response&nbsp;response&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Response(findAllUser,&nbsp;ResponseCode.SUCCESS.code(),&nbsp;ResponseCode.SUCCESS.message());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"response:&nbsp;{}&nbsp;\n"</span>,&nbsp;response.toString());<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;response;<br>}<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">在浏览器中输入网址： http://127.0.0.1:8080/v1/api/user/findAllUser    然后点击回车，得到如下数据：</p>
+</blockquote>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"code"</span>:&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">1200</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"date"</span>:&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"age"</span>:&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">26</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"name"</span>:&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"木子雷"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"age"</span>:&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">28</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"name"</span>:&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"公众号"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">"message"</span>:&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"请求成功"</span><br>}<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">通过看这中实现响应包装的方式，我们能发现什么问题吗？</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">答：代码很冗余，需要在每个接口方法中都进行响应的包装；使得接口方法包含了很多非业务逻辑代码；</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">有没有版本进行优化下呢？  en en 思考中。。。。。          啊，自定义注解 + 拦截器可以实现呀！</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">自定义注解实现接口响应包装：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">①、首先创建一个进行响应包装的自定义注解：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.annotation<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;ResponseResult<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;标记方法返回值需要进行包装的&nbsp;自定义注解<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;10:38<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Target</span>({ElementType.TYPE,&nbsp;ElementType.METHOD})<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Retention</span>(RetentionPolicy.RUNTIME)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Documented</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@interface</span>&nbsp;ResponseResult&nbsp;{<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">②、创建一个拦截器，实现对请求的拦截，看看请求的方法或类上是否使用了自定义的注解：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.interceptor<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;ResponseResultInterceptor<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;拦截器：拦截请求，判断请求的方法或类上是否使用了自定义的<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ResponseResult</span>注解，<br>&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;并在请求内设置是否使用了自定义注解的标志位属性；<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;10:50<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Component</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">ResponseResultInterceptor</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">implements</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">HandlerInterceptor</span>&nbsp;</span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;标记位，标记请求的controller类或方法上使用了到了自定义注解，返回数据需要被包装<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">static</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;String&nbsp;RESPONSE_ANNOTATION&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"RESPONSE_ANNOTATION"</span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;请求预处理，判断是否使用了自定义注解<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Override</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">boolean</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">preHandle</span><span class="hljs-params" style="line-height: 26px;">(HttpServletRequest&nbsp;request,&nbsp;HttpServletResponse&nbsp;response,&nbsp;Object&nbsp;handler)</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">throws</span>&nbsp;Exception&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;请求的接口方法</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(handler&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">instanceof</span>&nbsp;HandlerMethod)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;HandlerMethod&nbsp;handlerMethod&nbsp;=&nbsp;(HandlerMethod)&nbsp;handler;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;Class&lt;?&gt;&nbsp;clazz&nbsp;=&nbsp;handlerMethod.getBeanType();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;Method&nbsp;method&nbsp;=&nbsp;handlerMethod.getMethod();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;判断是否在类对象上加了注解</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(clazz.isAnnotationPresent(ResponseResult<span class="hljs-class" style="line-height: 26px;">.<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>))&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;在请求中设置需要进行响应包装的属性标志，在下面的ResponseBodyAdvice增强中进行处理</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.setAttribute(RESPONSE_ANNOTATION,&nbsp;clazz.getAnnotation(ResponseResult<span class="hljs-class" style="line-height: 26px;">.<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>))</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(method.isAnnotationPresent(ResponseResult<span class="hljs-class" style="line-height: 26px;">.<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>))&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;在请求中设置需要进行响应包装的属性标志，在下面的ResponseBodyAdvice增强中进行处理</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.setAttribute(RESPONSE_ANNOTATION,&nbsp;method.getAnnotation(ResponseResult<span class="hljs-class" style="line-height: 26px;">.<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>))</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">true</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">③、创建一个增强Controller，实现对返回响应进行包装的增强处理：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.interceptor<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;ResponseResultHandler<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;对&nbsp;返回响应&nbsp;进行包装&nbsp;的增强处理<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;13:49<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@ControllerAdvice</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">ResponseResultHandler</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">implements</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">ResponseBodyAdvice</span>&lt;<span class="hljs-title" style="color: #c18401; line-height: 26px;">Object</span>&gt;&nbsp;</span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;Logger&nbsp;logger&nbsp;=&nbsp;LoggerFactory.getLogger(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.getClass());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;标记位，标记请求的controller类或方法上使用了到了自定义注解，返回数据需要被包装<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">static</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;String&nbsp;RESPONSE_ANNOTATION&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"RESPONSE_ANNOTATION"</span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;请求中是否包含了&nbsp;响应需要被包装的标记，如果没有，则直接返回，不需要重写返回体<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@param</span>&nbsp;methodParameter<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@param</span>&nbsp;aClass<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@return</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Override</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">boolean</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">supports</span><span class="hljs-params" style="line-height: 26px;">(MethodParameter&nbsp;methodParameter,&nbsp;Class&lt;?&nbsp;extends&nbsp;HttpMessageConverter&lt;?&gt;&gt;&nbsp;aClass)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServletRequestAttributes&nbsp;ra&nbsp;=&nbsp;(ServletRequestAttributes)&nbsp;RequestContextHolder.getRequestAttributes();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HttpServletRequest&nbsp;sr&nbsp;=&nbsp;(HttpServletRequest)&nbsp;ra.getRequest();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;查询是否需要进行响应包装的标志</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResponseResult&nbsp;responseResult&nbsp;=&nbsp;(ResponseResult)&nbsp;sr.getAttribute(RESPONSE_ANNOTATION);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;responseResult&nbsp;==&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">null</span>&nbsp;?&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">false</span>&nbsp;:&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">true</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;对&nbsp;响应体&nbsp;进行包装;&nbsp;除此之外还可以对响应体进行统一的加密、签名等<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@param</span>&nbsp;responseBody&nbsp;&nbsp;请求的接口方法执行后得到返回值(返回响应)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Override</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Object&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">beforeBodyWrite</span><span class="hljs-params" style="line-height: 26px;">(Object&nbsp;responseBody,&nbsp;MethodParameter&nbsp;methodParameter,&nbsp;MediaType&nbsp;mediaType,&nbsp;Class&lt;?&nbsp;extends&nbsp;HttpMessageConverter&lt;?&gt;&gt;&nbsp;aClass,&nbsp;ServerHttpRequest&nbsp;serverHttpRequest,&nbsp;ServerHttpResponse&nbsp;serverHttpResponse)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"返回响应&nbsp;包装进行中。。。"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Response&nbsp;response;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;boolean类型时判断一些数据库新增、更新、删除的操作是否成功</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(responseBody&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">instanceof</span>&nbsp;Boolean)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;((Boolean)&nbsp;responseBody)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Response(responseBody,&nbsp;ResponseCode.SUCCESS.code(),&nbsp;ResponseCode.SUCCESS.message());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Response(responseBody,&nbsp;ResponseCode.ERROR.code(),&nbsp;ResponseCode.ERROR.message());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;判断像查询一些返回数据的情况，查询不到数据返回&nbsp;null;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">null</span>&nbsp;!=&nbsp;responseBody)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Response(responseBody,&nbsp;ResponseCode.SUCCESS.code(),&nbsp;ResponseCode.SUCCESS.message());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Response(responseBody,&nbsp;ResponseCode.ERROR.code(),&nbsp;ResponseCode.ERROR.message());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;response;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">④、最后在 Controller 中使用上我们的自定义注解；在 Controller 类上或者 方法上使用@ResponseResult自定义注解即可；  在浏览器中输入网址： http://127.0.0.1:8080/v1/api/user/findAllUserByAnnotation  进行查看：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;自定义注解用在了方法上</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@ResponseResult</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@GetMapping</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"/user/findAllUserByAnnotation"</span>)<br><span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;List&lt;User&gt;&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">findAllUserByAnnotation</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"开始查询所有数据..."</span>);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;List&lt;User&gt;&nbsp;findAllUser&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;ArrayList&lt;&gt;();<br>&nbsp;&nbsp;&nbsp;&nbsp;findAllUser.add(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;User(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"木子雷"</span>,&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">26</span>));<br>&nbsp;&nbsp;&nbsp;&nbsp;findAllUser.add(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;User(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"公众号"</span>,&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">28</span>));<br><br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"使用&nbsp;@ResponseResult&nbsp;自定义注解进行响应的包装，使controller代码更加简介"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;findAllUser;<br>}<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">至此我们的接口返回响应包装自定义注解实现设计完成，看看代码是不是又简洁，又优雅呢。</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">总结：本文针对此方案只是进行了简单的实现，如果有兴趣的朋友可以进行更好的优化。</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">场景二：自定义注解 + AOP  = 实现优雅的使用分布式锁</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">分布式锁的最常见的使用流程：</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111202620.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">先看看最为常见的分布式锁使用方式的实现，然后再聊聊自定义注解怎么优雅的实现分布式锁的使用。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">普通的分布式锁使用方式：</span><span class="suffix" style="display: none;"></span></h5>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201114164532.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">通过上面的代码可以得到一个信息：如果有很多方法中需要使用分布式锁，那么每个方法中都必须有获取分布式锁和释放分布式锁的代码，这样一来就会出现代码冗余；</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">那有什么好的解决方案吗？      自定义注解使代码变得更加简洁、优雅；</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">自定义注解优雅的使用分布式锁：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">①、首先实现一个标记分布式锁使用的自定义注解：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.annotation<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;GetDistributedLock<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;获取redis分布式锁&nbsp;注解<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;16:24<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Target</span>(ElementType.METHOD)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Retention</span>(RetentionPolicy.RUNTIME)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Documented</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@interface</span>&nbsp;GetDistributedLock&nbsp;{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;分布式锁&nbsp;key</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;">String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">lockKey</span><span class="hljs-params" style="line-height: 26px;">()</span></span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;分布式锁&nbsp;value，默认为&nbsp;lockValue</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;">String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">lockValue</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">default</span>&nbsp;"lockValue"</span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;过期时间，默认为&nbsp;300秒</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">int</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">expireTime</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">default</span>&nbsp;300</span>;<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">②、定义一个切面，在切面中对使用了 @GetDistributedLock  自定义注解的方法进行环绕增强通知：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>:&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.aop<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;DistributedLockAspect<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;自定义注解结合AOP切面编程优雅的使用分布式锁<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;16:52<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Component</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Aspect</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">DistributedLockAspect</span>&nbsp;</span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;Logger&nbsp;logger&nbsp;=&nbsp;LoggerFactory.getLogger(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.getClass());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Autowired</span><br>&nbsp;&nbsp;&nbsp;&nbsp;RedisService&nbsp;redisService;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Around&nbsp;环绕增强通知<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@param</span>&nbsp;joinPoint&nbsp;连接点，所有方法都属于连接点；但是当某些方法上使用了<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@GetDistributedLock</span>自定义注解时，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;则其将连接点变为了切点；然后在切点上织入额外的增强处理；切点和其相应的增强处理构成了切面Aspect&nbsp;。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Around</span>(value&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"@annotation(com.lyl.annotation.GetDistributedLock)"</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Boolean&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">handlerDistributedLock</span><span class="hljs-params" style="line-height: 26px;">(ProceedingJoinPoint&nbsp;joinPoint)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;通过反射获取自定义注解对象</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetDistributedLock&nbsp;getDistributedLock&nbsp;=&nbsp;((MethodSignature)&nbsp;joinPoint.getSignature())<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getMethod().getAnnotation(GetDistributedLock<span class="hljs-class" style="line-height: 26px;">.<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>)</span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取自定义注解对象中的属性值</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;lockKey&nbsp;=&nbsp;getDistributedLock.lockKey();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;LockValue&nbsp;=&nbsp;getDistributedLock.lockValue();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">int</span>&nbsp;expireTime&nbsp;=&nbsp;getDistributedLock.expireTime();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(redisService.tryGetDistributedLock(lockKey,&nbsp;LockValue,&nbsp;expireTime))&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取分布式锁成功后，继续执行业务逻辑</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">try</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">boolean</span>)&nbsp;joinPoint.proceed();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">catch</span>&nbsp;(Throwable&nbsp;throwable)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.error(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"业务逻辑执行失败。"</span>,&nbsp;throwable);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">finally</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;最终保证分布式锁的释放</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redisService.releaseDistributedLock(lockKey,&nbsp;LockValue);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">false</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">③、最后，在 Controller 中的方法上使用 @GetDistributedLock 自定义注解即可；当某个方法上使用了 自定义注解，那么这个方法就相当于一个切点，那么就会对这个方法做环绕（方法执行前和方法执行后）增强处理；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">在浏览器中输入网址： http://127.0.0.1:8080/v1/api/user/getDistributedLock    回车后触发方法执行：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;自定义注解的使用</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@GetDistributedLock</span>(lockKey&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"userLock"</span>)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@GetMapping</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"/user/getDistributedLock"</span>)<br><span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">boolean</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">getUserDistributedLock</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"获取分布式锁..."</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;写具体的业务逻辑</span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">true</span>;<br>}<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">通过自定义注解的方式，可以看到代码变得更加简洁、优雅。</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">场景三：自定义注解 + AOP  = 实现日志的打印</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">先看看最为常见的日志打印的方式，然后再聊聊自定义注解怎么优雅的实现日志的打印。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">普通日志的打印方式：</span><span class="suffix" style="display: none;"></span></h5>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201111214214.png" alt style="display: block; margin: 0 auto; max-width: 100%; border-radius: 4px; margin-bottom: 25px;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">通过看上面的代码可以知道，如果每个方法都需要打印下日志，那将会存在大量的冗余代码；</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">自定义注解实现日志打印：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">①、首先创建一个标记日志打印的自定义注解：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Author</span>:&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.annotation<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;PrintLog<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;自定义注解实现日志打印<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;18:05<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Target</span>(ElementType.METHOD)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Retention</span>(RetentionPolicy.RUNTIME)<br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Documented</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@interface</span>&nbsp;PrintLog&nbsp;{<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">②、定义一个切面，在切面中对使用了 @PrintLog 自定义注解的方法进行环绕增强通知：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@author</span>:&nbsp;【&nbsp;木子雷&nbsp;】&nbsp;公众号<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PACKAGE</span>_NAME:&nbsp;com.lyl.aop<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@ClassName</span>:&nbsp;PrintLogAspect<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Description</span>:&nbsp;自定义注解结合AOP切面编程优雅的实现日志打印<br>&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@Date</span>:&nbsp;2020-11-10&nbsp;18:11<br>&nbsp;**/</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Component</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Aspect</span><br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">class</span>&nbsp;<span class="hljs-title" style="color: #c18401; line-height: 26px;">PrintLogAspect</span>&nbsp;</span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">private</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">final</span>&nbsp;Logger&nbsp;logger&nbsp;=&nbsp;LoggerFactory.getLogger(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.getClass());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;Around&nbsp;环绕增强通知<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@param</span>&nbsp;joinPoint&nbsp;连接点，所有方法都属于连接点；但是当某些方法上使用了<span class="hljs-doctag" style="color: #a626a4; line-height: 26px;">@PrintLog</span>自定义注解时，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;则其将连接点变为了切点；然后在切点上织入额外的增强处理；切点和其相应的增强处理构成了切面Aspect&nbsp;。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Around</span>(value&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"@annotation(com.lyl.annotation.PrintLog)"</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;Object&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">handlerPrintLog</span><span class="hljs-params" style="line-height: 26px;">(ProceedingJoinPoint&nbsp;joinPoint)</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取方法的名称</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;methodName&nbsp;=&nbsp;joinPoint.getSignature().getName();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取方法入参</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object[]&nbsp;param&nbsp;=&nbsp;joinPoint.getArgs();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder&nbsp;sb&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;StringBuilder();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">for</span>&nbsp;(Object&nbsp;o&nbsp;:&nbsp;param)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.append(o&nbsp;+&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">";&nbsp;"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"进入《{}》方法,&nbsp;参数为:&nbsp;{}"</span>,&nbsp;methodName,&nbsp;sb.toString());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object&nbsp;object&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">null</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;继续执行方法</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">try</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object&nbsp;=&nbsp;joinPoint.proceed();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">catch</span>&nbsp;(Throwable&nbsp;throwable)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.error(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"打印日志处理error。。"</span>,&nbsp;throwable);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"{}&nbsp;方法执行结束。。"</span>,&nbsp;methodName);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;object;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">③、最后，在 Controller 中的方法上使用 @PrintLog 自定义注解即可；当某个方法上使用了 自定义注解，那么这个方法就相当于一个切点，那么就会对这个方法做环绕（方法执行前和方法执行后）增强处理；</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@PrintLog</span><br><span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@GetMapping</span>(value&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"/user/findUserNameById/{id}"</span>,&nbsp;produces&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"application/json;charset=utf-8"</span>)<br><span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;String&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">findUserNameById</span><span class="hljs-params" style="line-height: 26px;">(@PathVariable(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"id"</span>)</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">int</span>&nbsp;id)&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;模拟根据id查询用户名</span><br>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;userName&nbsp;=&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"木子雷&nbsp;公众号"</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">return</span>&nbsp;userName;<br>}<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">④、在浏览器中输入网址： http://127.0.0.1:8080/v1/api/user/findUserNameById/66    回车后触发方法执行，发现控制台打印了日志：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">进入《findUserNameById》方法,&nbsp;参数为:&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">66</span>;&nbsp;<br>findUserNameById&nbsp;方法执行结束。。<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">使用自定义注解实现是多优雅，代码看起来简介干净，越瞅越喜欢；赶快去你的项目中使用吧，  嘿嘿。。。</p>
+</blockquote>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">end 。。。 自定义注解介绍到这本文也就结束了，期待我们的下次见面。</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">最后，想问下文章开头的那两个问题大家心里是不是已经有了答案呢！嘿嘿。。</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; text-align: center; background-image: url(https://files.mdnice.com/mountain_2.png); background-position: center center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; margin-bottom: 10px;"><span class="prefix" style="display: none;"></span><span class="content" style="text-align: center; display: inline-block; height: 38px; line-height: 42px; color: rgb(60, 112, 198); background-position: left center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; font-size: 18px; margin-bottom: 10px;"><font color="red">❤</font>  关注 + 点赞 + 收藏 + 评论 哟</span><span class="suffix"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; background: rgba(0, 0, 0, 0.05); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; padding: 15px 20px; line-height: 27px; background-color: rgb(239, 239, 239); border-left: none; display: block;">
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力；谢谢！</p>
+<p style="padding-bottom: 8px; padding-top: 23px; margin: 0px; line-height: 26px; padding: 0px; font-size: 15px; color: rgb(89,89,89);">如果想要 Demo 源码的话，请您 VX搜索【木子雷】公众号，回复  <strong style="font-weight: bold; line-height: 1.75em; color: rgb(74,74,74);">“ 注解 ”</strong>  获取； 再次感谢您阅读本文！</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; text-align: center; background-image: url(https://files.mdnice.com/mountain_2.png); background-position: center center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; margin-bottom: 10px;"><span class="prefix" style="display: none;"></span><span class="content" style="text-align: center; display: inline-block; height: 38px; line-height: 42px; color: rgb(60, 112, 198); background-position: left center; background-repeat: no-repeat; background-attachment: initial; background-origin: initial; background-clip: initial; background-size: 63px; margin-top: 38px; font-size: 18px; margin-bottom: 10px;">参考资料</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">①、<a href="https://blog.csdn.net/xsp_happyboy/article/details/80987484" target="_blank" rel="noopener" style="word-wrap: break-word; font-weight: bold; color: rgb(60, 112, 198); text-decoration: none; border-bottom: 1px solid rgb(60, 112, 198);">自定义注解详细介绍</a></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">②、<a href="https://www.jianshu.com/p/a7bedc771204" target="_blank" rel="noopener" style="word-wrap: break-word; font-weight: bold; color: rgb(60, 112, 198); text-decoration: none; border-bottom: 1px solid rgb(60, 112, 198);">Java 自定义注解及使用场景</a></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">③、<a href="https://mp.weixin.qq.com/s?__biz=MzIwODI1OTk1Nw==&amp;mid=2650321584&amp;idx=1&amp;sn=a60ceaa2c6861cc049fff19f863d8445&amp;chksm=8f09ccaab87e45bcd52545260360ad7f17d475a8d78c316f72a6145f71cc961a330dca7ef556&amp;cur_album_id=1572067359299846145&amp;scene=189#rd" target="_blank" rel="noopener" style="word-wrap: break-word; font-weight: bold; color: rgb(60, 112, 198); text-decoration: none; border-bottom: 1px solid rgb(60, 112, 198);">想自己写框架？不会写Java注解可不行</a></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-bottom: 8px; margin: 0; padding-top: 23px; color: rgb(74,74,74); line-height: 1.75em;">④、<a href="https://mp.weixin.qq.com/s/387fQ17r9oRYd7LDPYuQPw" target="_blank" rel="noopener" style="word-wrap: break-word; font-weight: bold; color: rgb(60, 112, 198); text-decoration: none; border-bottom: 1px solid rgb(60, 112, 198);">看看人家那后端 API 接口写得，那叫一个优雅！</a></p>
+</section>  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/11/15/understand_annotations_charm/" target="_blank" title="自定义注解的魅力你到底懂不懂">https://leishen6.github.io/2020/11/15/understand_annotations_charm/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/11/15/understand_annotations_charm/" data-title="自定义注解的魅力你到底懂不懂 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/10/18/check_tomcat_false_die/"  title="数据库连接池连接耗尽，导致tomcat请求无响应，呈现出假死状态">
+ <strong>下一篇：</strong><br/> 
+ <span>数据库连接池连接耗尽，导致tomcat请求无响应，呈现出假死状态
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">1.0.1.</span> <span class="toc-text">本文主线：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">2.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.</span> <span class="toc-text">注解是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">①、引用自维基百科的内容：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">②、引用自网络的内容：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.</span> <span class="toc-text">元注解是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">标准的元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.2.</span> <span class="toc-text">@Target元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.3.</span> <span class="toc-text">@Retention元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.4.</span> <span class="toc-text">@Documented元注解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">2.0.2.5.</span> <span class="toc-text">@Inherited元注解：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.3.</span> <span class="toc-text">自定义注解实现：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">2.0.4.</span> <span class="toc-text">自定义注解的简单使用：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">3.</span> <span class="toc-text">应用场景实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.</span> <span class="toc-text">场景一：自定义注解 + 拦截器  &#x3D; 实现接口响应的包装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.1.</span> <span class="toc-text">普通的接口响应包装方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.1.2.</span> <span class="toc-text">自定义注解实现接口响应包装：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.</span> <span class="toc-text">场景二：自定义注解 + AOP  &#x3D; 实现优雅的使用分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.1.</span> <span class="toc-text">普通的分布式锁使用方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.2.2.</span> <span class="toc-text">自定义注解优雅的使用分布式锁：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.</span> <span class="toc-text">场景三：自定义注解 + AOP  &#x3D; 实现日志的打印</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.1.</span> <span class="toc-text">普通日志的打印方式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nice"><span class="toc-number">3.0.3.2.</span> <span class="toc-text">自定义注解实现日志打印：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">4.</span> <span class="toc-text">❤  关注 + 点赞 + 收藏 + 评论 哟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nice"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

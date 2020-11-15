@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-10-20T08:56:02.102Z</updated>
+  <updated>2020-11-15T01:03:18.292Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自定义注解的魅力你到底懂不懂</title>
+    <link href="https://leishen6.github.io/2020/11/15/understand_annotations_charm/"/>
+    <id>https://leishen6.github.io/2020/11/15/understand_annotations_charm/</id>
+    <published>2020-11-15T00:58:42.955Z</published>
+    <updated>2020-11-15T01:03:18.292Z</updated>
+    
+    <summary type="html">
+    
+      项目中使用过自定义注解吗？怎么使用的，可以说说吗？
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://leishen6.github.io/categories/Java/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>数据库连接池连接耗尽，导致tomcat请求无响应，呈现出假死状态</title>
@@ -386,25 +405,6 @@
     <summary type="html">
     
       Java实现&lt;span style=&quot;color:red&quot;&gt;LRU缓存算法&lt;/span&gt;；LRU是Least Recently Used的缩写，即&lt;span style=&quot;color:blue&quot;&gt;最近最久未使用&lt;/span&gt;，是一种操作系统中常用的页面置换算法。
-    
-    </summary>
-    
-    
-      <category term="数据结构+算法" scheme="https://leishen6.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%97%E6%B3%95/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Java使用Trie树算法实现敏感词替过滤、根据关键词自动联想</title>
-    <link href="https://leishen6.github.io/2020/03/18/Java_Impl_Trie/"/>
-    <id>https://leishen6.github.io/2020/03/18/Java_Impl_Trie/</id>
-    <published>2020-03-18T08:01:43.226Z</published>
-    <updated>2020-09-08T10:59:21.061Z</updated>
-    
-    <summary type="html">
-    
-      Java使用&lt;span style=&quot;color:red&quot;&gt;Trie树算法&lt;/span&gt;实现&lt;span style=&quot;color:blue&quot;&gt;敏感词替过滤&lt;/span&gt;、根据关键词&lt;span style=&quot;color:blue&quot;&gt;自动联想&lt;/span&gt;
     
     </summary>
     
