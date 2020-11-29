@@ -1,0 +1,1104 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>mongodb_one | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="前言： 最近在看MongoDB相关知识，刚开始听到MongoDB时，一脸懵圈，这是个啥子数据库呀 。    但是通过学习后，发现这个数据库挺牛掰的呀；嘿嘿 。。。。 下面就带大家一起聊聊这个数据库 ，看看它到底有什么牛掰之处 。  本文主线：①、MongoDB 简介 ②、MongoDB支持的功能有哪些？ ③、MongoDB的存储引擎简述 ④、MongoDB知识扩展 MongoDB 简介： Mon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb_one">
+<meta property="og:url" content="https://leishen6.github.io/2020/11/29/mongodb_one/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="前言： 最近在看MongoDB相关知识，刚开始听到MongoDB时，一脸懵圈，这是个啥子数据库呀 。    但是通过学习后，发现这个数据库挺牛掰的呀；嘿嘿 。。。。 下面就带大家一起聊聊这个数据库 ，看看它到底有什么牛掰之处 。  本文主线：①、MongoDB 简介 ②、MongoDB支持的功能有哪些？ ③、MongoDB的存储引擎简述 ④、MongoDB知识扩展 MongoDB 简介： Mon">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201129150452.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127133906.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128182359.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128182744.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127120442.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128173842.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128191128.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127110209.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png">
+<meta property="article:published_time" content="2020-11-29T07:51:09.079Z">
+<meta property="article:modified_time" content="2020-11-29T07:51:39.355Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201129150452.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/11/29/mongodb_one/" title="mongodb_one" itemprop="url">mongodb_one</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-11-29T07:51:09.079Z" itemprop="datePublished">
+
+			发表于 2020-11-29 15:51:09
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			
+			
+			   <img src="/img/zhuan.png" title="转载"/> 
+			
+			
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本文主线："><span class="toc-number">1.1.</span> <span class="toc-text">本文主线：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB-简介："><span class="toc-number">2.</span> <span class="toc-text">MongoDB 简介：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB的数据逻辑结构："><span class="toc-number">2.1.</span> <span class="toc-text">MongoDB的数据逻辑结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB数据逻辑层次的关系如下图："><span class="toc-number">2.1.1.</span> <span class="toc-text">MongoDB数据逻辑层次的关系如下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB与关系数据库的数据逻辑结构比较："><span class="toc-number">2.1.2.</span> <span class="toc-text">MongoDB与关系数据库的数据逻辑结构比较：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB中文档的数据存储结构："><span class="toc-number">2.2.</span> <span class="toc-text">MongoDB中文档的数据存储结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bson的特点："><span class="toc-number">2.2.1.</span> <span class="toc-text">Bson的特点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？"><span class="toc-number">2.2.2.</span> <span class="toc-text">来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB支持的功能："><span class="toc-number">3.</span> <span class="toc-text">MongoDB支持的功能：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB的存储引擎："><span class="toc-number">4.</span> <span class="toc-text">MongoDB的存储引擎：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原生存储引擎MMAP："><span class="toc-number">4.1.</span> <span class="toc-text">原生存储引擎MMAP：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原生升级-MMAPV1-存储引擎："><span class="toc-number">4.2.</span> <span class="toc-text">原生升级 MMAPV1 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入式-WiredTiger-存储引擎："><span class="toc-number">4.3.</span> <span class="toc-text">插入式 WiredTiger 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#In-Memory-存储引擎："><span class="toc-number">4.4.</span> <span class="toc-text">In-Memory 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储引擎之间的比较："><span class="toc-number">4.5.</span> <span class="toc-text">存储引擎之间的比较：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB-知识扩展："><span class="toc-number">5.</span> <span class="toc-text">MongoDB 知识扩展：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么很吃内存？"><span class="toc-number">5.1.</span> <span class="toc-text">为什么很吃内存？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么MongoDB这么占用内存呢？"><span class="toc-number">5.1.1.</span> <span class="toc-text">为什么MongoDB这么占用内存呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何控制内存的使用："><span class="toc-number">5.1.2.</span> <span class="toc-text">如何控制内存的使用：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB的应用场景："><span class="toc-number">5.2.</span> <span class="toc-text">MongoDB的应用场景：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤-点赞-评论-转发-哟"><span class="toc-number">6.</span> <span class="toc-text">❤  点赞 + 评论 + 转发 哟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料："><span class="toc-number">7.</span> <span class="toc-text">参考资料：</span></a></li></ol>
+		
+		</div>
+		
+		<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201129150452.png" alt=""></p>
+<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
+<p>最近在看MongoDB相关知识，刚开始听到MongoDB时，一脸懵圈，这是个啥子数据库呀 。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127133906.gif" alt=""></p>
+<blockquote>
+<p>但是通过学习后，发现这个数据库挺牛掰的呀；嘿嘿 。。。。</p>
+<p>下面就带大家一起聊聊这个数据库 ，看看它到底有什么牛掰之处 。</p>
+</blockquote>
+<h3 id="本文主线："><a href="#本文主线：" class="headerlink" title="本文主线："></a>本文主线：</h3><p>①、MongoDB 简介</p>
+<p>②、MongoDB支持的功能有哪些？</p>
+<p>③、MongoDB的存储引擎简述</p>
+<p>④、MongoDB知识扩展</p>
+<h2 id="MongoDB-简介："><a href="#MongoDB-简介：" class="headerlink" title="MongoDB 简介："></a>MongoDB 简介：</h2><blockquote>
+<p>MongnDB是一个 <strong>分布式文件存储数据库</strong> （或叫文档数据库）；</p>
+<p>MongoDB是一个介于 <strong>关系数据库和非关系数据库</strong> 之间的产品，是非关系数据库当中功能最丰富，最像关系数据库，最接近关系型数据库的。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128182359.png" alt=""></p>
+<h3 id="MongoDB的数据逻辑结构："><a href="#MongoDB的数据逻辑结构：" class="headerlink" title="MongoDB的数据逻辑结构："></a>MongoDB的数据逻辑结构：</h3><blockquote>
+<p>首先说下 MongoDB 的数据逻辑层次： <strong>数据库(database)、集合(collection)、文档(document)</strong> 。</p>
+</blockquote>
+<h4 id="MongoDB数据逻辑层次的关系如下图："><a href="#MongoDB数据逻辑层次的关系如下图：" class="headerlink" title="MongoDB数据逻辑层次的关系如下图："></a>MongoDB数据逻辑层次的关系如下图：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128182744.png" alt=""></p>
+<h4 id="MongoDB与关系数据库的数据逻辑结构比较："><a href="#MongoDB与关系数据库的数据逻辑结构比较：" class="headerlink" title="MongoDB与关系数据库的数据逻辑结构比较："></a>MongoDB与关系数据库的数据逻辑结构比较：</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127120442.png" alt=""></p>
+<blockquote>
+<p>通过上图可以知道MongoDB和关系数据库之间的数据逻辑结构对应关系了吧，再来将关系对应一下子：</p>
+<p>数据库  ——  数据库 、 Table表 —— Collection集合 、 Row 行记录 —— Document 文档</p>
+<p>下面咱来聊聊上图Document文档中  <strong>{ “name” : “lyl”, “age” : 25}</strong>  看起来跟 JSON 格式一样的数据到底是个什么东东？</p>
+</blockquote>
+<h3 id="MongoDB中文档的数据存储结构："><a href="#MongoDB中文档的数据存储结构：" class="headerlink" title="MongoDB中文档的数据存储结构："></a>MongoDB中文档的数据存储结构：</h3><blockquote>
+<p>MongoDB的文件数据存储结构是 <strong>BSON</strong> ；Bson是 <strong>Binary JSON</strong> 缩写，是类似于JSON的文档的二进制编码序列化。   </p>
+</blockquote>
+<h4 id="Bson的特点："><a href="#Bson的特点：" class="headerlink" title="Bson的特点："></a>Bson的特点：</h4><ul>
+<li>轻量性</li>
+<li>可遍历性</li>
+<li>高效性</li>
+</ul>
+<h4 id="来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？"><a href="#来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？" class="headerlink" title="来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？"></a>来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？</h4><p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128173842.png" alt=""></p>
+<blockquote>
+<p>通过上图我们对MongoDB整体有了一个基本的了解，接下来我们在简单聊聊它到底有哪些功能呢？看看它到底支持了什么 <strong>牛掰</strong> 的功能让它一直这么火。</p>
+</blockquote>
+<h2 id="MongoDB支持的功能："><a href="#MongoDB支持的功能：" class="headerlink" title="MongoDB支持的功能："></a>MongoDB支持的功能：</h2><blockquote>
+<p>咱先贴一张摘抄自网上的大图：描述MongoDB的主要特性；</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201128191128.png" alt=""></p>
+<p><strong>除了支持上文的特性外，MongoDB还支持很多强大的功能：</strong></p>
+<ul>
+<li>BSON文档模型：<ul>
+<li>动态的数据模式</li>
+<li>使用高效的二进制数据存储，包括大型对象（如视频等）。</li>
+</ul>
+</li>
+<li>动态查询</li>
+<li>全文搜索</li>
+<li>聚合操作：<ul>
+<li>聚合管道</li>
+<li>Map - Reduce</li>
+<li>单一目的聚合方法</li>
+</ul>
+</li>
+<li>水平扩展（高扩展）：<ul>
+<li>主从复制（搭建主从复制集群）</li>
+<li>数据分片（搭建数据分片集群）</li>
+<li>数据分片 + 主从复制  = 更加强大的集群系统</li>
+</ul>
+</li>
+<li>高可用、支持故障恢复</li>
+<li>支持大文件存储GridFS</li>
+<li>企业级安全</li>
+<li>支持强大的索引：<ul>
+<li>单字段索引</li>
+<li>复核索引</li>
+<li>多键索引</li>
+<li>文本索引</li>
+<li>通配符索引</li>
+<li>地理位置索引</li>
+<li>哈希索引</li>
+<li>索引特性：<ul>
+<li>TTL索引</li>
+<li>唯一索引</li>
+<li>部分索引</li>
+<li>稀疏索引</li>
+<li>索引交集</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.0版本支持多文档事务，4.2版本支持分布式事务</li>
+<li>支持多种存储引擎<ul>
+<li>MMAP 存储引擎</li>
+<li>MMAPV1 存储引擎</li>
+<li>WiredTiger存储引擎</li>
+<li>In-Memory 存储引擎</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：上面只是列出的MongoDB主要支持的功能，想要了解具体的每项功能，可以自行去查阅资料昂。</p>
+<p>下面来聊聊MongoDB中十分重要的存储引擎，因为存储引擎是MongoDB负责管理数据的主要组件，并且像 <strong>事务、并发锁、存储数据的操作等</strong> 都是由存储引擎支持的。</p>
+</blockquote>
+<h2 id="MongoDB的存储引擎："><a href="#MongoDB的存储引擎：" class="headerlink" title="MongoDB的存储引擎："></a>MongoDB的存储引擎：</h2><blockquote>
+<p>MongoDB支持多种存储引擎，下面咱们就简单聊聊MongoDB的这几种存储引擎；</p>
+</blockquote>
+<h3 id="原生存储引擎MMAP："><a href="#原生存储引擎MMAP：" class="headerlink" title="原生存储引擎MMAP："></a>原生存储引擎MMAP：</h3><p>MMAP 全称为 Memory Mapped Storage Engine，即 <strong>内存映射存储引擎</strong>  ，在 <strong>3.0版本之前</strong> 使用的 。</p>
+<p>MMAP可以把磁盘文件的一部分或全部内容直接映射到内存，这样文件中的信息位置就会在内存中有对应的地址空间，这时对文件的读写可以直接用指针来做，而不需要read/write函数了，但这并不代表将文件map到物理内存，只有访问到这块数据时才会被操作系统以Page的方式换到物理内存。</p>
+<p>在MongoDB的写操作时，先将数据放在内存中，然后再通过顺序IO将数据刷新保存到磁盘上，这样会大大提升写操作性能；并且MongoDB将内存管理工作交给操作系统的虚拟内存管理器来完成，这样也大大简化了MongoDB的工作 。</p>
+<h3 id="原生升级-MMAPV1-存储引擎："><a href="#原生升级-MMAPV1-存储引擎：" class="headerlink" title="原生升级 MMAPV1 存储引擎："></a>原生升级 MMAPV1 存储引擎：</h3><p>在 <strong>MongoDB3.0版本时</strong> ，推出了 MMAPV1 存储引擎，这是在原生存储引擎基础上更新升级的新存储引擎 。</p>
+<p>在 MMAPV1 存储引擎中有一个很重要的日志文件： <strong>journal预写事务日志</strong>  ，使用这个日志文件保证数据的持久化，并保证在数据库硬关闭时帮助数据库恢复。</p>
+<h3 id="插入式-WiredTiger-存储引擎："><a href="#插入式-WiredTiger-存储引擎：" class="headerlink" title="插入式 WiredTiger 存储引擎："></a>插入式 WiredTiger 存储引擎：</h3><p>WiredTiger是在 <strong>MongoDB3.0版本</strong> 引入的，并且在 <strong>MongoDB3.2版本</strong> 开始成为MongoDB默认的存储引擎。</p>
+<p>相比较MMAPv1，WiredTiger存储引擎功能更强大，而且具有更高的性能。</p>
+<p>WiredTiger存储引擎中也有  <strong>journal预写事务日志</strong>  ，用来保证数据持久化及数据库故障时数据恢复 。</p>
+<h3 id="In-Memory-存储引擎："><a href="#In-Memory-存储引擎：" class="headerlink" title="In-Memory 存储引擎："></a>In-Memory 存储引擎：</h3><p>In-Memory存储引擎将数据库数据都存储在 <strong>内存</strong> 中，只将少量的元数据和诊断日志、临时数据存储到硬盘文件中，避免了磁盘I/O操作，查询速度很快。</p>
+<p>如果MongoDB使用 In-Memory 存储引擎的话，是不是很类似于 Redis 内存数据库呢。</p>
+<h3 id="存储引擎之间的比较："><a href="#存储引擎之间的比较：" class="headerlink" title="存储引擎之间的比较："></a>存储引擎之间的比较：</h3><blockquote>
+<p>下面将通过在各方面比较下 <strong>MMAPV1 、WiredTiger 、In-Memory</strong> 这三种存储引擎，更加清晰的明确多种存储引擎之间的区别。</p>
+</blockquote>
+<p><strong>点击看大图：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127110209.png" alt=""></p>
+<blockquote>
+<p>注意：当各位大大阅读本文时，请一定要结合自己使用的 <strong>MongoDB的版本</strong> ，因为不同版本支持的功能可能是不同的，确认好自己使用的版本是否支持想要的功能。</p>
+</blockquote>
+<h2 id="MongoDB-知识扩展："><a href="#MongoDB-知识扩展：" class="headerlink" title="MongoDB 知识扩展："></a>MongoDB 知识扩展：</h2><h3 id="为什么很吃内存？"><a href="#为什么很吃内存？" class="headerlink" title="为什么很吃内存？"></a>为什么很吃内存？</h3><blockquote>
+<p>在使用MongoDB数据库的时候，发现安装了MongoDB的服务器可用内存一直在减少，通过查找发现MongoDB在使用时一直在不断的吃内存，MongoDB占用的内存的越来越多。</p>
+</blockquote>
+<h4 id="为什么MongoDB这么占用内存呢？"><a href="#为什么MongoDB这么占用内存呢？" class="headerlink" title="为什么MongoDB这么占用内存呢？"></a>为什么MongoDB这么占用内存呢？</h4><blockquote>
+<p>下面简单从两方面说下：</p>
+</blockquote>
+<ol>
+<li>通过上面的存储引擎的描述可以知道，例如 : WiredTiger存储引擎的写操作会先写入Cache中，将数据保存在内存中，然后再通过机制将内存中的数据落盘，但是最终内存中的数据还是会保留下来的，只是会将已经落盘的数据坐下标记。</li>
+<li>当大量并发请求MongoDB数据库时，它使用的内存也会上涨；因为在并发连接比较多时，会大量创建处理连接的线程，这些线程也会占用内存的；除此之外，建立好连接后，处理连接中传输的数据包，这些数据包的存储也需要占用内存的；但是这种占用的内存会在请求下降后，慢慢的将内存释放的。</li>
+</ol>
+<h4 id="如何控制内存的使用："><a href="#如何控制内存的使用：" class="headerlink" title="如何控制内存的使用："></a>如何控制内存的使用：</h4><blockquote>
+<p>下面简单在两方面聊下怎么控制MongoDB对内存的使用，希望别再触发服务器内存耗尽的告警了。</p>
+</blockquote>
+<ol>
+<li>合理配置 <strong>WiredTiger cacheSizeGB</strong> 参数：<ul>
+<li>如果一台机器上只部署 MongoDB，MongoDB可以使用所有可用内存，则是用默认配置即可。</li>
+<li>如果一台机器上不止部署了MongoDB，还运行一些其他的进程服务，则需要根据分给MongoDB的内存配额来配置  <strong>cacheSizeGB</strong> ，也可按配额的60%左右配置。</li>
+</ul>
+</li>
+<li>控制对MongoDB的并发请求数，进行合理的TCP连接数；</li>
+</ol>
+<h3 id="MongoDB的应用场景："><a href="#MongoDB的应用场景：" class="headerlink" title="MongoDB的应用场景："></a>MongoDB的应用场景：</h3><blockquote>
+<p>根据MongoDB的特性和支持的功能，简单聊聊它适用的应用场景：</p>
+</blockquote>
+<ul>
+<li>应用服务器日志存储。<ul>
+<li>MongoDB的高性能足够支撑关系型数据库2-3倍以上的TPS/QPS；</li>
+<li>磁盘数据压缩存储，在进行数据读取时降低磁盘IO的次数，提升数据读取性能；</li>
+<li>支持功能强大的索引</li>
+<li>动态的数据模式，不受表结构的限制；</li>
+</ul>
+</li>
+<li>地理位置信息存储，通过地理位置索引，可以方便、快速的查询出具体的位置信息。</li>
+<li>当作缓存数据库，使用其In-Memory 存储引擎；</li>
+<li>网站实时数据处理；它非常适合实时的插入、更新与查询，并具备网站实时数据存储所需的复制及高度伸缩性。</li>
+</ul>
+<blockquote>
+<p>——end </p>
+<p>到此本文就结束了，本文只是和大家聊了聊MongoDB的基础知识，细节部分都没有具体描述，大家如果感兴趣的可以自行去查阅资料。</p>
+</blockquote>
+<p>最后了，再和大家唠叨下， 打算最近写下MongoDB系列文章，系列文章题目都已经想好了，如下：</p>
+<p>①、初闻MongoDB（一）、从零带你了解MongoDB的前世今生</p>
+<p>②、初识MongoDB（二）、数据库安装及可视化工具的安装使用</p>
+<p>③、相识MongoDB（三）、MongoDB常用的SQL语句和索引知识</p>
+<p>④、相知MongoDB（四）、使用java连接和操作MongoDB数据库</p>
+<p>⑤、相爱MongoDB（五）、一文带你了解MongoDB的实战操作使用</p>
+<h2 id="❤-点赞-评论-转发-哟"><a href="#❤-点赞-评论-转发-哟" class="headerlink" title="❤  点赞 + 评论 + 转发 哟"></a>❤  点赞 + 评论 + 转发 哟</h2><p>如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力，谢谢！</p>
+<p>您可以VX搜索【木子雷】公众号，坚持高质量原创java技术文章，福利多多哟！</p>
+<p>还有大家如果想看系列后续的文章话，请多多点赞评论呀，你们的支持就是我不断创作的动力！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png" alt=""></p>
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><p>①、<a href="https://docs.mongoing.com/" target="_blank" rel="noopener">MongoDB中文手册|官方文档中文版</a></p>
+<p>②、<a href="https://www.cnblogs.com/clsn/p/8214194.html" target="_blank" rel="noopener">MongoDB 入门篇</a></p>
+<p>③、<a href="https://www.cnblogs.com/wujuntian/p/8458402.html" target="_blank" rel="noopener">MongoDB存储引擎（中）——WiredTiger</a></p>
+  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		      
+
+<div class="zhuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/11/29/mongodb_one/" target="_blank" title="mongodb_one">https://leishen6.github.io/2020/11/29/mongodb_one/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本文为转载文章，如您想转载此文章，请联系 <a rel="license" href="" target="_blank" title="">原作者！</a>
+          </li>
+        </ul>
+      <div>
+
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .zhuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+	       
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/11/29/mongodb_one/" data-title="mongodb_one | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/11/21/query_process/"  title="面试官说道，小伙子耗子尾汁，查询SQL的执行流程难道都不知道吗？">
+ <strong>下一篇：</strong><br/> 
+ <span>面试官说道，小伙子耗子尾汁，查询SQL的执行流程难道都不知道吗？
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#本文主线："><span class="toc-number">1.1.</span> <span class="toc-text">本文主线：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB-简介："><span class="toc-number">2.</span> <span class="toc-text">MongoDB 简介：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB的数据逻辑结构："><span class="toc-number">2.1.</span> <span class="toc-text">MongoDB的数据逻辑结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB数据逻辑层次的关系如下图："><span class="toc-number">2.1.1.</span> <span class="toc-text">MongoDB数据逻辑层次的关系如下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB与关系数据库的数据逻辑结构比较："><span class="toc-number">2.1.2.</span> <span class="toc-text">MongoDB与关系数据库的数据逻辑结构比较：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB中文档的数据存储结构："><span class="toc-number">2.2.</span> <span class="toc-text">MongoDB中文档的数据存储结构：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bson的特点："><span class="toc-number">2.2.1.</span> <span class="toc-text">Bson的特点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？"><span class="toc-number">2.2.2.</span> <span class="toc-text">来再具体看看MongoDB的Bson格式文档数据到底长神魔样呢？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB支持的功能："><span class="toc-number">3.</span> <span class="toc-text">MongoDB支持的功能：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB的存储引擎："><span class="toc-number">4.</span> <span class="toc-text">MongoDB的存储引擎：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原生存储引擎MMAP："><span class="toc-number">4.1.</span> <span class="toc-text">原生存储引擎MMAP：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原生升级-MMAPV1-存储引擎："><span class="toc-number">4.2.</span> <span class="toc-text">原生升级 MMAPV1 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入式-WiredTiger-存储引擎："><span class="toc-number">4.3.</span> <span class="toc-text">插入式 WiredTiger 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#In-Memory-存储引擎："><span class="toc-number">4.4.</span> <span class="toc-text">In-Memory 存储引擎：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储引擎之间的比较："><span class="toc-number">4.5.</span> <span class="toc-text">存储引擎之间的比较：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB-知识扩展："><span class="toc-number">5.</span> <span class="toc-text">MongoDB 知识扩展：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么很吃内存？"><span class="toc-number">5.1.</span> <span class="toc-text">为什么很吃内存？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么MongoDB这么占用内存呢？"><span class="toc-number">5.1.1.</span> <span class="toc-text">为什么MongoDB这么占用内存呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何控制内存的使用："><span class="toc-number">5.1.2.</span> <span class="toc-text">如何控制内存的使用：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB的应用场景："><span class="toc-number">5.2.</span> <span class="toc-text">MongoDB的应用场景：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤-点赞-评论-转发-哟"><span class="toc-number">6.</span> <span class="toc-text">❤  点赞 + 评论 + 转发 哟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料："><span class="toc-number">7.</span> <span class="toc-text">参考资料：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
