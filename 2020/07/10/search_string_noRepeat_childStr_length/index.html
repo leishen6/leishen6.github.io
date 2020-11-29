@@ -264,13 +264,6 @@
         
 		
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是滑动窗口？"><span class="toc-number">2.</span> <span class="toc-text">什么是滑动窗口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用滑动窗口解题"><span class="toc-number">3.</span> <span class="toc-text">使用滑动窗口解题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、未优化的滑动窗口实现："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、未优化的滑动窗口实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1、看图理解："><span class="toc-number">3.0.1.1.</span> <span class="toc-text">1.1、看图理解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2、代码实现："><span class="toc-number">3.0.1.2.</span> <span class="toc-text">1.2、代码实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3、执行效果（来自LeetCode）："><span class="toc-number">3.0.1.3.</span> <span class="toc-text">1.3、执行效果（来自LeetCode）：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4、未经优化的滑动窗口的缺点："><span class="toc-number">3.0.1.4.</span> <span class="toc-text">1.4、未经优化的滑动窗口的缺点：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、优化后的滑动窗口实现："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、优化后的滑动窗口实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、看图理解："><span class="toc-number">3.0.2.1.</span> <span class="toc-text">2.1、看图理解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、代码实现："><span class="toc-number">3.0.2.2.</span> <span class="toc-text">2.2、代码实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3、执行效果（来自LeetCode）："><span class="toc-number">3.0.2.3.</span> <span class="toc-text">2.3、执行效果（来自LeetCode）：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
-		
-		</div>
-		
 		<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><blockquote>
 <p>算法题：查找一个字符串中最长不含重复字符的子字符串，计算该最长子字符串的长度；</p>
 <p>下面将使用 <strong>滑动窗口</strong> 方法实现，并通过对滑动窗口算法一步步进行优化，使其空间和时间的消耗一步步降低；</p>
@@ -472,13 +465,6 @@
 </div>  
 
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是滑动窗口？"><span class="toc-number">2.</span> <span class="toc-text">什么是滑动窗口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用滑动窗口解题"><span class="toc-number">3.</span> <span class="toc-text">使用滑动窗口解题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、未优化的滑动窗口实现："><span class="toc-number">3.0.1.</span> <span class="toc-text">1、未优化的滑动窗口实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1、看图理解："><span class="toc-number">3.0.1.1.</span> <span class="toc-text">1.1、看图理解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2、代码实现："><span class="toc-number">3.0.1.2.</span> <span class="toc-text">1.2、代码实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3、执行效果（来自LeetCode）："><span class="toc-number">3.0.1.3.</span> <span class="toc-text">1.3、执行效果（来自LeetCode）：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4、未经优化的滑动窗口的缺点："><span class="toc-number">3.0.1.4.</span> <span class="toc-text">1.4、未经优化的滑动窗口的缺点：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、优化后的滑动窗口实现："><span class="toc-number">3.0.2.</span> <span class="toc-text">2、优化后的滑动窗口实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1、看图理解："><span class="toc-number">3.0.2.1.</span> <span class="toc-text">2.1、看图理解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2、代码实现："><span class="toc-number">3.0.2.2.</span> <span class="toc-text">2.2、代码实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3、执行效果（来自LeetCode）："><span class="toc-number">3.0.2.3.</span> <span class="toc-text">2.3、执行效果（来自LeetCode）：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#❤不要忘记留下你学习的足迹-点赞-收藏-评论-嘿嘿ヾ"><span class="toc-number">4.</span> <span class="toc-text">❤不要忘记留下你学习的足迹 [点赞 + 收藏 + 评论]嘿嘿ヾ</span></a></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -867,8 +853,6 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
