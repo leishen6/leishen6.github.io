@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2020-11-29T08:04:05.013Z</updated>
+  <updated>2020-12-14T13:19:08.249Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>排查压测问题引发的系统性能调优过程</title>
+    <link href="https://leishen6.github.io/2020/12/14/performance_tuning/"/>
+    <id>https://leishen6.github.io/2020/12/14/performance_tuning/</id>
+    <published>2020-12-14T13:16:17.207Z</published>
+    <updated>2020-12-14T13:19:08.249Z</updated>
+    
+    <summary type="html">
+    
+      排查压测问题引发的系统性能调优过程！
+    
+    </summary>
+    
+    
+      <category term="实战问题排查" scheme="https://leishen6.github.io/categories/%E5%AE%9E%E6%88%98%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>初闻MongoDB（一）、从零带你了解MongoDB的前世今生</title>
@@ -390,27 +409,6 @@
     
     
       <category term="Java锁" scheme="https://leishen6.github.io/tags/Java%E9%94%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>经典面试题（一）、静态代码块、静态属性、构造方法的执行顺序</title>
-    <link href="https://leishen6.github.io/2020/04/16/written_test_topic_static_construction_run_squence/"/>
-    <id>https://leishen6.github.io/2020/04/16/written_test_topic_static_construction_run_squence/</id>
-    <published>2020-04-16T01:11:24.697Z</published>
-    <updated>2020-04-16T01:14:20.809Z</updated>
-    
-    <summary type="html">
-    
-      经典面试题（一）、&lt;span style=&quot;color:red&quot;&gt;静态代码块、静态属性、构造方法的执行顺序！&lt;/span&gt;
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="https://leishen6.github.io/categories/Java/"/>
-    
-    
-      <category term="面试题" scheme="https://leishen6.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
   </entry>
   

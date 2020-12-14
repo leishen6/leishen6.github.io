@@ -1,0 +1,1192 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>排查压测问题引发的系统性能调优过程 | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="排查压测问题引发的系统性能调优过程！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排查压测问题引发的系统性能调优过程">
+<meta property="og:url" content="https://leishen6.github.io/2020/12/14/performance_tuning/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="排查压测问题引发的系统性能调优过程！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211233511.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210163829.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210164537.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210164833.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212133509.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210193433.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210193813.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210194603.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201120131302.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213002623.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211190048.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211190844.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211191918.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211192816.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212152513.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211194936.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212225813.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213003837.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211222110.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211223817.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201214194828.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213001130.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211230611.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213002533.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213005811.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213212555.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png">
+<meta property="article:published_time" content="2020-12-14T13:16:17.207Z">
+<meta property="article:modified_time" content="2020-12-14T13:19:08.249Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211233511.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/14/performance_tuning/" title="排查压测问题引发的系统性能调优过程" itemprop="url">排查压测问题引发的系统性能调优过程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2020-12-14T13:16:17.207Z" itemprop="datePublished">
+
+			发表于 2020-12-14 21:16:17
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; color: black; padding: 0 10px; line-height: 1.6; word-spacing: 0px; letter-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"><figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211233511.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;">前言：</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">今天测试部门的小梦找到我，委屈巴巴的说我写的接口有问题，因为她对这个接口进行压力测试时，发现系统的吞吐量一直上不去，并且 <strong style="font-weight: bold; color: black;">应用服务器 （部署接口项目的服务器）</strong> 的CPU、内存等资源的使用率也一直很低，导致一直无法测试出这个接口的压力峰值。</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210163829.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">听小梦说完后，自己心想接口都测试了好几遍了，<strong style="font-weight: bold; color: black;">接口代码</strong> 绝对不可能有问题的，再说了，有问题也不能承认呀，看来得往别的地方上扯扯呀；然后我说道，接口应该是没问题的，可能是项目环境部署时有些参数没进行调优吧，例如：连接数大小设置、JVM参数设置、数据库参数优化等；</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210164537.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">然后我接着说道，项目是谁给你部署配置的呀，小梦说是小王部署的，然后今天小王也没来上班；我说道，小王没来上班呀，没事，让我来，我这bug绝缘体质，任何问题遇到我都会退避三舍的。</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210164833.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上面的情景，我相信大家都可能会遇到过的；接下来我们就通过这次排查压测问题来聊聊一个 <strong style="font-weight: bold; color: black;">单体系统</strong> 的性能优化应该考虑哪些点，以及对这些点该怎么进行调优 。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">本文主线如下图：</span><span class="suffix" style="display: none;"></span></h4>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212133509.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;">项目部署环境：</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">在进行这次压测问题排查前，先通过下图了解下 接口项目的情况、项目部署的环境、JMeter测试脚本 的配置情况；</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210193433.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">上图中的接口项目、Redis、MySql  都是单机安装部署的 。</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;"><strong style="font-weight: bold; color: black;">注意：</strong> 再进行下文之前，我们还需要记住一个前提：本项目中的接口代码是不存在问题的，并且数据库查询SQL都是最优的，都是走索引查询的，本次压力测试问题不是由于代码导致的，而是由于各种参数未调优造成的；代码调优和SQL调优在编码阶段就已经完成了。</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;">简单性能调优的点：</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">在上文中的项目部署情况和测试脚本的配置情况下进行压力测试时，就出现了小梦说的系统吞吐量上不去，以及应用服务器（部署接口项目的服务器）的 CPU 等资源使用率都很低的情况；</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;"><strong style="font-weight: bold; color: black;">查看 JMeter 测试时系统的吞吐量如下图：</strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210193813.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;"><strong style="font-weight: bold; color: black;">查看应用服务器（部署接口项目的服务器）的CPU使用率很低：</strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210194603.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">按照测试脚本的50个并发以及接口中含有计算密集型操作（加解密和验签）的情况，CPU是不应该这么低的；哎！什么鬼嘛？</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201120131302.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">别急，下面我们就展开具体的排查过程，并在排查过程中逐步了解各个调优的点；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">排查过程就是按照文章开头中的 <strong style="font-weight: bold; color: black;">本文主线</strong> 图片中 <strong style="font-weight: bold; color: black;">简单性能调优的点</strong> 展开的 。</p>
+</blockquote>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">排查Tomcat连接器参数配置：</span><span class="suffix" style="display: none;"></span></h3>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">Tomcat 连接器参数配置只需要考虑以下几个方面：</span><span class="suffix" style="display: none;"></span></h5>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">Connector使用哪种 protocol 协议</p>
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: square;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">HTTP/1.1：默认值，使用的协议与Tomcat版本有关</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;"><strong style="font-weight: bold; color: black;">建议使用 NIO2</strong>：org.apache.coyote.http11.Http11Nio2Protocol</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">除了NIO2协议外，还有 BIO、NIO、APR 协议，可以自行去查阅资料；</p>
+</section></li></ul>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">acceptCount：等待队列的长度；当等待队列中连接的个数达到acceptCount时，说明队列已满，再进来的请求一律被拒绝；默认值是100。</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">maxConnections：Tomcat 在任意时刻接收和处理的最大连接数；</p>
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: square;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">当连接数达到最大值maxConnections后，Tomcat会继续接收连接，直到accept等待队列填满。</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">如果最大连接数设置为-1，则表示禁用maxconnections功能，表示不限制tomcat容器的连接数；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">最大连接数默认值与连接器使用的 protocol  协议有关：</p>
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: square;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">NIO的默认值是10000；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">APR/native的默认值是8192；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">BIO的默认值为maxThreads（如果配置了Executor，则默认值是Executor的maxThreads）；</section></li></ul>
+</section></li></ul>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">maxThreads：每一次HTTP请求到达 Tomcat，都会创建一个线程来处理该请求，那么最大线程数决定了Tomcat 可以同时处理多少个请求。</p>
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: square;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">maxThreads 默认200;</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">建议：maxThreads应该设置大些，以便能够充分利用CPU；当然，也不是越大越好，如果maxThreads过大，那么CPU会花费大量的时间用于线程的上下文切换，整体效率可能会降低；这需要根据自己项目的情况和服务器硬件配置情况配置合适的值即可；</section></li></ul>
+</section></li></ul>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">下面就是本次压测时配置的Tomcat连接器参数：</span><span class="suffix" style="display: none;"></span></h5>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">&nbsp;<span class="hljs-tag" style="line-height: 26px;">&lt;<span class="hljs-name" style="color: #e45649; line-height: 26px;">Connector</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">port</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"8080"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">protocol</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"org.apache.coyote.http11.Http11Nio2Protocol"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">maxThreads</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"1000"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">maxConnections</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"2000"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">acceptCount</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"1000"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">connectionTimeout</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"20000"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">redirectPort</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"8443"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">enableLookups</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"false"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">maxPostSize</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"10485760"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">compression</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"on"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">disableUploadTimeout</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"true"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">compressionMinSize</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"2048"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">acceptorThreadCount</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"2"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">compressableMimeType</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"text/html,text/xml,text/css,text/javascript"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr" style="color: #986801; line-height: 26px;">URIEncoding</span>=<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"utf-8"</span>&nbsp;/&gt;</span><br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上面连接器中配置参数：的</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">连接器使用的 protocol 协议是 NIO2</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">最大线程数 maxThreads="1000"</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">最大连接数 maxConnections="2000"</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">等待队列大小 acceptCount="1000"</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">根据上面连接器配置参数，和压测脚本配置的并发请求才50个，确定压测问题应该不是由于连接器参数造成的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">其实在查看Tomcat配置文件 <strong style="font-weight: bold; color: black;">server.xml</strong> 中的连接器参数前，可以使用下面这个命令先直接统计出 JMeter与Tomcat建立的Http连接数： 注意 8080 指的是 Tomcat 端口号，使用前改成你的Tomcat配置的端口</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">netstat&nbsp;-pan&nbsp;|&nbsp;grep&nbsp;8080&nbsp;|&nbsp;wc&nbsp;-l<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">如果统计出的连接数与测试脚本中配置的并发数的话差不多一致的话，说明当前连接器是可以满足连接请求处理的，初步可以判断不是由于连接器参数造成的本次压测问题；然后再可以去查看配置文件中的参数进行确认下。</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213002623.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">排查 JVM 参数配置：</span><span class="suffix" style="display: none;"></span></h3>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">JVM参数配置，一般并发不高的系统只需要配置下Heap堆内存的大小即可，其余使用默认配置即可。</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">注意：JVM 参数配置比较复杂，这块的参数调优需要根据具体项目情况、服务器硬件配置等进行合理配置。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">查看当前压测的接口项目 JVM 配置参数：</span><span class="suffix" style="display: none;"></span></h5>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">直接使用命令查看：</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;tomcat<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">结果如下：</p>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211190048.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">也可以直接去 <strong style="font-weight: bold; color: black;">catalina.sh</strong> 配置文件中查看：</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">JAVA_OPTS="&nbsp;-server&nbsp;-Xms6000m&nbsp;-Xmx6000m&nbsp;"<br></code></pre>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">也可以直接通过 <strong style="font-weight: bold; color: black;">jmap</strong> 命令查看 JVM 的堆的配置信息：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：下面命令中的 <strong style="font-weight: bold; color: black;">129761</strong> 是tomcat的 pid 进程号；</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">jmap&nbsp;-heap&nbsp;129761<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">结果如下：</p>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211190844.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">看到这，应该会有人问，为什么你的初始堆大小和最大堆大小（-Xms6000m -Xmx6000m）设置为一样呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">因为如果虚拟机启动时设置的初始堆内存比较小，这个时候又需要初始化很多对象数据，那么虚拟机就必须不断地扩大堆内存，这样也会产生一些消耗的。</p>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">排查下是否由于JVM参数配置的不合理导致：</span><span class="suffix" style="display: none;"></span></h5>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用上面提到的 jmap 命令查看下当前堆内存的使用情况</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">jmap&nbsp;-heap&nbsp;129761<br></code></pre>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211191918.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">通过查看上面的堆内存的使用情况，发现还有很多空间使用呢，应该不是由于JVM参数不合理导致的压测问题；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">但是咱别着急，咱再查看下JVM中垃圾回收GC的情况；</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令 <strong style="font-weight: bold; color: black;">jstat</strong> 查看垃圾回收GC的情况：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：129761 为Tocamt的pid； 1000 表示间隔时间毫秒，10 表示输出10次GC情况</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">jstat&nbsp;-gc&nbsp;129761&nbsp;1000&nbsp;10<br></code></pre>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211192816.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">看了上面的GC情况，发现垃圾回收也没什么异常，FGC总共就3次，通过查看的堆使用情况和GC垃圾回收的情况可以确认压测的问题不是由于JVM的参数导致的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">看来这次压测的问题挺棘手呀，到现在还没有确认出问题原因呢！难道我这bug绝缘体质由于 <strong style="font-weight: bold; color: black;">今天吃的比较多</strong>，导致失效了吗？ 皱眉  ing . . . . .</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212152513.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">看来还得接着排查，咱直接导出当前接口服务应用进程的 <strong style="font-weight: bold; color: black;">线程堆栈信息</strong> 看看吧。</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令jstack导出线程栈信息：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：129761 为Tomcat 的pid， /usr/local/test.log 为生成的线程堆栈文件 test.log 的存放地址</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">jstack&nbsp;129761&nbsp;&gt;&gt;&nbsp;/usr/local/test.log<br></code></pre>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">导出线程堆栈信息后，使用命令搜索出状态为 WAITING 的线程；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：找 State 为 <strong style="font-weight: bold; color: black;">WAITING</strong> 状态的线程；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">命令如下：test.log 文件为刚刚导出的 线程堆栈信息文件</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">cat&nbsp;test.log&nbsp;|&nbsp;grep&nbsp;-n20&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"&nbsp;WAITING&nbsp;"</span><br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在命令执行后的搜索结果中发现了下图内容：</p>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211194936.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">注意：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">除了线程状态为 WAITING  的之外，还特别要注意 WAITING 状态线程的方法调用栈中存在项目业务代码的；</p>
+</blockquote>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">上面图片中就展示了线程状态为 WAITING  等待的调用方法栈中有业务代码；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">业务代码是去Redis中查询数据，上图中第二个圈中的内容就是业务代码，并且这行代码上方是去Redis连接池中获取连接，由此确定是由于Redis连接获取不到，导致线程处于 WAITING 等待状态；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">由于接口服务系统中很多线程获取不到Redis连接导致阻塞，从而无法充分利用CPU；所以在压测时，服务器CPU的使用率也压不上去，CPU的使用率很低；</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">至此，终于排查出了一处问题地方，不容易呀，感觉排查问题比写代码困难多了！</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201212225813.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上面通过线程的堆栈信息排查出 Redis 连接不够用，应该是 Redis 连接池中的最大连接数配置的比较小，那接下来就确定下连接池的配置数据。</p>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">排查连接池参数配置：</span><span class="suffix" style="display: none;"></span></h3>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上文中，在线程的堆栈信息中排查出存在很多线程由于获取不到Redis连接导致处于等待阻塞状态；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">接下来，咱们就来具体统计下现在处于压测中的应用服务器（部署接口项目的服务器）与Redis建立的连接数，顺带一起再排查下项目中使用的MySql 的连接池配置是否也存在问题？</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令查看当前压测中的应用服务器与Redis建立的连接数</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：6379 为 redis的端口号</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">netstat&nbsp;-pan&nbsp;|&nbsp;grep&nbsp;6379&nbsp;|&nbsp;wc&nbsp;-l<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">执行命令查询出与Redis建立的连接数为 10，这在测试脚本50个并发请求下是一定不够用的呀，应该是配置的Redis连接池的最大连接数比较小；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">然后通过看接口代码中的配置文件发现，确实Redis连接池中的最大连接数配置是 10 个；最后修改了最大连接数为 300 个；注意：这个最大连接数需要根据项目情况和测试计划来设置，不用设置的太大。</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">接着，使用命令顺带统计下当前处于压测中的应用服务器（部署接口项目的服务器）与MySql 建立的连接数</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意：3306 为MySql 的端口号</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">netstat&nbsp;-pan&nbsp;|&nbsp;grep&nbsp;3306&nbsp;|&nbsp;wc&nbsp;-l<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">执行命令发现已经建立的MySql 连接数是 50，然后通过查看配置文件的连接池中最大的连接数为100，发现还没有达到最大连接数，说明 JDBC 连接够用，本次压测问题不是由于JDBC连接不够用导致的；并且在上文中查看线程的堆栈信息时，也没有发现调用 JDBC 操作的线程处于 WAITING 等待状态。</p>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">排查完了数据库连接池了，咱们就再排查下MySql 数据库是否进行了参数调优；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">如果MySql 数据库没有进行调优的话，那在压测时就会出现数据库的读写性能比较差，也就是项目中在进行 JDBC 增删改查操作时会比较慢，进而导致存在JDBC操作的线程执行慢，无法充分利用CPU的并发计算能力，所以也会导致应用服务器的CPU使用率比较低，最终压测时整个接口应用系统的吞吐量也很低 。</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213003837.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">排查MySql 数据库调优配置：</span><span class="suffix" style="display: none;"></span></h3>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">接下来咱排查下MySql 数据库是否进行了参数调优；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">排查前先聊一个由于之前MySql 数据库未进行优化，而导致的压测问题。</p>
+</blockquote>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">MySql 数据库未调优，引发的压测问题 简述：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">之前压测时的场景还原：</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在压测前所有该调优的地方都调了，就单独忘记对MySql 数据库进行调优了，最终导致对应用压测时，发现应用服务器（部署接口项目的服务器）的CPU的使用率一直浮动在60%左右，始终压不上去，即使加大压测时的并发请求数，发现还是不行；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">最终通过查看MySql 服务器的磁盘IO的情况和MySql 数据库进程的CPU、内存等使用率发现MySql 没有被优化，所以导致MySql 数据库的读写能力被限制，进而导致应用并发处理能力下降，从而导致应用服务器的CPU使用率一直升不上去。</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令统计下压测时 MySql 数据库所部署在的服务器的磁盘IO性能：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意： 1 指的是 间隔时间1秒， 5 指的是统计5次 IO 的情况；</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">iostat&nbsp;-xdk&nbsp;1&nbsp;5<br></code></pre>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">结果如下：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211222110.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">只需要注意图中圈起来的地方；await 指的是 磁盘读写时的等待时间，这个值越小越好；%util 指的是磁盘整体的负载情况，值越大说明磁盘负载快达到极限了。</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令查看MySql 进程的CPU、内存的使用率：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">注意： 14208 是MySql 的pid；</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">top&nbsp;-p&nbsp;14208<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">结果如图：</p>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211223817.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">注意：</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">当时就是通过这两条命令统计出的数据，发现数据库服务器磁盘IO的负载一直处于90%，快达到极限了；但是MySql  进程的CPU、内存的使用率却很低；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">通过这两条数据可以初步确定MySql 没有进行优化；如果MySql 进行了调优，那么MySql 的进程在压测时的CPU、内存等使用率不可能这么低，并且磁盘 IO 的负载也不会达到了极限；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">得出初步结论后，然后去查看MySql 数据库的配置文件 my.cnf， 发现确实没有进行一些参数的优化，只是简单配置了最大连接数为 500；注意，MySql 数据库默认的最大连接数是 100 个；</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">最后在 my.cnf 配置文件中简单配置了下 innodb 存储引擎缓冲池大小 等；这里就不具体描述调优的参数了，因为调优参数都是需要根据项目情况、服务器硬件配置等综合考虑配置的；大家可以自行网上查阅MySql 数据库调优的相关资料；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">为什么配置下 <strong style="font-weight: bold; color: black;">innodb 存储引擎缓冲池大小</strong> 等参数就会极大的提升数据库的读写性能呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">通过下面这张图片就会知道为什么了：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201214194828.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">通过上图可以了解到进行数据库读写时，首先都在对内存中的innodb存储引擎的缓冲池中的数据进行操作，如果缓冲池中不存在操作的数据，则需要进行磁盘IO将数据读取到内存中的，所以这样读写速度就会慢很多；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">所以如果缓冲池比较小的话，无法存放很多数据（数据页）的话，则需要进行很多次磁盘IO，那么数据库读写性能会比较差，所以需要对MySql 的存储引擎的缓存池等参数进行调优配置。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">配置好后，重启了MySql 数据库，然后重新进行压测，发现应用服务器（部署接口项目的服务器）的CPU使用率上去了，MySql 数据库进程的CPU、内存等使用率也升上去了，并且磁盘IO的负载也降下来了，最后整个应用系统的吞吐量也上去了，也支持更大的并发数了。</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">说完了上面之前遇到的一个压测小场景，咱们接着按照上面的排查步骤排查这次压测的问题，发现MySql 数据库已经进行了调优，磁盘IO的读写速度也是OK的，所以说本次压测问题与MySql 数据库参数配置无关。</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">排查完了MySql 数据库后，咱接着排查下Linux服务器的参数是否进行过调优吧！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213001130.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">排查Linux服务器参数配置：</span><span class="suffix" style="display: none;"></span></h3>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">服务器参数调优这块目前了解的不多，只知道配置下服务器的 <strong style="font-weight: bold; color: black;">文件句柄数 fd</strong> ；建议将服务器的文件句柄数设置的大些；为什么设置大些呢？</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">因为主流操作系统的设计是将 TCP/UDP 连接采用与文件一样的方式去管理，<strong style="font-weight: bold; color: black;">即一个连接对应于一个文件描述符（文件句柄）</strong>；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">主流的 Linux 服务器默认所支持最大 文件句柄数 数量为 1024，当并发连接数很大时很容易因为 文件句柄数 不足而出现 <strong style="font-weight: bold; color: black;">“open too many files”</strong> 错误，导致新的连接无法建立。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">建议将 Linux 服务器所支持的最大句柄数调高数倍（具体与服务器的内存数量相关）。</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;"><p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">使用命令查看当前服务器的文件句柄数：</p>
+<pre class="custom" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; display: -webkit-box; -webkit-overflow-scrolling: touch; font-size: 14px; word-wrap: break-word; padding: 2px 4px; margin: 0 2px; background-color: rgba(27,31,35,.05); font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; word-break: break-all; color: rgb(239, 112, 96); padding-top: 15px; background: #fafafa; border-radius: 5px;">ulimit&nbsp;-a<br></code></pre>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">结果如图：</p>
+<figure style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201211230611.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上图中的文件句柄数是已经修改过的；设置文件句柄数可以设置临时值，也可以设置永久值，建议设置成永久值，因为临时值遇到一些情况会失效的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">配置文件句柄数可以自行去网上查询，资料很多的，本文就不做过多描述了。</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">聊完服务器参数调优配置后，咱最后再聊聊 JMeter 测试工具在压测时有没有该注意的点！</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213002533.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h3 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 20px;"><span class="prefix" style="display: none;"></span><span class="content">JMeter 分布式测试：</span><span class="suffix" style="display: none;"></span></h3>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">这里主要聊聊 JMeter 分布式测试的内容；什么时候需要进行分布式测试，当你的单机 JMeter 服务器由于硬件配置限制无法构建出足够的并发压力时，这是就需要进行分布式部署测试了；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">怎么判断 单机的 JMeter 服务器 已经无法构建出足够的并发压力了呢？</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">通过查看 JMeter 测试服务器的CPU的使用率情况，当 JMeter 测试服务器的CPU使用率达到 90% 多时，此时就可以初步确认CPU无法在提供足够的计算能力来构建并发压力了；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">所以此时可以将单机的JMeter改为分布式JMeter进行测试，只有构建出足够的压力，才能将应用服务器（部署接口项目的服务器）的CPU、内存等资源的使用率压上去，从而测试出接口的压力峰值。</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">所以，当单机 JMeter 压测时发现应用服务器（部署接口项目的服务器）CPU、内存等使用率压不上去的话，也可以去排查下是否是由于JMeter服务器硬件配置不足造成的；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">本次压力问题，发现 JMeter 测试服务器在压测时 CPU 的使用率达到了 80%多，说明此台测试服务器由于硬件限制也是无法构建更大的并发压力了，所以建议将单机 JMeter 测试改为 分布式测试；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">这里 JMeter 分布式测试网上教程很多，本文就不做过多描述了。</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">到这里，本人认为的所有该调优的点都排查完； 今啊老百姓真呀真呀真高兴！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213005811.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;">本次排查总结：</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">排查完上面的几个点后，最终发现了导致本次压测问题的原因：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">Redis 连接池的最大连接数配置的偏小</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">JMeter 单机测试无法构造出足够的并发压力</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">正是由于上面的两个问题导致了本次压测出现了下面的问题：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">压测时应用系统的吞吐量偏低</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">并且应用服务器（部署接口项目的服务器）的CPU、内存等使用率偏低；</section></li></ul>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border: none; display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border-left-color: rgb(239, 112, 96); background: #fff9f9;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">将上面的两处问题修改过后，重新进行压测，发现一切正常了！</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">在此，再说明下本次压测项目就是一个简单的单体项目，项目中没有涉及到分库分表、各种中间件以及分布式等，所以排查起来还相对简单些 ，否则问题排查会更加困难的。</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">由于本人水平有限，如果有未提及到的调优的点，请评论留言呀！</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;">扩展</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在排查问题时，如果有一些 <strong style="font-weight: bold; color: black;">排查工具</strong> 的话，将极大的方便我们排查问题，从而使我们快速的定位到问题原因！</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">下面就介绍两个在排查问题非常好用的辅助工具：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">Arthas ： 阿里开源的线上Java应用诊断工具</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">jvisualvm ：JDK中自带的 JVM 运行状态监控工具</section></li></ul>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201213212555.jpg" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; border-bottom: 2px solid rgb(239, 112, 96); font-size: 1.3em;"><span class="prefix" style="display: none;"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgb(239, 112, 96); color: #ffffff; padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px;"><font color="red">❤</font> 点赞 + 评论 + 转发 哟</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid #efebe9; border-right: 20px solid transparent;"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力，谢谢！</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">您可以微信搜索【木子雷】公众号，大量Java学习干货文章，您可以来瞧一瞧哟！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section>  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2020/12/14/performance_tuning/" target="_blank" title="排查压测问题引发的系统性能调优过程">https://leishen6.github.io/2020/12/14/performance_tuning/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%AE%9E%E6%88%98%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/">实战问题排查</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2020/12/14/performance_tuning/" data-title="排查压测问题引发的系统性能调优过程 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/11/29/mongodb_one/"  title="初闻MongoDB（一）、从零带你了解MongoDB的前世今生">
+ <strong>下一篇：</strong><br/> 
+ <span>初闻MongoDB（一）、从零带你了解MongoDB的前世今生
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
