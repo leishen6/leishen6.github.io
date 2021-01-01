@@ -1,0 +1,1040 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>不看后悔的项目中线程池实际应用 | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="不看后悔的项目中线程池实际应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不看后悔的项目中线程池实际应用">
+<meta property="og:url" content="https://leishen6.github.io/2021/01/01/thread_pool_use/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="不看后悔的项目中线程池实际应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229211029.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229093145.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229100001.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201227215415.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229192010.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229192013.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229140859.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229113216.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png">
+<meta property="article:published_time" content="2021-01-01T09:46:57.224Z">
+<meta property="article:modified_time" content="2021-01-01T09:49:42.764Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="线程池">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229211029.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/01/01/thread_pool_use/" title="不看后悔的项目中线程池实际应用" itemprop="url">不看后悔的项目中线程池实际应用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2021-01-01T09:46:57.224Z" itemprop="datePublished">
+
+			发表于 2021-01-01 17:46:57
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; padding: 0 10px; word-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; line-height: 1.25; color: #2b2b2b; font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light; letter-spacing: 2px; background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%); background-size: 20px 20px; background-position: center center;"><figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229211029.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">前言：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">最近在看线程池方面的内容，结合源码学习完其内部原理后，心想自己在项目中有实际使用过线程池吗？</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">想了想，确实在项目中很多地方使用到了线程池；下面来简单聊下最近在日志方面中多线程的应用：</p>
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">服务接口日志异步线程池化入库处理</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">定时任务中使用多线程进行日志清理</section></li></ul>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229093145.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>本文主线：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">①、线程池基本原理解读；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">②、线程池实际应用例子：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">线程池应用 Demo 项目结构描述</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">服务接口日志异步线程池化入库处理</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">定时任务中使用多线程进行日志清理</p>
+</section></li></ul>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">线程池基本原理解读：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">啥也不说，先贴一张脑图，通过脑图对线程池快速的进行了解；</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">除了看图外，也可以通过此文章<a href="https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html" target="_blank" rel="noopener" style="text-decoration: none; word-wrap: break-word; color: #40B8FA; font-weight: normal; border-bottom: 1px solid #3BAAFA;">《ava线程池实现原理及其在美团业务中的实践》</a>进行线程池的了解；</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229100001.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">线程池实际应用例子：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">下面就来聊聊最近在项目日志中线程池的应用；</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h3 data-tool="mdnice编辑器" style="padding: 0px; color: black; font-size: 17px; font-weight: bold; text-align: center; position: relative; margin-top: 20px; margin-bottom: 20px;"><span class="prefix" style="display: none;"></span><span class="content" style="border-bottom: 2px solid RGBA(79, 177, 249, .65); color: #2b2b2b; padding-bottom: 2px;"><span style="width: 30px; height: 30px; display: block; background-image: url(https://files.mdnice.com/fullstack-2.png); background-position: center; background-size: 30px; margin: auto; opacity: 1; background-repeat: no-repeat; margin-bottom: -8px;"></span>线程池应用Demo项目描述：</span><span class="suffix" style="display: none;"></span></h3>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Demo 地址：https://github.com/leishen6/springboot_log</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">上面说的两种日志方面线程池应用已经写好了Demo，是一个 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>SpringBoot<span>」</span></strong> 项目，项目结构如下图：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201227215415.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h3 data-tool="mdnice编辑器" style="padding: 0px; color: black; font-size: 17px; font-weight: bold; text-align: center; position: relative; margin-top: 20px; margin-bottom: 20px;"><span class="prefix" style="display: none;"></span><span class="content" style="border-bottom: 2px solid RGBA(79, 177, 249, .65); color: #2b2b2b; padding-bottom: 2px;"><span style="width: 30px; height: 30px; display: block; background-image: url(https://files.mdnice.com/fullstack-2.png); background-position: center; background-size: 30px; margin: auto; opacity: 1; background-repeat: no-repeat; margin-bottom: -8px;"></span>服务接口日志异步线程池化入库处理：</span><span class="suffix" style="display: none;"></span></h3>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">后台服务接口项目中，经常需要对接口的请求报文和响应报文日志做入库保存；</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">下面将通过对比 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>普通方式入库操作和线程池方式入库操作<span>」</span></strong> ，来说说为什么线程池式入库更加优雅；</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>普通方式入库操作：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">普通入库就是直接进行完业务逻辑处理并构建好响应后同时将日志进行入数据库，入库成功后再将响应返回；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>流程图如下：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229192010.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">但是这样存在一个很大的弊端就是由于多了一次数据库操作（日志入库），进而可能会导致响应速度比较慢；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">下面就聊聊怎么通过线程池对日志入库进行优化，提升接口的响应速度；</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>线程池方式入库操作：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">线程池方式入库，可以将日志直接放入到队列中，然后就直接返回响应，最后使用线程池中的线程取出队列中的日志数据异步做入库操作；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>流程图如下：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229192013.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">使用线程池方式，处理请求的主线程可以将日志放入到队列后，直接将响应返回，然后再使用线程池中的线程取出队列中的日志数据异步的将其进行入库；由于减少了一次数据库操作，会极大的提升接口响应速度。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>下面来看看代码实现：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">1、上面说到的存放请求报文和响应报文日志的队列： <strong style="color: #3594F7; font-weight: bold;"><span>「</span>LinkedBlockingDeque<span>」</span></strong></p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;基于链表的双向阻塞队列，在队列的两端都可以插入和移除元素，是线程安全的，多线程并发下效率更高</span><br>BlockingQueue&lt;TestLogBean&gt;&nbsp;queue&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;LinkedBlockingDeque&lt;TestLogBean&gt;(MAX_QUEUE_SIZE);<br></code></pre>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">除了 LinkedBlockingDeque 阻塞队列外，还有一些其它经常会用到的阻塞队列，如下图：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229140859.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">2、项目中进行日志入库操作的线程池： <strong style="color: #3594F7; font-weight: bold;"><span>「</span>单线程的线程池 + 固定数线程的线程池<span>」</span></strong></p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">单线程的线程池：用来循环的监听队列中的日志数量以及决策什么时候将队列中的日志取出交由固定数线程的线程池做入库操作；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">固定数线程的线程池：主要用来进行日志的入库操作；</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>部分代码实现如下：<span>」</span></strong></p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;&nbsp;初始化<br>&nbsp;*/</span><br><span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">init</span><span class="hljs-params" style="line-height: 26px;">()</span></span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;基于链表的双向阻塞队列，在队列的两端都可以插入和移除元素，是线程安全的，多线程并发下效率更高</span><br>&nbsp;&nbsp;&nbsp;&nbsp;queue&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;LinkedBlockingDeque&lt;TestLogBean&gt;(MAX_QUEUE_SIZE);<br>&nbsp;&nbsp;&nbsp;&nbsp;lastExecuteTime&nbsp;=&nbsp;System.currentTimeMillis();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"LogPoolManager&nbsp;init&nbsp;successfully......"</span>);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;logManagerThreadPool.execute(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;Runnable()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-meta" style="color: #4078f2; line-height: 26px;">@Override</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">run</span><span class="hljs-params" style="line-height: 26px;">()</span>&nbsp;</span>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">while</span>&nbsp;(run.get()){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">try</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;线程休眠，具体时间根据项目的实际情况配置</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(SLEEP_TIME);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">catch</span>&nbsp;(InterruptedException&nbsp;e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.error(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"log&nbsp;Manager&nbsp;Thread&nbsp;sleep&nbsp;fail&nbsp;"</span>,&nbsp;e);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;满足存放了10个日志&nbsp;&nbsp;或&nbsp;&nbsp;满足时间间隔已经大于设置的最大时间间隔时&nbsp;&nbsp;执行日志插入</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(logCount.get()&nbsp;&gt;=&nbsp;BATCH_SIZE&nbsp;||&nbsp;(System.currentTimeMillis()&nbsp;-&nbsp;lastExecuteTime)&nbsp;&gt;&nbsp;MAX_EXE_TiME)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(logCount.get()&nbsp;&gt;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"begin&nbsp;drain&nbsp;log&nbsp;queue&nbsp;to&nbsp;database..."</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TestLogBean&gt;&nbsp;list&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;ArrayList&lt;TestLogBean&gt;();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;drainTo&nbsp;():&nbsp;一次性从BlockingQueue获取所有可用的数据对象（还可以指定获取数据的个数），<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;通过该方法，可以提升获取数据效率；不需要多次分批加锁或释放锁。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;将取出的数据放入指定的list集合中<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.drainTo(list);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;任务队列&nbsp;中任务数量置为0</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logCount.set(<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;从线程池中取出线程执行日志插入</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logWorkerThreadPool.execute(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;InsertThread(testLogService,&nbsp;list));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"end&nbsp;drain&nbsp;log&nbsp;queue&nbsp;to&nbsp;database..."</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取当前执行的时间</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastExecuteTime&nbsp;=&nbsp;System.currentTimeMillis();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"LogPoolManager&nbsp;shutdown&nbsp;successfully"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;});<br>}<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">本项目中测试服务接口日志异步线程池化入库处理，项目启动后，在浏览器输入下面URL，并刷新页面即可：</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">http://127.0.0.1:8081/v1/api/log/test</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h3 data-tool="mdnice编辑器" style="padding: 0px; color: black; font-size: 17px; font-weight: bold; text-align: center; position: relative; margin-top: 20px; margin-bottom: 20px;"><span class="prefix" style="display: none;"></span><span class="content" style="border-bottom: 2px solid RGBA(79, 177, 249, .65); color: #2b2b2b; padding-bottom: 2px;"><span style="width: 30px; height: 30px; display: block; background-image: url(https://files.mdnice.com/fullstack-2.png); background-position: center; background-size: 30px; margin: auto; opacity: 1; background-repeat: no-repeat; margin-bottom: -8px;"></span>定时任务中使用多线程进行日志清理：</span><span class="suffix" style="display: none;"></span></h3>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">当日志表中的数据量过多，占用了太多的磁盘空间，导致磁盘不断的告警，此时需要对日志表进行瘦身；</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">此时可以使用多线程将日志表中部分数据清理掉，释放磁盘空间；</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">日志表中哪些数据需要清理掉呢？下面这个场景就可能会在需求中出现：</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">领导说需要保留日志表中最新一年的数据，就是从当前日期向前推365天；例如：今天2020-12-30，向前推365天的日期是2019-12-30，所以2019-12-30之前生成的日志都需要清理掉；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">下面来看代码，由于需要尽可能保证程序的灵活性，所以需要将删除的表名，根据删除的字段等进行灵活的配置；配置参数如下图：  <strong style="color: #3594F7; font-weight: bold;"><span>「</span>application-cleanLog.properties<span>」</span></strong> 配置文件</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;">## 线程池大小
+threads.pool.num=8
+
+<h2 id="需要进行清理的表"><a href="#需要进行清理的表" class="headerlink" title="需要进行清理的表"></a>需要进行清理的表</h2><p>log.clean.table=t_test_log</p>
+<h2 id="清理时根据的字段"><a href="#清理时根据的字段" class="headerlink" title="清理时根据的字段"></a>清理时根据的字段</h2><p>log.clean.filed=createts</p>
+<h2 id="每次清理的数据量大小"><a href="#每次清理的数据量大小" class="headerlink" title="每次清理的数据量大小"></a>每次清理的数据量大小</h2><p>log.clean.batchCount=1000</p>
+<h2 id="每次定时清理时-循环清理的次数"><a href="#每次定时清理时-循环清理的次数" class="headerlink" title="每次定时清理时 循环清理的次数"></a>每次定时清理时 循环清理的次数</h2><p>log.clean.batchNum=6</p>
+<h2 id="需保留据当前多少天的最新数据，其余的数据才可以被清理掉"><a href="#需保留据当前多少天的最新数据，其余的数据才可以被清理掉" class="headerlink" title="需保留据当前多少天的最新数据，其余的数据才可以被清理掉"></a>需保留据当前多少天的最新数据，其余的数据才可以被清理掉</h2><p>log.clean.dateNum=1<br></code></pre></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>注意：<span>」</span></strong></p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">线程池大小需要结合服务器硬件配置和实际的业务日志量大小进行合理配置；如果设置的过大，可能会占用过多的内存和频繁的进行上下文切换，从而可能导致效率变低；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">本项目中是根据日期字段进行数据清理的，如果表已经根据日期进行了分区，可以直接根据分区进行清理，分区清理速度更加快些，但是按分区进行删除本项目中暂未实现；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">每次清理的数据量大小：指的是进行一次 delete 时需要删除的数据量；建议不要设置的太大，因为删除的数据量太大的话，可能会导致锁表，从而影响表的正常查询、新增等操作；</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">定时任务执行时循环清理的次数：指的是定时任务执行时进行几次 delete 操作；上面有说道 每次delete的数据量别设置太大，那么在总清理的数据量不变的情况下，就需要将清理的次数设置大些；</p>
+<p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>总清理的数据量 = 每次清理的数据量大小 * 清理的次数<span>」</span></strong></p>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">多线程进行日志清理的流程图如下所示：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201229113216.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>下面来看看代码实现：</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">部分代码实现如下所示：</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">/**<br>&nbsp;*&nbsp;&nbsp;多线程清理日志启动<br>&nbsp;*/</span><br><span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">public</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">void</span>&nbsp;<span class="hljs-title" style="color: #4078f2; line-height: 26px;">cleanLogStart</span><span class="hljs-params" style="line-height: 26px;">()</span></span>{<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;循环进行日志清理的次数</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">int</span>&nbsp;whileNum&nbsp;=&nbsp;props.getInt(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">"log.clean.batchNum"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;LogCleanBean&nbsp;logClean&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">null</span>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">while</span>&nbsp;(whileNum&nbsp;&gt;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>){<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;查询符合每次删除数据量的时间段</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;String&gt;&nbsp;list&nbsp;=&nbsp;logCleanService.selectTime(logCleanBean);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(list&nbsp;!=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">null</span>&nbsp;&amp;&amp;&nbsp;list.size()&nbsp;&gt;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logClean&nbsp;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;LogCleanBean();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logClean.setTableName(logCleanBean.getTableName());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logClean.setFieldName(logCleanBean.getFieldName());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取可以删除日志的最小生成时间</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logClean.setMinTime(list.get(list.size()-<span class="hljs-number" style="color: #986801; line-height: 26px;">1</span>));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;获取可以删除日志的最大生成时间</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logClean.setMaxTime(list.get(<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logCleanBean.setMinTime(logClean.getMinTime());<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;此次查询已经不满足设置的每次清理的数据量大小了，说明已经清理干净了</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">if</span>&nbsp;(list.size()&nbsp;&lt;&nbsp;logCleanBean.getBatchCleanCount()){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;whileNum&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;清理次数进行递减</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--whileNum;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">else</span>&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">break</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">//&nbsp;进行多线程处理</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cleanManagerThreadPool.execute(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">new</span>&nbsp;CleanThread(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">this</span>.logCleanService,&nbsp;logClean));<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></code></pre>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>扩展：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">本项目中使用 delete 并且根据时间字段进行的数据删除，如果是 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>MySql 数据库<span>」</span></strong> 的话，则在删除数据后去查看磁盘空间的话，发现可用磁盘空间并没有增多，并且可用磁盘空间还有可能减少了呢，why  为什么？</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">因为在 InnoDB 存储引擎中，delete 其实并不会真的把数据删除，mysql 实际上只是给删除的数据打了个标记为已删除，因此 delete 删除表中的数据时，表文件在磁盘上所占空间不会变小，存储空间不会被释放，只是把删除的数据行设置为不可见。然未释放磁盘空间，但是下次插入数据的时候，仍然可以重用这部分空间（重用 → 覆盖）。</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">并且由于在 delete 删除数据时，会记录 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>binlog日志<span>」</span></strong> 等，如果删除的数据中存在 Text和BLOB 等大字段，可能日志文件会变得额外的大，占用部分磁盘空间 ，这就会导致 free 磁盘空间的进一步减少；</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>解决方案：<span>」</span></strong></p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">如果删除的数据中不存在Text和BLOB 等大字段，可以直接不用管，直接覆盖使用，并且等待MySql 的自动清理操作即可，但是需要一定时间；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;">可以在delete操作以后使用 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>optimize table table_name<span>」</span></strong> 会立刻释放磁盘空间。但是，由于optimize执行时会将表锁住，所以不要在高峰期使用，也不要经常使用；因为其会阻塞正常的查询、更新等操作的。</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">也可以使用 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>truncate 、drop<span>」</span></strong> 进行数据的删除，<strong style="color: #3594F7; font-weight: bold;"><span>「</span>快速释放磁盘空间<span>」</span></strong>；具体结合当前项目的实际情况进行选择 。</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">-- END --</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">本文中介绍了在日志处理场景中线程池的使用场景，除此之外，还有很多场景使用到了线程池，并且在很多框架中也使用到了线程池，大家也可以通过阅读框架源码学习线程池的使用方法。</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;"><font color="red">❤</font> 点赞 + 评论 + 转发 哟</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力，谢谢啦！</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">您可以微信搜索【木子雷】公众号，大量Java学习干货文章，您可以来瞧一瞧哟！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+</section>  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2021/01/01/thread_pool_use/" target="_blank" title="不看后悔的项目中线程池实际应用">https://leishen6.github.io/2021/01/01/thread_pool_use/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/线程池/">线程池</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2021/01/01/thread_pool_use/" data-title="不看后悔的项目中线程池实际应用 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/12/14/performance_tuning/"  title="排查压测问题引发的系统性能调优过程">
+ <strong>下一篇：</strong><br/> 
+ <span>排查压测问题引发的系统性能调优过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对称加密/" title="对称加密">对称加密<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/单例模式/" title="单例模式">单例模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程池/" title="线程池">线程池<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
