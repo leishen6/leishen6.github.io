@@ -1,0 +1,1068 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC ！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC">
+<meta property="og:url" content="https://leishen6.github.io/2021/03/05/mysql_mvcc_lock/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC ！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303203449.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202525.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202531.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202534.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202538.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202541.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202544.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202547.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185219.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185229.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185257.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/40b479dcea1ad14415027a0888256c3d.png">
+<meta property="article:published_time" content="2021-03-05T12:44:09.857Z">
+<meta property="article:modified_time" content="2021-03-05T12:48:17.443Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="MySql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303203449.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/03/05/mysql_mvcc_lock/" title="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC" itemprop="url">一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2021-03-05T12:44:09.857Z" itemprop="datePublished">
+
+			发表于 2021-03-05 20:44:09
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			
+			
+			   <img src="/img/zhuan.png" title="转载"/> 
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; padding: 0 10px; word-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; line-height: 1.25; color: #2b2b2b; font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light; letter-spacing: 2px; background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%); background-size: 20px 20px; background-position: center center;"><figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303203449.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">前言：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">最近同事开发时遇到了一个事务阻塞的问题，通过网上查询发现关于MySQL事务、锁这一块的资料都比较絮乱，让人看的云里雾里，所以借着这个机会，刚好也对这一块内容做一个总结梳理，希望能比较全面去写一下MySQL的并发事务处理。</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>本文主线：</span><span class="suffix" style="display: none;"></span></h4>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">简述事务的特性与隔离级别</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">聊聊MySql中各种类型的锁</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">然后再聊聊MVCC是个什么东东</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">接着再聊聊数据库锁的触发及升级，以及死锁</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">最后说下出现锁问题时的常见排查命令</p>
+</section></li></ul>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">简述事务的特性与隔离级别：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">在讲锁之前，必须要先聊聊 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>事务的特性与隔离级别<span>」</span></strong> ，因为锁机制的存在是为了保证事务对应隔离级别下的特性。</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>事务具有以下几个特性：<span>」</span></strong>
+<img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202525.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>说完特性，再聊聊MySql中的几种事务隔离级别：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202531.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>RU 读未提交：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">顾名思义，在这种隔离级别下，当多个事务并行对同一数据进行操作时，会读取未提交的数据，也被称之为 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>脏读<span>」</span></strong> 。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">这种隔离级别因为会出现脏读现象，所以在实际场景中很少用。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>RC 读提交：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">一个事务只能看见已经提交事务所做的改变。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">但这种隔离级别会出现 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>不可重复读<span>」</span></strong> 现象，即在一个事务内，多次读同一数据，在这个事务还没有结束时，如果另一个事务恰好修改了这个数据，那么，在第一个事务中，两次读取的数据就可能不一致。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>RR 可重复读：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">这是MySQL的 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>默认事务隔离级别<span>」</span></strong> ，在这种隔离级别下，解决了RC存在的不可重复读问题，确保在同一事务中，会看到同样的数据行。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">但可能会出现 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>幻读<span>」</span></strong> ，即当一个事务在执行读取操作，第一次查询数据总量后，另一个事务执行了新增数据的操作并提交后，这个时候第一个事务读取的数据总量和之前统计的不一样，就像产生幻觉一样。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>SERIALIZABLE 串行化：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">此隔离级别是四种隔离级别中最高的级别，解决了 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>脏读、可重复读、幻读<span>」</span></strong> 的问题。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">但是性能最差，它将事务的执行变为顺序执行，与其他三个隔离级别相比，在并行事务执行过程中，后一个事务的执行必须等待前一个事务结束。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">MySql中各种类型的锁：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>在MySQL中，按锁类型划分，有以下种类：</span><span class="suffix" style="display: none;"></span></h4>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202534.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">提到锁到种类，需要提一下MySQL到存储引擎，MySQL常用引擎有 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>MyISAM和InnoDB<span>」</span></strong> ，而InnoDB是mysql默认的引擎。MyISAM是不支持行锁的，而InnoDB支持行锁和表锁。</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>MyISAM 存储引擎下表锁：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">读锁会阻塞对同一张表的写操作，而写锁既会阻塞对同一张表的写操作，也会阻塞此表的读操作。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>排他锁、共享锁、意向锁 是什么东东？</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>排他锁：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">通常我们在InnoDB存储引擎中对表执行一个更新操作，针对这一行数据会持有排他锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">持有排他锁时，不允许再在数据行上添加写锁与读锁，其他事务对此行数据的读、写操作都会被阻塞，只有当前事务提交了，锁释放了才允许其他事务进行读写，达到避免 <em style="font-style: normal; color: #3594F7; font-weight: bold;">脏读</em> 的效果。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>共享锁：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">主要是为了支持并发的读取数据而出现的，当一个事务持有某一数据行的共享锁时，允许其它事务可以再获取共享锁，但不允许其它事务在此基础上获取排他锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">也就是说，在持有共享锁时，多个事务可以同时读取当前数据，但是不允许任何事务同时对当前数据进行修改操作，阻塞添加排它锁。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>意向锁：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">首先需要明白一点，意向锁的作用是在 <em style="font-style: normal; color: #3594F7; font-weight: bold;">表上</em> 的，当一个事务需要获取共享锁或排他锁时，首先要获取对应的意向锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">为什么要这样做呢？举个例子，假设在事务A中，对某一行数据添加共享锁，这一行只能读，不能写；此时事务B申请获得表的写锁，假如加锁成功，那么事务B将能够对整个表的数据进行读写，与事务A冲突，这种操作肯定是不允许的呢；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">所以MySQL会在申请共享锁或者排他锁的时候，先获取对应的意向锁，也就是说，你要操作表中的某一行锁数据，先要看看整个表能不能被操作；意向锁的申请是由数据库完成的，不需要人为申请。</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>Innodb 存储引擎下的行锁：</span><span class="suffix" style="display: none;"></span></h4>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">上文对几种锁类型进行了简要分析，其实平时工作开发中接触到最多的还是行锁，行锁的实现有以下几种：</p>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;"><em style="font-style: normal; color: #3594F7; font-weight: bold;">注意：在Innodb 存储引擎中，行锁的实现是基于索引的</em></p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202538.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>Record Lock(记录锁)：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">它是会锁住索引记录，比如 update table where id = 1， id 是主键，然后在聚簇索引上对 id=1 的个索引记录进行加锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>Gap Lock(间隙锁)：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">实质上是对索引前后的间隙上锁，不对索引本身上锁,目的是为了防止幻读。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">当使用范围条件查询而不是等值条件检索数据，并请求排他锁、或共享锁时，对于该范围内不存在的记录，不允许其修改插入。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">举个例子：当表中只有一条id=101的记录，一个事务执行select * from user where user_id &gt; 100 for update；此时另一个事务执行插入一条id=102的数据是会阻塞的，必须等待第一个事务提交后才能完成。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">间隙锁是针对事务隔离级别为可重复读或以上级别的。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>Next-Key Lock：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Next-Key Lock 是 记录锁和间隙锁 的结合，会同时锁住记录与间隙。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">在innodb存储引擎中，如果没有通过 索引项 进行查询时：</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">①、在RR隔离级别下，会以Next-Key Lock的方式对数据行进行加锁，通过 行锁+间隙锁 实现了 "锁表" 的效果，但请记住这不是添加的表锁；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">②、而在 RU、RC 隔离级别下还是只会锁行记录，为什么呢？因为在innodb存储引擎下的四种事务隔离级别中都支持行锁，但是间隙锁只存在于RR、Serializable 两种隔离级别下。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">可以通过下面这篇文章了解为什么在RR隔离级别下会实现"锁表"的效果，而在RC隔离级别下只会锁行记录: <a href="https://mp.weixin.qq.com/s?__biz=MzIwMDgzMjc3NA==&amp;mid=2247484435&amp;idx=1&amp;sn=3022b0aa715a3e1e79788d6d5fbbbf67&amp;chksm=96f6667aa181ef6c324d328639839e8a0b0ada541787a97067952e21d77e7bf6c13cc0386966&amp;scene=21#wechat_redirect" target="_blank" rel="noopener" style="text-decoration: none; word-wrap: break-word; color: #40B8FA; font-weight: normal; border-bottom: 1px solid #3BAAFA;">互联网项目中mysql应该选什么事务隔离级别</a></p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">MVCC 是什么：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; text-size-adjust: 100%; line-height: 1.55em; font-weight: 400; border-radius: 6px; color: #595959; font-style: normal; text-align: left; box-sizing: inherit; border-left: none; border: 1px solid RGBA(64, 184, 250, .4); background: RGBA(64, 184, 250, .1);"><span style="color: RGBA(64, 184, 250, .5); font-size: 34px; line-height: 1; font-weight: 700;">❝</span>
+<p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">锁机制可以控制并发操作，来保证一致性，但是系统开销会很大；在RC、RR的隔离级别下，MySQL的InnoDB存储引擎通过 <em style="font-style: normal; color: #3594F7; font-weight: bold;">MVCC (多版本并发控制)</em> 机制来解决幻读。</p>
+<span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>使用MVCC时具体的体现是什么呢？<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">使事务在并发过程中，SELECT 操作不用加锁，读写不冲突从而提高性能。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>那么实现MVCC机制的原理是什么呢？<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">其原理是通过保存数据在某个时间点的快照来实现的；通过在每行记录后面保存隐藏列来存放事务ID，这样每一个事务，都会对应一个递增的事务ID。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">假设三个事务同时更新来同一行数据，那么就会对应三个数据版本，但实际上版本1、版本2并不是物理存在的，而是通过关联记录在undo log 回滚日志中，这样就可以通过undo log找回数据的历史版本，比如回滚的操作，会使用上一个版本的数据覆盖数据页上的数据。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>举例一个RR隔离级别下快照读的例子：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">开启事务A按条件A查询到两条数据，此时事务B再插入1条数据且满足条件A的数据，并提交事务；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">此时事务A再按条件A进行查询，查询到的依然是两条数据，也就是说，事务A查询到的并不是当前最新的数据版本（三条数据），而是通过MVCC实现的历史快照版本；这也是可重复读的实现。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>介绍了完读操作，再举例一个RR隔离级别下 更新 写操作的例子：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">注意：对数据修改的操作(update、insert、delete)都会读到已提交事务的最新数据，因为这就是 当前读。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">假设事务A执行一个更新语句，满足更新条件A（条件A字段无索引或者存在非唯一索引）的数据是2条，更新成功后不提交事务；</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">此时事务B插入一条新的满足条件A的数据时会被阻塞的，为什么呢？</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">因为这里在事务A更新时使用到了Next-Key Lock锁，它会使用行锁+间隙锁实现了"锁表"，所以后面事务B再进行插入数据时会被阻塞的；这也防止了幻读的出现。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">这里如果看的不是很明白的话，可以同时再参考下此文章，此文章详细分析了加锁情况：<a href="https://mp.weixin.qq.com/s/hcRy3pKaZw20YrNIgsPH8w" target="_blank" rel="noopener" style="text-decoration: none; word-wrap: break-word; color: #40B8FA; font-weight: normal; border-bottom: 1px solid #3BAAFA;">惊！史上最全的select加锁分析(Mysql)</a></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">注意：</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">MVCC只在RC和RR两个隔离级别下支持；其他两个隔离级别和MVCC不兼容，因为 RU总是读取最新的数据行，而不是符合当前事务版本的数据行；而S ERIALIZABLE 则会对所有读取的行都加锁，是当前读，也是读取的最新数据。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">数据库锁的触发及升级，以及死锁：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>数据库锁的触发及升级：</span><span class="suffix" style="display: none;"></span></h4>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202541.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202544.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content" style="height: 16px; line-height: 16px; font-size: 16px;"><span style="background-image: url(https://files.mdnice.com/fullstack-3.png); display: inline-block; width: 16px; height: 16px; background-size: 100%; background-position: left bottom; background-repeat: no-repeat; width: 16px; height: 15px; line-height: 15px; margin-right: 6px; margin-bottom: -2px;"></span>什么时候会出现DeadLock：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>什么是死锁呢?<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">死锁是指两个或两个以上的进程在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程称为死锁进程。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>举例说明：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">事务A获取 id=20的锁，事务B获取id=30的锁，然后，事务A试图获取id=30的锁，而该锁已经被事务B持有，所以事务A等待事务 B释放该锁，然后事务B又试图获取id =20 的锁这个锁被事务 A 占有，于是两个事务之间相互等待，这就会导致死锁。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">死锁的场景还有许多，归根结底，都是因为多个事务想要获取的锁互斥且获取的顺序不一致所造成。</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>如何避免死锁呢？<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">通常Record Lock引起的死锁问题开发时都会比较小心，但Gap Lock可能导致死锁的问题通常会被忽略，所以这一点要多加注意，另外就是建立合适的索引，如果没有索引,那么在操作数据时会锁住每一行，会增大死锁的概率。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;">出现锁问题时的常见排查命令：</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210303202547.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>show open tabbles：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185219.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">SHOW OPEN TABLES where In_use &gt; 0：查看哪些表被锁了</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>show status like 'table%'：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185229.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">table_locks_waited：出现表级锁定争用发生等待的次数，此值高说明存在验证的表记锁争用情况</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">table_locks_immediate：表示立即释放表锁的次数</p>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>show status like 'innodb_row_lock%'：<span>」</span></strong></p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210305185257.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Innodb_row_lock_current_waits：当前正在等待锁定的数量</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Innodb_row_lock_time：系统启动到现在锁定总时间</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Innodb_row_lock_time_avg：每次等待话费的平均时间</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Innodb_row_lock_time_max：系统启动到现在等待最长一次所花时间</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">Innodb_row_lock_waits：系统启动后到现在共等待次数</p>
+</section></li></ul>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>information_schema：<span>」</span></strong></p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">information_schema是MySQL专门记录性能信息的库，在5.7版本后默认打开。</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; font-size: 15px; color: #595959; list-style-type: circle;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCKS： 查看当前InnoDB的锁的信息,会显示是什么锁类型,属于那个事务ID</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX： 查看InnoDB事务ID，会显示是什么操作和一些常规信息，例如是否在运行running,还是等待锁</p>
+</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; font-size: 14px; font-weight: normal; color: #595959;"><p style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS：查看InnoDB锁的等待时间，和等待的是哪个事务ID的锁</p>
+</section></li></ul>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px; display: block; border-bottom: 4px solid #40B8FA;"><span class="prefix" style="display: flex; width: 20px; height: 20px; background-size: 20px 20px; background-image: url(https://files.mdnice.com/fullstack-1.png); margin-bottom: -22px;"></span><span class="content" style="display: flex; color: #40B8FA; font-size: 20px; margin-left: 25px;"><font color="red">❤</font> 点赞 + 评论 + 转发 哟</span><span class="suffix" style="display: flex; box-sizing: border-box; width: 200px; height: 10px; border-top-left-radius: 20px; background: RGBA(64, 184, 250, .5); color: rgb(255, 255, 255); font-size: 16px; letter-spacing: 0.544px; justify-content: flex-end; float: right; margin-top: -10px; box-sizing: border-box !important; overflow-wrap: break-word !important;"></span></h2>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力，谢谢啦！</p>
+<p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">您可以微信搜索 <em style="font-style: normal; color: #3594F7; font-weight: bold;">【木子雷】</em> 公众号，大量Java学习干货文章，您可以来瞧一瞧哟！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://img-blog.csdnimg.cn/img_convert/40b479dcea1ad14415027a0888256c3d.png" alt style="max-width: 100%; border-radius: 6px; display: block; margin: 20px auto; object-fit: contain; box-shadow: 2px 4px 7px #999;"></figure>
+</section>  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		      
+
+<div class="zhuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2021/03/05/mysql_mvcc_lock/" target="_blank" title="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC">https://leishen6.github.io/2021/03/05/mysql_mvcc_lock/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本文为转载文章，如您想转载此文章，请联系 <a rel="license" href="https://juejin.cn/post/6934178095377154061" target="_blank" title="https://juejin.cn/post/6934178095377154061">原作者！</a>
+          </li>
+        </ul>
+      <div>
+
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .zhuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+	       
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">关系数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySql/">MySql</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2021/03/05/mysql_mvcc_lock/" data-title="一文带你了解MySql并发事务中的数据库锁、隔离级别、MVCC | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2021/02/19/exportExcel/"  title="一文让你了解如何快速、优雅的实现导出Excel">
+ <strong>下一篇：</strong><br/> 
+ <span>一文让你了解如何快速、优雅的实现导出Excel
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a>
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sharding-JDBC/" title="Sharding-JDBC">Sharding-JDBC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL优化/" title="SQL优化">SQL优化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
