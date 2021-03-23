@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210106101120.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201127105439.png">
 <meta property="article:published_time" content="2020-06-20T11:54:16.115Z">
-<meta property="article:modified_time" content="2021-03-23T03:07:14.148Z">
+<meta property="article:modified_time" content="2021-03-23T03:17:31.590Z">
 <meta property="article:author" content="木子雷">
 <meta property="article:tag" content="Sharding-JDBC">
 <meta name="twitter:card" content="summary">
@@ -366,24 +366,7 @@
 <p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">本Demo中的只有 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>t_user<span>」</span></strong> 表进行了分库分表，其它表没有进行分库分表，那些没进行分库分表的表是走设置的默认数据库；</p>
 <p style="padding-top: 8px; padding-bottom: 8px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px; margin: 0px; line-height: 26px; color: #595959;">分库2个，分表3个，分片键是t_user表中的 name 字段，分库分表都是依据 name 这个分片键的；</p>
 <span style="float: right; color: RGBA(64, 184, 250, .5);">❞</span></blockquote>
-<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;">## 分库分表 配置: (下面配置的分库数量、虚拟节点数量等主要是为了实现一致性hash算法进行分片)
-
-<h1 id="分库数量"><a href="#分库数量" class="headerlink" title="分库数量"></a>分库数量</h1><p>sharding.datasource.count=2</p>
-<h1 id="分库虚拟节点数量"><a href="#分库虚拟节点数量" class="headerlink" title="分库虚拟节点数量"></a>分库虚拟节点数量</h1><p>sharding.datasource.virtual.node.count=360</p>
-<h1 id="虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的-所以使用名字的hash值对虚拟节点数取余"><a href="#虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的-所以使用名字的hash值对虚拟节点数取余" class="headerlink" title="虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的, 所以使用名字的hash值对虚拟节点数取余;"></a>虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的, 所以使用名字的hash值对虚拟节点数取余;</h1><h1 id="得到一个0-359的余数，然后按照余数所属的范围-如果余数在0-179范围则数据分片访问-springboot0-数据源"><a href="#得到一个0-359的余数，然后按照余数所属的范围-如果余数在0-179范围则数据分片访问-springboot0-数据源" class="headerlink" title="得到一个0-359的余数，然后按照余数所属的范围, 如果余数在0-179范围则数据分片访问 springboot0 数据源,"></a>得到一个0-359的余数，然后按照余数所属的范围, 如果余数在0-179范围则数据分片访问 springboot0 数据源,</h1><h1 id="如果余数在180-359范围，则数据被分片访问-springboot1-数据源-下面的分表原理一样。"><a href="#如果余数在180-359范围，则数据被分片访问-springboot1-数据源-下面的分表原理一样。" class="headerlink" title="如果余数在180-359范围，则数据被分片访问 springboot1 数据源; 下面的分表原理一样。"></a>如果余数在180-359范围，则数据被分片访问 springboot1 数据源; 下面的分表原理一样。</h1><p>sharding.datasource.virtual.node.count.rang=0-179,180-359</p>
-<h1 id="分表数量"><a href="#分表数量" class="headerlink" title="分表数量"></a>分表数量</h1><p>sharding.table.count=3</p>
-<h1 id="分表虚拟节点数量"><a href="#分表虚拟节点数量" class="headerlink" title="分表虚拟节点数量"></a>分表虚拟节点数量</h1><p>sharding.table.virtual.node.count=360</p>
-<h1 id="虚拟节点映射到物理节点范围"><a href="#虚拟节点映射到物理节点范围" class="headerlink" title="虚拟节点映射到物理节点范围"></a>虚拟节点映射到物理节点范围</h1><p>sharding.table.virtual.node.count.rang=0-119,120-249,250-359</p>
-<h1 id="实际数据源名字"><a href="#实际数据源名字" class="headerlink" title="实际数据源名字"></a>实际数据源名字</h1><p>spring.shardingsphere.datasource.names=springboot0,springboot1</p>
-<h1 id="数据源"><a href="#数据源" class="headerlink" title="数据源"></a>数据源</h1><p>spring.shardingsphere.datasource.springboot0.type=com.alibaba.druid.pool.DruidDataSource<br>spring.shardingsphere.datasource.springboot0.driver-class-name=com.mysql.jdbc.Driver<br>spring.shardingsphere.datasource.springboot0.url=jdbc:mysql://localhost:3306/springboot0?characterEncoding=utf-8&amp;useSSL=false<br>spring.shardingsphere.datasource.springboot0.username=root<br>spring.shardingsphere.datasource.springboot0.password=root</p>
-<p>spring.shardingsphere.datasource.springboot1.type=com.alibaba.druid.pool.DruidDataSource<br>spring.shardingsphere.datasource.springboot1.driver-class-name=com.mysql.jdbc.Driver<br>spring.shardingsphere.datasource.springboot1.url=jdbc:mysql://localhost:3306/springboot1?characterEncoding=utf-8&amp;useSSL=false<br>spring.shardingsphere.datasource.springboot1.username=root<br>spring.shardingsphere.datasource.springboot1.password=root</p>
-<h3 id="分片策略使用的是-自定义的分片算法"><a href="#分片策略使用的是-自定义的分片算法" class="headerlink" title="分片策略使用的是: 自定义的分片算法"></a>分片策略使用的是: 自定义的分片算法</h3><h2 id="实际的数据节点，符合-groovy-语法-这里的-0-1-指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个"><a href="#实际的数据节点，符合-groovy-语法-这里的-0-1-指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个" class="headerlink" title="实际的数据节点，符合 groovy 语法; 这里的{0..1}指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个;"></a>实际的数据节点，符合 groovy 语法; 这里的{0..1}指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个;</h2><h2 id="并且拼接在-springboot-后面，就构成了上面配置的实际数据源名称了"><a href="#并且拼接在-springboot-后面，就构成了上面配置的实际数据源名称了" class="headerlink" title="并且拼接在 springboot 后面，就构成了上面配置的实际数据源名称了"></a>并且拼接在 springboot 后面，就构成了上面配置的实际数据源名称了</h2><p>spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;{0..1}.t_user$-&gt;{0..2}</p>
-<h2 id="分片键：name字段"><a href="#分片键：name字段" class="headerlink" title="分片键：name字段"></a>分片键：name字段</h2><p>spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.shardingColumn=name</p>
-<h2 id="自定义-分库-算法"><a href="#自定义-分库-算法" class="headerlink" title="自定义 分库 算法"></a>自定义 分库 算法</h2><p>spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseDBShardingAlgorithm</p>
-<h2 id="分片键：name字段-1"><a href="#分片键：name字段-1" class="headerlink" title="分片键：name字段"></a>分片键：name字段</h2><p>spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.shardingColumn=name</p>
-<h2 id="自定义-分表-算法"><a href="#自定义-分表-算法" class="headerlink" title="自定义 分表 算法"></a>自定义 分表 算法</h2><p>spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseTableShardingAlgorithm</p>
-<h1 id="不进行分库分表的数据源指定，使用设置的默认数据源springboot0-例如，本文中的-t-role表就不进行"><a href="#不进行分库分表的数据源指定，使用设置的默认数据源springboot0-例如，本文中的-t-role表就不进行" class="headerlink" title="不进行分库分表的数据源指定，使用设置的默认数据源springboot0 ;例如，本文中的 t_role表就不进行"></a>不进行分库分表的数据源指定，使用设置的默认数据源springboot0 ;例如，本文中的 t_role表就不进行</h1><h1 id="分库分表，那关于-t-role-表的增删改差都走默认数据源-springboot0"><a href="#分库分表，那关于-t-role-表的增删改差都走默认数据源-springboot0" class="headerlink" title="分库分表，那关于 t_role 表的增删改差都走默认数据源 springboot0"></a>分库分表，那关于 t_role 表的增删改差都走默认数据源 springboot0</h1><p>spring.shardingsphere.sharding.default-data-source-name=springboot0</p>
-<h1 id="打印执行的数据库以及语句"><a href="#打印执行的数据库以及语句" class="headerlink" title="打印执行的数据库以及语句"></a>打印执行的数据库以及语句</h1><p>spring.shardingsphere.props.sql.show=true<br></code></pre></p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;分库分表&nbsp;配置:&nbsp;(下面配置的分库数量、虚拟节点数量等主要是为了实现一致性hash算法进行分片)</span><br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;分库数量</span><br>sharding.datasource.count=2<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;分库虚拟节点数量</span><br>sharding.datasource.virtual.node.count=360<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;虚拟节点映射到物理节点范围：例如本文中是根据name名字进行分片的,&nbsp;所以使用名字的hash值对虚拟节点数取余;</span><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;得到一个0-359的余数，然后按照余数所属的范围,&nbsp;如果余数在0-179范围则数据分片访问&nbsp;springboot0&nbsp;数据源,</span><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;如果余数在180-359范围，则数据被分片访问&nbsp;springboot1&nbsp;数据源;&nbsp;下面的分表原理一样。</span><br>sharding.datasource.virtual.node.count.rang=0-179,180-359<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;分表数量</span><br>sharding.table.count=3<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;分表虚拟节点数量</span><br>sharding.table.virtual.node.count=360<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;虚拟节点映射到物理节点范围</span><br>sharding.table.virtual.node.count.rang=0-119,120-249,250-359<br><br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;实际数据源名字</span><br>spring.shardingsphere.datasource.names=springboot0,springboot1<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;数据源</span><br>spring.shardingsphere.datasource.springboot0.type=com.alibaba.druid.pool.DruidDataSource<br>spring.shardingsphere.datasource.springboot0.driver-class-name=com.mysql.jdbc.Driver<br>spring.shardingsphere.datasource.springboot0.url=jdbc:mysql://localhost:3306/springboot0?characterEncoding=utf-8&amp;useSSL=<span class="hljs-literal" style="color: #0184bb; line-height: 26px;">false</span><br>spring.shardingsphere.datasource.springboot0.username=root<br>spring.shardingsphere.datasource.springboot0.password=root<br><br>spring.shardingsphere.datasource.springboot1.type=com.alibaba.druid.pool.DruidDataSource<br>spring.shardingsphere.datasource.springboot1.driver-class-name=com.mysql.jdbc.Driver<br>spring.shardingsphere.datasource.springboot1.url=jdbc:mysql://localhost:3306/springboot1?characterEncoding=utf-8&amp;useSSL=<span class="hljs-literal" style="color: #0184bb; line-height: 26px;">false</span><br>spring.shardingsphere.datasource.springboot1.username=root<br>spring.shardingsphere.datasource.springboot1.password=root<br><br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">###&nbsp;分片策略使用的是:&nbsp;自定义的分片算法</span><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;实际的数据节点，符合&nbsp;groovy&nbsp;语法;&nbsp;这里的{0..1}指的是0到1及其之间的数字，数字有0，1两个，代表分库是两个;</span><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;并且拼接在&nbsp;springboot&nbsp;后面，就构成了上面配置的实际数据源名称了</span><br>spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;{0..1}.t_user$-&gt;{0..2}<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;分片键：name字段</span><br>spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.shardingColumn=name<br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;自定义&nbsp;分库&nbsp;算法</span><br>spring.shardingsphere.sharding.tables.t_user.databaseStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseDBShardingAlgorithm<br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;分片键：name字段</span><br>spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.shardingColumn=name<br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">##&nbsp;自定义&nbsp;分表&nbsp;算法</span><br>spring.shardingsphere.sharding.tables.t_user.tableStrategy.standard.preciseAlgorithmClassName=com.lyl.algorithm.MyPreciseTableShardingAlgorithm<br><br><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;不进行分库分表的数据源指定，使用设置的默认数据源springboot0&nbsp;;例如，本文中的&nbsp;t_role表就不进行</span><br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;分库分表，那关于&nbsp;t_role&nbsp;表的增删改差都走默认数据源&nbsp;springboot0</span><br>spring.shardingsphere.sharding.default-data-source-name=springboot0<br><span class="hljs-comment" style="color: #a0a1a7; font-style: italic; line-height: 26px;">#&nbsp;打印执行的数据库以及语句</span><br>spring.shardingsphere.props.sql.show=<span class="hljs-literal" style="color: #0184bb; line-height: 26px;">true</span><br></code></pre>
 <p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;">如果需要更改分库数量，或者分表数量的话，那么也需要对配置文件进行更改；例如：将分库数量 <strong style="color: #3594F7; font-weight: bold;"><span>「</span>由之前的2个改为3个<span>」</span></strong> ； 下面这些配置文件内容需要更改：</p>
 <p data-tool="mdnice编辑器" style="padding-top: 8px; padding-bottom: 8px; line-height: 26px; color: #2b2b2b; margin: 10px 0px; letter-spacing: 2px; font-size: 14px; word-spacing: 2px;"><strong style="color: #3594F7; font-weight: bold;"><span>「</span>原配置内容：<span>」</span></strong></p>
 <pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/point.png); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; letter-spacing: 0px; padding-top: 15px; background: #fafafa; border-radius: 5px;">sharding.datasource.count=<span class="hljs-number" style="color: #986801; line-height: 26px;">2</span><br>sharding.datasource.virtual.node.count.rang=<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>-<span class="hljs-number" style="color: #986801; line-height: 26px;">179</span>,<span class="hljs-number" style="color: #986801; line-height: 26px;">180</span>-<span class="hljs-number" style="color: #986801; line-height: 26px;">359</span><br>spring.shardingsphere.sharding.tables.t_user.actualDataNodes=springboot$-&gt;{<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>..<span class="hljs-number" style="color: #986801; line-height: 26px;">1</span>}.t_user$-&gt;{<span class="hljs-number" style="color: #986801; line-height: 26px;">0</span>..<span class="hljs-number" style="color: #986801; line-height: 26px;">2</span>}<br></code></pre>
@@ -773,10 +756,6 @@
 			
 		
 			
-				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 			
 		
@@ -786,6 +765,10 @@
 		
 			
 				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
 			
 		
 			
@@ -801,11 +784,11 @@
 			
 		
 			
-				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
 			
 		
 			
@@ -813,15 +796,15 @@
 			
 		
 			
-				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/SQL优化/" title="SQL优化">SQL优化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySql/" title="MySql">MySql<sup>1</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
 			
 		
 			
@@ -829,7 +812,7 @@
 			
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>1</sup></a></li>
 			
 		
 			
