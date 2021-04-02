@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2021-03-26T12:30:02.230Z</updated>
+  <updated>2021-04-02T02:48:22.942Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IDEA中Debug调试的高级武功秘籍助你快速追踪BUG</title>
+    <link href="https://leishen6.github.io/2021/04/02/IDEA_Debug/"/>
+    <id>https://leishen6.github.io/2021/04/02/IDEA_Debug/</id>
+    <published>2021-04-02T02:45:43.252Z</published>
+    <updated>2021-04-02T02:48:22.942Z</updated>
+    
+    <summary type="html">
+    
+      前辈：小伙子，IDEA中Debug调试的高级武功秘籍你要不要，可以助你快速追踪BUG，让其无所遁形，十块钱一本哟！
+    
+    </summary>
+    
+    
+    
+      <category term="IDEA" scheme="https://leishen6.github.io/tags/IDEA/"/>
+    
+  </entry>
   
   <entry>
     <title>MySql中必须知道的至关重要的三种日志</title>
@@ -392,25 +411,6 @@
     
     
       <category term="Sharding-JDBC" scheme="https://leishen6.github.io/tags/Sharding-JDBC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>旋转链表？面试官你确定要让手写这个吗？</title>
-    <link href="https://leishen6.github.io/2020/06/07/rotate_Single_linked_list/"/>
-    <id>https://leishen6.github.io/2020/06/07/rotate_Single_linked_list/</id>
-    <published>2020-06-07T11:40:22.760Z</published>
-    <updated>2020-06-09T00:56:52.756Z</updated>
-    
-    <summary type="html">
-    
-      旋转链表？面试官你确定要让手写这个吗？
-    
-    </summary>
-    
-    
-      <category term="数据结构+算法" scheme="https://leishen6.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%97%E6%B3%95/"/>
-    
     
   </entry>
   
