@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2021-04-02T02:48:22.942Z</updated>
+  <updated>2021-05-15T12:50:13.536Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>两个程序员为 insert into select 着迷一晚，它到底有什么魔力</title>
+    <link href="https://leishen6.github.io/2021/05/15/insert_into_select/"/>
+    <id>https://leishen6.github.io/2021/05/15/insert_into_select/</id>
+    <published>2021-05-15T12:48:16.316Z</published>
+    <updated>2021-05-15T12:50:13.536Z</updated>
+    
+    <summary type="html">
+    
+      什么事能让程序员着迷一夜呢，没错就是有错时！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="MySql" scheme="https://leishen6.github.io/tags/MySql/"/>
+    
+  </entry>
   
   <entry>
     <title>IDEA中Debug调试的高级武功秘籍助你快速追踪BUG</title>
@@ -390,27 +411,6 @@
     
     
       <category term="实用工具" scheme="https://leishen6.github.io/tags/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringBoot结合Sharding-JDBC实现分库分表</title>
-    <link href="https://leishen6.github.io/2020/06/20/SpringBoot_shardDB_shardTable/"/>
-    <id>https://leishen6.github.io/2020/06/20/SpringBoot_shardDB_shardTable/</id>
-    <published>2020-06-20T11:54:16.115Z</published>
-    <updated>2021-03-23T03:17:31.590Z</updated>
-    
-    <summary type="html">
-    
-      SpringBoot结合Sharding-JDBC实现分库分表
-    
-    </summary>
-    
-    
-      <category term="分库分表" scheme="https://leishen6.github.io/categories/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/"/>
-    
-    
-      <category term="Sharding-JDBC" scheme="https://leishen6.github.io/tags/Sharding-JDBC/"/>
     
   </entry>
   
