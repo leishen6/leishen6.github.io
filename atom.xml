@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2021-05-15T12:50:13.536Z</updated>
+  <updated>2021-06-04T02:24:24.649Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>单元测试报错：org.junit.platform.commons.util.ReflectionUtils.getDefaultClassLoader()Ljava/lang/ClassLoader</title>
+    <link href="https://leishen6.github.io/2021/06/04/idea_junit5/"/>
+    <id>https://leishen6.github.io/2021/06/04/idea_junit5/</id>
+    <published>2021-06-04T02:21:49.599Z</published>
+    <updated>2021-06-04T02:24:24.649Z</updated>
+    
+    <summary type="html">
+    
+      IDEA使用Junit5报错：org.junit.platform.commons.util.ReflectionUtils.getDefaultClassLoader()Ljava/lang/ClassLoader！
+    
+    </summary>
+    
+    
+      <category term="工作所遇" scheme="https://leishen6.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%89%80%E9%81%87/"/>
+    
+    
+      <category term="IDEA" scheme="https://leishen6.github.io/tags/IDEA/"/>
+    
+  </entry>
   
   <entry>
     <title>两个程序员为 insert into select 着迷一晚，它到底有什么魔力</title>
@@ -392,25 +413,6 @@
     
       <category term="数据结构+算法" scheme="https://leishen6.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%97%E6%B3%95/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>IDEA对使用了第三方依赖jar包的非Maven项目打jar包</title>
-    <link href="https://leishen6.github.io/2020/07/03/IDEA_packaging/"/>
-    <id>https://leishen6.github.io/2020/07/03/IDEA_packaging/</id>
-    <published>2020-07-03T04:35:25.958Z</published>
-    <updated>2020-07-03T04:37:40.675Z</updated>
-    
-    <summary type="html">
-    
-      IDEA对使用了第三方依赖jar包的非Maven项目打jar包
-    
-    </summary>
-    
-    
-    
-      <category term="实用工具" scheme="https://leishen6.github.io/tags/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
