@@ -1,0 +1,1014 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>一次DB2分页语句的优化，带你拨开分页SQL优化的外衣 | 木子雷的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="木子雷">
+    
+
+    
+    <meta name="description" content="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣，从里到外明白分页优化的原理！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣">
+<meta property="og:url" content="https://leishen6.github.io/2021/06/16/DB2_Page_Optimize%20/index.html">
+<meta property="og:site_name" content="木子雷的博客">
+<meta property="og:description" content="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣，从里到外明白分页优化的原理！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210615202204.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210615201901.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210102701.gif">
+<meta property="article:published_time" content="2021-06-16T01:54:19.552Z">
+<meta property="article:modified_time" content="2021-06-16T01:57:35.949Z">
+<meta property="article:author" content="木子雷">
+<meta property="article:tag" content="SQL优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210615202204.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="木子雷的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/faviconOne.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+	   <!-- 爆炸红心效果 -->
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/firework.js"></script>
+
+      
+<div>
+
+		
+			<div id="imglogo" class="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="木子雷的博客" title="木子雷的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="木子雷的博客">木子雷的博客</a></h1>
+				
+				<h2 class="blog-motto" id="binft1"></h2>
+				<script>
+					var binft1 = function (r) {
+					  function t() {
+						return b[Math.floor(Math.random() * b.length)]
+					  }  
+					  function e() {
+						return String.fromCharCode(94 * Math.random() + 33)
+					  }
+					  function n(r) {
+						for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+						  var l = document.createElement("span");
+						  l.textContent = e(), l.style.color = t(), n.appendChild(l)
+						}
+						return n
+					  }
+					  function i() {
+						var t = o[c.skillI];
+						c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+					  }
+					  var l = "",
+					  o = ["微信搜索【木子雷】公众号！","请大家多多关注，让我们一起畅聊编程！"].map(function (r) {
+					  return r + ""
+					  }),
+					  a = 2,
+					  g = 1,
+					  s = 5,
+					  d = 75,
+					  b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+					  c = {
+						text: "",
+						prefixP: -s,
+						skillI: 0,
+						skillP: 0,
+						direction: "forward",
+						delay: a,
+						step: g
+					  };
+					  i()
+					  };
+					  binft1(document.getElementById('binft1'));
+				</script>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/message">留言</a></li>
+					
+						<li><a href="/links">友链</a></li>
+					
+					<li>
+					
+							
+					
+					
+					  <!-- 站内自定义搜索，只根据title进行搜索，样式待修改 -->
+					  <form class="search" >
+						 <label>Search</label>
+						 <input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="站内搜索" />
+						 <div id="local-search-result"></div>
+					  </form>
+					 
+                     
+					<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+	
+					<script>
+						var searchFunc = function(path, search_id, content_id) {
+						'use strict'; //使用严格模式
+						$.ajax({
+							url: path,
+							dataType: "xml",
+							success: function( xmlResponse ) {
+								// 从xml中获取相应的标题等数据
+								var datas = $( "entry", xmlResponse ).map(function() {
+									return {
+										title: $( "title", this ).text(),
+										url: $( "url" , this).text()
+									};
+								}).get();
+								// ID选择器
+								var $input = document.getElementById(search_id);
+								var $resultContent = document.getElementById(content_id);
+								$input.addEventListener('input', function(){
+									var str='<ul class=\"search-result-list\">';                
+									var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+									$resultContent.innerHTML = "";
+									if (this.value.trim().length <= 0) {
+										return;
+									}
+									// 本地搜索主要部分
+									datas.forEach(function(data) {
+										var isMatch = true;
+										var content_index = [];
+										var data_title = data.title.trim().toLowerCase();
+										var data_url = data.url;
+										var index_title = -1;
+										var first_occur = -1;
+										// 只匹配title标题不为空的文章
+										if(data_title != '' ) {
+											keywords.forEach(function(keyword, i) {
+												index_title = data_title.indexOf(keyword);
+												if( index_title < 0 ){
+													isMatch = false;
+												} 
+											});
+										}
+										// 返回搜索结果
+										if (isMatch) {
+										     // 结果标签
+											str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a></li><br>";
+										}
+									})
+									$resultContent.innerHTML = str+"</ul>";
+
+								})
+							}
+						})
+					};
+					
+					
+					//var path = "http://localhost:4000/search.xml";
+					
+					var path = "https://leishen6.github.io/search.xml";
+					searchFunc(path, 'search', 'local-search-result');
+					
+					</script>
+ 
+
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/06/16/DB2_Page_Optimize /" title="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣" itemprop="url">一次DB2分页语句的优化，带你拨开分页SQL优化的外衣</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="木子雷" target="_blank" itemprop="author">木子雷</a>
+		
+	  
+	  <p class="article-time">
+		
+		<time datetime="2021-06-16T01:54:19.552Z" itemprop="datePublished">
+
+			发表于 2021-06-16 09:54:19
+		
+		</time>
+		
+		<!-- 每篇文章的阅读数展示 -->
+	    &nbsp;&nbsp;<span >阅读数：<span id="busuanzi_value_page_pv"></span> 次</span>
+		
+	  </p>
+	  
+	  
+	  <p class="yuan_top">
+	  
+		 <!-- 如果文章的links: true时，说明此页面为非文章页面，就不需要展示这些原创等标签 -->
+		 
+		 
+			
+			   <img src="/img/yuan.png" title="原创"/> 
+			
+			
+			
+			
+			
+			   &nbsp;&nbsp;<img src="/img/top.png" title="置顶"/> 
+			
+		
+		
+		
+	  </p>
+  </p>
+</header>
+	 <div class="article-content">
+	    
+		<!-- 如果文章的you: true时，说明此页面为友链页面，需要展示友链的内容 -->
+        
+		
+		
+		<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; color: black; padding: 0 10px; line-height: 1.6; word-spacing: 0px; letter-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; counter-reset: counterh1 counterh2 counterh3;"><figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210615202204.png" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px;"><span class="prefix" style="display: inline-block;"><span style="counter-increment: counterh2; color: rgb(159,205,208); border-bottom: 4px solid rgb(159,205,208); font-size: 18px; padding: 2px 4px;">1</span></span><span class="content" style="font-size: 18px; border-bottom: 4px solid rgb(37,132,181); padding: 2px 4px; color: rgb(37,132,181);">前言：</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">最近，项目中的一个 <strong style="font-weight: bold; color: rgb(37,132,181);">DB2分页查询很慢</strong> ，组长将此分页的优化分派给了我；然后一顿优化（乱操作）后，将DB2分页查询耗时降到了比较满意的情况，[ 开森 ]；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">然后马上将结果报告了组长，组长查看我的演示后，发现分页查询确实快了很多，可以达到让人“接受的程度”，比优化之前的 <strong style="font-weight: bold; color: rgb(37,132,181);">页面一直转圈等待</strong> 相当可以了呀；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;"><strong style="font-weight: bold; color: rgb(37,132,181);">注：优化后的演示环境与发现分页查询慢时的环境基本一致，包括库中数据量、DB2的配置、服务器的配置等。</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">首先通过查看执行计划发现，SQL语句中的索引都利用上了，那么暂时就不是 <strong style="font-weight: bold; color: rgb(37,132,181);">索引</strong> 的问题了，最后发现是 <strong style="font-weight: bold; color: rgb(37,132,181);">SQL语句存在问题</strong> ，对SQL进行了优化，查询就快了；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">下面就简单描述下DB2的分页SQL是怎么进行优化的，binggou 走起；</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">本文主线：</span><span class="suffix" style="display: none;"></span></h4>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">必备前提：select 查询SQL的逻辑执行顺序</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">优化历程：DB2分页SQL优化过程</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">知识扩展：分享一些导致分页查询慢的特别案例</section></li></ul>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px;"><span class="prefix" style="display: inline-block;"><span style="counter-increment: counterh2; color: rgb(159,205,208); border-bottom: 4px solid rgb(159,205,208); font-size: 18px; padding: 2px 4px;">2</span></span><span class="content" style="font-size: 18px; border-bottom: 4px solid rgb(37,132,181); padding: 2px 4px; color: rgb(37,132,181);">必备前提：</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在对查询SQL语句进行优化时，需要知道其逻辑执行顺序，这对进行SQL优化有很大帮助的；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">SQL的 <strong style="font-weight: bold; color: rgb(37,132,181);">逻辑执行顺序</strong> ，指的是SQL语句按照一定的规则，一整条语句应该如何执行，每一个关键字、子句部分在什么时刻执行；</p>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">1、一个简单select查询SQL的逻辑执行顺序如下：</span><span class="suffix" style="display: none;"></span></h4>
+<ol data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: decimal;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">先执行 <strong style="font-weight: bold; color: rgb(37,132,181);">from table  join table</strong> ，获取要操作的表及关联的表，对它们计算笛卡尔积，得到一个虚拟表v1；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后执行 <strong style="font-weight: bold; color: rgb(37,132,181);">on 条件</strong> ，对虚拟表v1进行连接查询筛选，得到一个虚拟表v2；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后执行 <strong style="font-weight: bold; color: rgb(37,132,181);">where 条件</strong> ，对虚拟表v2中的数据进行筛选，得到虚拟表v3；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后在执行 <strong style="font-weight: bold; color: rgb(37,132,181);">group by</strong> 语句，将虚拟表v3中的数据进行分组，得到虚拟表v4；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">再执行 <strong style="font-weight: bold; color: rgb(37,132,181);">Having 条件过滤</strong> ，对分组后的虚拟表v4进行条件筛选，得到虚拟表v5；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后对虚拟表v5的数据执行 <strong style="font-weight: bold; color: rgb(37,132,181);">select 投影列</strong> ，只保留select中的展示的字段，得到虚拟表v6；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后再执行 <strong style="font-weight: bold; color: rgb(37,132,181);">order by 排序语句</strong> ，对虚拟表v6中的数据进行排序，得到虚拟表v7；</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">最后才执行 <strong style="font-weight: bold; color: rgb(37,132,181);">limit 等分页语句（限制条数）</strong> ，得到虚拟表v8 。</section></li></ol>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">2、简单分析下查询慢的分页SQL：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上面简单描述了下查询SQL的逻辑执行顺序，下面就来分析下查询慢的分页语句的逻辑执行顺序；</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;*&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;(<br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;B.*,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;&nbsp;&nbsp;&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tc.class_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.describe,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student&nbsp;ts<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;ts.birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;ts.birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;ts.birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;B<br>)<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;A&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">WHERE</span>&nbsp;A.RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">BETWEEN</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">10</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span><br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">t_student 表中存在二级索引：index(age, birthday)</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">t_class 表的主键：class_id</p>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">2.1、SQL逻辑执行顺序分析：</span><span class="suffix" style="display: none;"></span></h5>
+<ol data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: decimal;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">首先将对 t_student ts 和 t_class tc 表计算笛卡尔积，如果ts表中的数据量是10，tc表中数据量是10，那么笛卡尔积就是 10*10 = 100，得到虚拟表v1</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后进行 on条件筛选，得到虚拟表v2</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后进行 where条件筛选，得到虚拟表v3</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后执行select 投影列 ，只保留select中的展示的字段，得到虚拟表v4</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">然后根据birthday字段进行排序，得到虚拟表v5</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">最后对虚拟表v5中的数据根据行号进行分页，获取当前页需要的数据，得到最终结果集</section></li></ol>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">2.2、通过分析得到的逻辑执行顺序得知：</span><span class="suffix" style="display: none;"></span></h5>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">第一步中计算笛卡尔积，如果两个表中数据量都很大的话，那笛卡尔积就会非常大，对后面的 on条件筛选、where条件筛选都会慢很多，这里可以想办法优化下</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">select投影列中，一定要按需返回字段，特别是前端页面没有用到的大字段，一定不要加到投影列中，像此SQL中 <strong style="font-weight: bold; color: rgb(37,132,181);">describe个人描述</strong> 字段页面中就不需要展示</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">最后的分页语句是在筛选出全部的数据后才根据行号筛选出当前页需要的数据，心想，可以不可以，不要筛选出全部数据，而是筛选到当前页所需要的数据即可</section></li></ul>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px;"><span class="prefix" style="display: inline-block;"><span style="counter-increment: counterh2; color: rgb(159,205,208); border-bottom: 4px solid rgb(159,205,208); font-size: 18px; padding: 2px 4px;">3</span></span><span class="content" style="font-size: 18px; border-bottom: 4px solid rgb(37,132,181); padding: 2px 4px; color: rgb(37,132,181);">优化历程：</span><span class="suffix"></span></h2>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border: 1px dashed rgb(37,132,181); background: transparent;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">通过上面SQL的逻辑执行顺序分析得知有三处地方可以尝试进行下优化，看看查询是不是变快了；</p>
+</blockquote>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">1、减小笛卡尔积：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">因为后面的where条件筛选中，都是对主表 t_student 表进行的筛选，所以可以提前使用where条件对t_student表进行筛选，得到虚拟表，</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">然后使用这个虚拟表和连接的表 t_class 计算笛卡尔积，此时笛卡尔积已经小很多了；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">SQL语句如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;*&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;(<br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;B.*,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;&nbsp;&nbsp;&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tc.class_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.describe,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;class_id,&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">name</span>,&nbsp;age,&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">describe</span>,&nbsp;birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;ts<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;ts.birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;)&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;B<br>)<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;A&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">WHERE</span>&nbsp;A.RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">BETWEEN</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">10</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span><br></code></pre>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">2、不需要的大字段禁止返回：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在select投影列中，将不需要的大字段 <strong style="font-weight: bold; color: rgb(37,132,181);">describe</strong> 不要放入其中，因为如果放到投影列中的话，查询时会造成其占用较多的缓冲池空间，如果导致缓冲池空间满了的话，就要进行磁盘IO了，磁盘IO非常耗时的；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">还有就是如果响应中带有大字段的内容的话，在进行网络IO时，会造成传输速度变慢，页面加载数据时也会变慢的；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">SQL语句如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;*&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;(<br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">SELECT</span>&nbsp;B.*,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">FROM</span><br>&nbsp;&nbsp;&nbsp;&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tc.class_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;class_id,&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">name</span>,&nbsp;age,&nbsp;birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;ts<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;ts.birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;)&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;B<br>)<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;A&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">WHERE</span>&nbsp;A.RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">BETWEEN</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">10</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span><br></code></pre>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">3、分页时限制数据的筛选：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">分页查询都是根据 pageNo（页号），pageSize（一页的数量）进行的所需页面数据筛选；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">例如，当前页面是第二页的话，每页展示数据10条，当前页数据的筛选，就是 <strong style="font-weight: bold; color: rgb(37,132,181);">rownum between ((pageNo-1) * pageSize) and (pageNo * pageSize)</strong> ，那么在分页前的数据筛选时，可以使用 <strong style="font-weight: bold; color: rgb(37,132,181);">fetch first (page * rows) rows only</strong> 限制筛选的数据量，别全部筛选出来了，而是最多只筛选到当前页面中最大的行号前即可；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">由于使用了 fetch first (page * rows) rows only ，减少了很多的筛选操作，速度会快很多，特别是点击前几页时，速度都是非常快的，可能越往后翻页，响应会相应慢些，但是分页时，基本都是查看前几页的，后面的几乎很少看，所以此时效果看起来是十分好的</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">SQL语句如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tc.class_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.birthday<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;aa.class_id,&nbsp;aa.name,&nbsp;aa.age,&nbsp;aa.birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;class_id,&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">name</span>,&nbsp;age,&nbsp;birthday,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>&nbsp;()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">fetch</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">first</span>&nbsp;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">rows</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">only</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;aa&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span>&nbsp;aa.RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">BETWEEN</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">10</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;ts<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br></code></pre>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; border-left: 3px solid rgba(0, 0, 0, 0.4); color: #6a737d; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 10px; margin-bottom: 20px; margin-top: 20px; border: 1px dashed rgb(37,132,181); background: transparent;">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">至此DB2分页SQL已经基本完成了优化，查询速度提升了一大半了，但是此分页SQL还有优化的余地，可以通过修改SQL语句和索引 index(age, birthday) 进一步提升查询速度；</p>
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0px; color: black; line-height: 26px;">下面在知识扩展部分简单描述下怎么再次进行优化；</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px;"><span class="prefix" style="display: inline-block;"><span style="counter-increment: counterh2; color: rgb(159,205,208); border-bottom: 4px solid rgb(159,205,208); font-size: 18px; padding: 2px 4px;">4</span></span><span class="content" style="font-size: 18px; border-bottom: 4px solid rgb(37,132,181); padding: 2px 4px; color: rgb(37,132,181);">知识扩展：</span><span class="suffix"></span></h2>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">1、分页SQL的进一步优化：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">先来看下面这段SQL语句：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;class_id,&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">name</span>,&nbsp;age,&nbsp;birthday,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>&nbsp;()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN<br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">fetch</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">first</span>&nbsp;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">rows</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">only</span><br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">这段SQL语句执行时会使用到 <strong style="font-weight: bold; color: rgb(37,132,181);">二级索引 index(age, birthday)</strong> ，由于在此索引上无法查询到全部的字段值，所以需要回表查询 <strong style="font-weight: bold; color: rgb(37,132,181);">class_id, name</strong> 字段的值，由于多了回表操作，会导致查询变慢，所以此时要想办法避免回表；</p>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">1.1、避免回表方法一：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">只修改索引，将 <strong style="font-weight: bold; color: rgb(37,132,181);">二级索引 index(age, birthday)</strong> 改为 <strong style="font-weight: bold; color: rgb(37,132,181);">index(age, birthday，name，class_id)</strong>  即可，SQL语句不用变动；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">但是索引字段变多后，对新增、更新、删除SQL的操作影响比较大，会导致其执行耗时变长，因为需要对索引进行维护；所以如果这两张表写操作比较多的话， <strong style="font-weight: bold; color: rgb(37,132,181);">不建议直接修改索引</strong> ；</p>
+<h5 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 16px;"><span class="prefix" style="display: none;"></span><span class="content">1.2、避免回表方法二：</span><span class="suffix" style="display: none;"></span></h5>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">此方法其实也是需要回表的，但是此时回表次数会比之前回表的次数少的多得多，几乎可以忽略不计；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">此方法不需要修改索引，而是对SQL语句进行修改， 首先进行 <strong style="font-weight: bold; color: rgb(37,132,181);">二级索引 index(age, birthday)</strong> 查询时不再需要返回  <strong style="font-weight: bold; color: rgb(37,132,181);">class_id, name, age, birthday</strong> 字段了，而是只返回 t_student 表的 <strong style="font-weight: bold; color: rgb(37,132,181);">主键 stu_id</strong> ，此时就不需要回表了；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">然后会使用到二级索引 index(age, birthday)中birthday默认排序，最后根据 <strong style="font-weight: bold; color: rgb(37,132,181);">fetch first  20 rows only</strong> 只返回前20条数据，此时返回了20条 <strong style="font-weight: bold; color: rgb(37,132,181);">主键 stu_id</strong> 值，然后可以根据主键stu_id左外连接t_student，获得其它的字段值；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">此时相当于只需要回表20次而已，不需要全部进行回表了；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">SQL语句如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;stu2.class_id,&nbsp;stu2.name,&nbsp;stu2.age,&nbsp;stu2.birthday,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>&nbsp;()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;stu_id<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">fetch</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">first</span>&nbsp;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">rows</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">only</span>&nbsp;)&nbsp;stu1<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">left</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">join</span>&nbsp;t_student&nbsp;stu2&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;stu1.stu_id&nbsp;=&nbsp;stu2.stu_id<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">最终优化后的分页SQL如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;"><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.age,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tc.class_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ts.birthday<br>&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;aa.class_id,&nbsp;aa.name,&nbsp;aa.age,&nbsp;aa.birthday<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;stu2.class_id,&nbsp;stu2.name,&nbsp;stu2.age,&nbsp;stu2.birthday,&nbsp;ROWNUMBER()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">OVER</span>&nbsp;()&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AS</span>&nbsp;RN<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span>&nbsp;stu_id<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">order</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">by</span>&nbsp;birthday&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">desc</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">fetch</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">first</span>&nbsp;&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">rows</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">only</span>&nbsp;)&nbsp;stu1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">left</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">join</span>&nbsp;t_student&nbsp;stu2&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;stu1.stu_id&nbsp;=&nbsp;stu2.stu_id<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;aa&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span>&nbsp;aa.RN&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">BETWEEN</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">10</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">20</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;ts<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br></code></pre>
+<h4 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 18px;"><span class="prefix" style="display: none;"></span><span class="content">2、分页查询时的特殊情况：</span><span class="suffix" style="display: none;"></span></h4>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">在进行分页查询时，一般是先查询下符合条件的总数据量，这个数据量用于分页，得到分页数的；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">那么我们可能会遇到一些非常特别情况，查询总数据量的SQL如下：</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #fafafa; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #383a42; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #fafafa; border-radius: 5px;">&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">select</span><br>&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">count</span>(*)<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">from</span>&nbsp;t_student&nbsp;ts<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">LEFT</span>&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">JOIN</span>&nbsp;t_class&nbsp;tc&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">on</span>&nbsp;tc.class_id&nbsp;=&nbsp;ts.class_id<br><span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">where</span><br>&nbsp;&nbsp;&nbsp;&nbsp;ts.age&nbsp;=&nbsp;<span class="hljs-number" style="color: #986801; line-height: 26px;">23</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;ts.birthday&nbsp;&gt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-06-12'</span>,<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">AND</span>&nbsp;ts.birthday&nbsp;&lt;=&nbsp;<span class="hljs-keyword" style="color: #a626a4; line-height: 26px;">TO_DATE</span>(<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'2020-07-15'</span>&nbsp;,&nbsp;<span class="hljs-string" style="color: #50a14f; line-height: 26px;">'yyyy-MM-dd'</span>)<br></code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">上面这个SQL语句其实可以进行优化的，它其实不用关联 t_class 表的， 具体原因如下：</p>
+<ul data-tool="mdnice编辑器" style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: black; list-style-type: disc;">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">一是因为where条件中都是对主表的 t_student 的筛选</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgb(1,1,1); font-weight: 500;">二是主表 t_student 与 外表 t_class 中数据关系是一对一</section></li></ul>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">直接查询主表中满足条件的数据即可，因此可以将多余的表连接去掉，这会大大提升SQL的查询速度；</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">八卦下，分析分析为什么有人会这么写呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">猜想主要是为了图方便，直接复制的分页SQL语句进行改的 [哭笑不得] ；</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20210615201901.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0px; font-weight: bold; color: black; font-size: 22px;"><span class="prefix" style="display: inline-block;"><span style="counter-increment: counterh2; color: rgb(159,205,208); border-bottom: 4px solid rgb(159,205,208); font-size: 18px; padding: 2px 4px;">5</span></span><span class="content" style="font-size: 18px; border-bottom: 4px solid rgb(37,132,181); padding: 2px 4px; color: rgb(37,132,181);"><font color="red">❤</font> 点赞 + 评论 + 转发 哟</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">如果本文对您有帮助的话，请挥动下您爱发财的小手点下赞呀，您的支持就是我不断创作的动力，谢谢啦！</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: black;">您可以微信搜索 <strong style="font-weight: bold; color: rgb(37,132,181);">【木子雷】</strong> 公众号，大量Java学习干货文章，您可以来瞧一瞧哟！</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;"><img src="https://cdn.jsdelivr.net/gh/leishen6/ImgHosting/MuZiLei_blog_img/20201210102701.gif" alt style="display: block; margin: 0 auto; max-width: 100%;"></figure>
+</section>  
+	 </div>
+	     <!-- 文章版权说明,在主题的配置文件中配置了开启的开关 -->
+        
+		
+		   <!-- 如果文章是原创，则加上文章版权说明 -->
+		   
+		      
+
+<div class="yuan">
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>作者:  </strong>木子雷</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>文章连结:  </strong>
+          <a href="/2021/06/16/DB2_Page_Optimize /" target="_blank" title="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣">https://leishen6.github.io/2021/06/16/DB2_Page_Optimize /</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>版权声明:   </strong>
+            本博客所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            许可协议。转载请注明出处!
+          </li>
+        </ul>
+      <div>
+
+
+
+<!-- 版权悬浮展示产生阴影 -->
+
+<!--
+<style>
+ .yuan:hover {
+			-webkit-transform: translateY(-6px);
+			-ms-transform: translateY(-6px);
+			transform: translateY(-6px);
+			-webkit-box-shadow: 0 0 12px #999;
+			box-shadow: 0 0 12px #999;
+			-webkit-transition: all .10s ease-out;
+			transition: all .10s ease-out;
+		}
+  
+</style>
+-->
+
+
+
+	       
+		   
+		   <!-- 如果文章是转载的，则加上原文章版权说明 -->
+		   
+		   
+        
+		
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">关系数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL优化/">SQL优化</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://leishen6.github.io/2021/06/16/DB2_Page_Optimize%20/" data-title="一次DB2分页语句的优化，带你拨开分页SQL优化的外衣 | 木子雷的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+	<!-- 分页 -->
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2021/06/04/idea_junit5/"  title="单元测试报错：org.junit.platform.commons.util.ReflectionUtils.getDefaultClassLoader()Ljava/lang/ClassLoader">
+ <strong>下一篇：</strong><br/> 
+ <span>单元测试报错：org.junit.platform.commons.util.ReflectionUtils.getDefaultClassLoader()Ljava/lang/ClassLoader
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<!-- 评论 -->
+	
+
+
+
+
+
+<!-- 来必力评论 -->
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODYyOS8yNTEyMw==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+
+</div>  
+
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="linkslist">
+  <p class="asidetitle">公告</p>
+    <br>
+	
+    <div id="links" title="通知：PC浏览器访问更佳哟！" style="width:250px; height:20px; display:flex;flex-direction:row;align-items:center;">
+	
+		<img class="zhi" src="/img/wxts.gif" title="通知：PC浏览器访问更佳哟！"/> &nbsp;&nbsp;
+		
+		<div style='width:200px;'>
+		    微信搜索 木子雷 公众号！
+		</div>
+		
+	</div>	
+
+	
+	
+	<!--
+	<div id="links" title="4月4日，全国哀悼！">
+        <img class="zhi" src="/img/tongzhi.png" title="4月4日，全国哀悼！"/> &nbsp;&nbsp; 4月4日，全国哀悼！
+	</div>	
+	-->
+	
+	<br>
+	<p></p>
+    
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">联系我</p>
+  <br>
+  
+  <div style="text-align:center;">
+      <a href="https://github.com/leishen6" target="_blank" rel="noopener"><img src="/img/github.png" alt="木子雷的GitHub" title="木子雷的GitHub"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://blog.csdn.net/feichitianxia" target="_blank" rel="noopener"><img src="/img/csdn.png" alt="木子雷的CSDN" title="木子雷的CSDN"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://juejin.im/user/5c67b8046fb9a049a7125a58/posts" target="_blank" rel="noopener"><img src="/img/juejin.png" alt="木子雷的掘金" title="木子雷的掘金"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://segmentfault.com/u/muzilei_5e72d30d2c9fb/articles" target="_blank" rel="noopener"><img src="/img/segmentfault.png" alt="木子雷的思否" title="木子雷的思否"/></a>
+	  &nbsp;&nbsp;
+	  
+	  <a href="https://my.oschina.net/u/4216693" target="_blank" rel="noopener"><img src="/img/oschina.png" alt="木子雷的开源中国" title="木子雷的开源中国"/></a>
+	  
+	  
+	  <!-- 
+	  <a href="mailto:1802958142@qq.com"><img src="/img/email.png" alt="Email Me" title="Email Me"/></a> 
+	  -->
+  </div> <br>
+
+  
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">最新文章</p>
+
+    <div>
+	    <div id="topar"></div>
+	</div>
+	
+	<script language="JavaScript" src="/js/jquery-2.0.3.min.js"></script>
+
+	<script>
+	
+		//var path = "http://localhost:4000/search.xml";
+	
+		var path = "https://leishen6.github.io/search.xml";
+		
+		
+		$(function(){
+		   searchFunc(path,  'topar');
+		});
+	   
+	    // 按照时间获取最新的三篇文章
+		var searchFunc = function(path, content_id) {
+			'use strict'; //使用严格模式
+			$.ajax({
+				url: path,
+				dataType: "xml",
+				success: function( xmlResponse ) {
+					// 从xml中获取相应的标题等数据
+					var datas = $( "entry", xmlResponse ).map(function() {
+						return {
+							title: $( "title", this ).text(),
+							url: $( "url" , this).text()
+						};
+					}).get();
+					// ID选择器
+					var $resultContent = document.getElementById(content_id);
+					var str='<ul class=\"search-result-list\">';      
+					
+					for (var i = 0; i < 3; i++) {
+						var data_title = datas[i].title.trim().toLowerCase();
+						var data_url = datas[i].url;
+						// 结果标签
+						str += "<li><img src='/img/new.png' alt='最新文章' title='最新文章'/><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title +"</a></li>";
+					}; 
+					
+					$resultContent.innerHTML = str+"</ul>";
+				}
+			})
+		};
+	
+	</script>
+
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/关系数据库/" title="关系数据库">关系数据库<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密算法/" title="加密算法">加密算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/实战问题排查/" title="实战问题排查">实战问题排查<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工作所遇/" title="工作所遇">工作所遇<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据结构-算法/" title="数据结构+算法">数据结构+算法<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程序人生/" title="程序人生">程序人生<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统优化/" title="系统优化">系统优化<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/集群分布式/" title="集群分布式">集群分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/非关系数据库/" title="非关系数据库">非关系数据库<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL优化/" title="SQL优化">SQL优化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实用工具/" title="实用工具">实用工具<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AQS队列同步器/" title="AQS队列同步器">AQS队列同步器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/B-Tree/" title="B+Tree">B+Tree<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分库分表/" title="分库分表">分库分表<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/test/" title="test">test<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Zookeeper/" title="Zookeeper">Zookeeper<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring-Cloud/" title="Spring Cloud">Spring Cloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具类/" title="工具类">工具类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/位运算符/" title="位运算符">位运算符<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/联合索引/" title="联合索引">联合索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据脱敏/" title="数据脱敏">数据脱敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库事务/" title="数据库事务">数据库事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/容器类/" title="容器类">容器类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java锁/" title="Java锁">Java锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 最困难的事情就是认识自己！ <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+			
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="木子雷">木子雷</a>
+		 
+        <br>
+        
+        <span class="lookCount">
+		    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+			|  
+			<span >本站总访问量: <span id="busuanzi_value_site_pv"></span>次</span>
+			|
+			<span >本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span>
+		<span>
+		
+		<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279254879'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279254879%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+		
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+	var now = new Date(); 
+	function createtime() { 
+		var grt= new Date("01/19/2020 17:46:28");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+		now.setTime(now.getTime()+250); 
+		days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+		hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+		if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+		mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+		seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+		snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+		document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+		document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	} 
+	setInterval("createtime()",250);
+</script></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
