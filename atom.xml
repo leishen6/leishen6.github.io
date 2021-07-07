@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://leishen6.github.io/"/>
-  <updated>2021-06-16T01:57:35.949Z</updated>
+  <updated>2021-07-07T06:26:21.293Z</updated>
   <id>https://leishen6.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>必须知道的SQL语句不走索引时的排查利器</title>
+    <link href="https://leishen6.github.io/2021/07/07/explain_extended/"/>
+    <id>https://leishen6.github.io/2021/07/07/explain_extended/</id>
+    <published>2021-07-07T06:23:22.519Z</published>
+    <updated>2021-07-07T06:26:21.293Z</updated>
+    
+    <summary type="html">
+    
+      你是否遇到过索引失效排查半天还是没发现问题所在的情况，那么此文可以尝试看看哟！
+    
+    </summary>
+    
+    
+      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="MySql" scheme="https://leishen6.github.io/tags/MySql/"/>
+    
+  </entry>
   
   <entry>
     <title>一次DB2分页语句的优化，带你拨开分页SQL优化的外衣</title>
@@ -392,29 +413,6 @@
     
     
       <category term="tomcat" scheme="https://leishen6.github.io/tags/tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>联合索引在B+树上的存储结构及数据查找方式</title>
-    <link href="https://leishen6.github.io/2020/08/14/The_storage_structure_of_a_federated_index_on_a_tree/"/>
-    <id>https://leishen6.github.io/2020/08/14/The_storage_structure_of_a_federated_index_on_a_tree/</id>
-    <published>2020-08-14T02:12:28.184Z</published>
-    <updated>2020-08-14T02:24:33.714Z</updated>
-    
-    <summary type="html">
-    
-      学习联合索引在B+树上的存储结构及数据查找方式，从而可以创建更加合适的联合索引！
-    
-    </summary>
-    
-    
-      <category term="关系数据库" scheme="https://leishen6.github.io/categories/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    
-      <category term="联合索引" scheme="https://leishen6.github.io/tags/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95/"/>
-    
-      <category term="B+Tree" scheme="https://leishen6.github.io/tags/B-Tree/"/>
     
   </entry>
   
